@@ -1,4 +1,4 @@
-repo: gabriele-carbone-codebase/imis
+repo: gabriele-carbone-codebase/chimera_ims
 branch: main
 
 ## Last sync
