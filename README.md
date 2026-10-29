@@ -1,2 +1,2 @@
 # imis
-Innovation Management Intelligent System
+Innovation made simple

@@ -1,6 +1,6 @@
 ---
 name: chimera-design
-description: Use this skill to generate well-branded interfaces and assets for CHIMERA (Innovation Management Intelligent System), either for production or throwaway prototypes/mocks/etc. Contains essential design guidelines, colors, type, fonts, assets, and UI kit components for protoyping.
+description: Use this skill to generate well-branded interfaces and assets for CHIMERA ("Innovation made simple"), either for production or throwaway prototypes/mocks/etc. Contains essential design guidelines, colors, type, fonts, assets, and UI kit components for protoyping.
 user-invocable: true
 ---
 

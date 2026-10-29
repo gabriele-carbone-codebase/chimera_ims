@@ -1,8 +1,8 @@
 # CHIMERA Design System
-**CHIMERA — Innovation Management Intelligent System.** A platform that helps innovation managers, consultants and SME owners run a structured innovation process: collect ideas, move them through a stage-gate funnel, manage a project portfolio, scout technology trends, find matching funding calls (bandi) and report KPIs, assisted by an AI side panel.
+**CHIMERA — Innovation made simple.** A platform that helps innovation managers, consultants and SME owners run a structured innovation process: collect ideas, move them through a stage-gate funnel, manage a project portfolio, scout technology trends, find matching funding calls (bandi) and report KPIs, assisted by an AI side panel.
 
 ## Sources
-- GitHub: https://github.com/gabriele-carbone-codebase/imis (branch `main`). At the time of creation (2026-10-29) it contains only a README ("Innovation Management Intelligent System"): no UI code, tokens, logo or fonts. **This system was designed from scratch** using the owner's brief: editorial & calm, warm neutrals, gold accent #7A5C1E, serif headings only, left-sidebar nav, light + dark, AI as side panel, 6px radius, balanced density, Italian + English, and a future mobile app. As the repo grows, explore it again and align this system to real code.
+- GitHub: https://github.com/gabriele-carbone-codebase/imis (branch `main`). At the time of creation (2026-10-29) it contains only a README ("Innovation made simple"): no UI code, tokens, logo or fonts. **This system was designed from scratch** using the owner's brief: editorial & calm, warm neutrals, gold accent #7A5C1E, serif headings only, left-sidebar nav, light + dark, AI as side panel, 6px radius, balanced density, Italian + English, and a future mobile app. As the repo grows, explore it again and align this system to real code.
 
 ## Products
 1. **Web app** (primary) — desktop dashboard. `ui_kits/web-app/`
