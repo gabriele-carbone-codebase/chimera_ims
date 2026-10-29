@@ -1,0 +1,8 @@
+import React from 'react';
+export function Card({title,eyebrow,actions,children,padding=20,interactive,selected,footer,style,onClick}){
+  const [h,setH]=React.useState(false);
+  return <section onClick={onClick} onMouseEnter={()=>setH(true)} onMouseLeave={()=>setH(false)} style={{background:'var(--surface-card)',border:'1px solid '+(selected?'var(--accent-soft-border)':'var(--border-subtle)'),borderRadius:'var(--radius-md)',boxShadow:interactive&&h?'var(--shadow-2)':'var(--shadow-1)',cursor:interactive?'pointer':'default',transition:'box-shadow var(--dur-base) var(--ease-standard),border-color var(--dur-base)',outline:selected?'1px solid var(--accent-soft-border)':'none',...style}}>
+    {(title||actions||eyebrow)&&<header style={{display:'flex',alignItems:'flex-start',justifyContent:'space-between',gap:12,padding:padding+'px '+padding+'px 0'}}><div>{eyebrow&&<div style={{fontFamily:'var(--font-mono)',fontSize:'var(--fs-overline)',letterSpacing:'var(--tracking-overline)',textTransform:'uppercase',color:'var(--text-tertiary)',marginBottom:4}}>{eyebrow}</div>}{title&&<h3 style={{fontFamily:'var(--font-heading)',fontSize:'var(--fs-h3)',lineHeight:'var(--lh-h3)',fontWeight:500,margin:0,color:'var(--text-primary)'}}>{title}</h3>}</div>{actions&&<div style={{display:'flex',gap:4,flex:'none'}}>{actions}</div>}</header>}
+    <div style={{padding}}>{children}</div>
+    {footer&&<footer style={{borderTop:'1px solid var(--border-subtle)',padding:'12px '+padding+'px',background:'var(--surface-sunken)',borderRadius:'0 0 var(--radius-md) var(--radius-md)'}}>{footer}</footer>}</section>;
+}

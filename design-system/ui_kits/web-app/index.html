@@ -1,0 +1,35 @@
+<!-- @dsCard group="Web app" viewport="1440x900" name="IMIS web app" subtitle="Interactive dashboard — portfolio, pipeline, project, scouting, funding, reports, AI panel" -->
+<!DOCTYPE html><html lang="it"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>IMIS — Web app</title><link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script><script>window.DS=window.IMISDesignSystem_ab406a;</script><script src="data.js"></script>
+<style>html,body,#root{height:100%}</style></head><body>
+<div id="root"></div>
+<script type="text/babel" src="Shell.jsx"></script><script type="text/babel" src="AIPanel.jsx"></script><script type="text/babel" src="Portfolio.jsx"></script><script type="text/babel" src="Pipeline.jsx"></script><script type="text/babel" src="ProjectDetail.jsx"></script><script type="text/babel" src="Scouting.jsx"></script><script type="text/babel" src="Funding.jsx"></script><script type="text/babel" src="Reports.jsx"></script>
+<script type="text/babel">
+const {Dialog,Button,Input,Select,Radio,Toast}=window.DS;
+function App(){
+  const [route,setRoute]=React.useState(localStorage.getItem('imis-route')||'portfolio');
+  const [proj,setProj]=React.useState(window.IMIS_DATA.projects[0]);
+  const [ai,setAi]=React.useState(window.innerWidth>1200);const [dark,setDark]=React.useState(false);const [lang,setLang]=React.useState('it');
+  const [dlg,setDlg]=React.useState(false);const [tst,setTst]=React.useState(null);
+  const t=window.IMIS_T[lang];
+  React.useEffect(()=>{document.documentElement.dataset.theme=dark?'dark':'light'},[dark]);
+  const go=r=>{const rr=r==='projects'?'project':r;setRoute(rr);localStorage.setItem('imis-route',rr)};
+  const open=p=>{setProj(p);go('project')};
+  const toast=(title,message)=>{setTst({title,message});setTimeout(()=>setTst(null),3500)};
+  const titles={portfolio:t.portfolio,pipeline:t.pipeline,project:proj.title,scouting:t.scouting,funding:t.funding,reports:t.reports,settings:t.settings};
+  let body;switch(route){case'pipeline':body=<Pipeline lang={lang}/>;break;case'project':body=<ProjectDetail p={proj}/>;break;case'scouting':body=<Scouting lang={lang}/>;break;case'funding':body=<Funding lang={lang} toast={toast}/>;break;case'reports':body=<Reports lang={lang}/>;break;case'settings':body=<div style={{color:'var(--text-tertiary)',padding:40}}>Impostazioni — non incluso in questo kit.</div>;break;default:body=<Portfolio open={open} go={go}/>}
+  return <div style={{display:'flex',height:'100%',background:'var(--surface-page)',color:'var(--text-primary)'}}>
+    <Sidebar route={route} go={go} t={t} lang={lang} setLang={setLang}/>
+    <div style={{flex:1,minWidth:0,display:'flex',flexDirection:'column'}}><TopBar title={titles[route]} crumb={route==='project'?t.projects:null} t={t} ai={ai} setAi={setAi} dark={dark} setDark={setDark} onNew={()=>setDlg(true)}/>
+      <main style={{flex:1,overflow:'auto',padding:'28px 32px 48px'}}><div style={{maxWidth:'var(--content-max)',margin:'0 auto'}}>{body}</div></main></div>
+    {ai&&<AIPanel onClose={()=>setAi(false)} context={titles[route]}/>}
+    <Dialog open={dlg} title={t.newIdea} description="Descrivi il problema e l’opportunità. Potrai arricchirla in seguito." onClose={()=>setDlg(false)} footer={<><Button variant="ghost" onClick={()=>setDlg(false)}>Annulla</Button><Button onClick={()=>{setDlg(false);toast('Idea salvata','Aggiunta alla fase Idea della pipeline.')}}>Salva idea</Button></>}>
+      <div style={{display:'flex',flexDirection:'column',gap:16}}><Input label="Titolo" placeholder="Es. Etichette NFC anti-contraffazione"/><Input label="Problema / opportunità" multiline rows={3}/><div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:12}}><Select label="Area" options={['Industria 4.0','Sostenibilità','IA generativa','Energia','Logistica']}/><div><div style={{fontSize:13,fontWeight:500,marginBottom:8}}>Impatto atteso</div><Radio name="imp" direction="row" options={['Basso','Medio','Alto']} defaultValue="Medio"/></div></div></div></Dialog>
+    {tst&&<div style={{position:'fixed',right:ai?384:24,bottom:24,zIndex:200}}><Toast tone="success" title={tst.title} message={tst.message} onClose={()=>setTst(null)}/></div>}
+  </div>;
+}
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script></body></html>

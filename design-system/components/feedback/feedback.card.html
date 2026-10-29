@@ -1,0 +1,14 @@
+<!-- @dsCard group="Components" viewport="700x260" name="Feedback" -->
+<!DOCTYPE html><html><head><meta charset="utf-8"><link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script>
+<style>body{padding:20px}.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:14px}.lab{font-family:var(--font-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-tertiary);width:84px;flex:none}</style></head>
+<body><div id="root"></div><script type="text/babel">
+const {Toast,Tooltip,Progress,Badge}=window.IMISDesignSystem_ab406a;
+function App(){return <>
+<div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:12}}><Toast tone="success" title="Idea salvata" message="Spostata in Screening." onClose={()=>{}}/><Toast tone="ai" title="Nuovo bando compatibile" message="PR FESR Liguria — 82% di affinità."/><Toast tone="warning" title="Scadenza vicina" message="Rendicontazione entro 5 giorni."/>
+<div style={{display:'flex',flexDirection:'column',gap:12,justifyContent:'center'}}><Progress label="Budget utilizzato" value={62} showValue/><Progress value={88} tone="warning" size="sm"/><span><Tooltip content="Technology Readiness Level"><Badge tone="info">TRL 6 — hover</Badge></Tooltip></span></div></div></>}
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script></body></html>

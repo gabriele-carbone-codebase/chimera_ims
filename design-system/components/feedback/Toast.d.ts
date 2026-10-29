@@ -1,0 +1,10 @@
+export interface ToastProps {
+  /** ai = assistant-generated notice (sparkles icon, bronze). */
+  tone?: 'neutral' | 'success' | 'warning' | 'danger' | 'ai';
+  title: React.ReactNode;
+  message?: React.ReactNode;
+  action?: React.ReactNode;
+  onClose?: () => void;
+  style?: React.CSSProperties;
+}
+export declare function Toast(props: ToastProps): JSX.Element;

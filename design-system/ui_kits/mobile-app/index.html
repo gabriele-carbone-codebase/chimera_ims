@@ -1,0 +1,15 @@
+<!-- @dsCard group="Mobile app" viewport="1320x860" name="IMIS mobile app (concept)" subtitle="Companion app concept — home, idea capture, bandi, assistant" -->
+<!DOCTYPE html><html lang="it"><head><meta charset="utf-8"><title>IMIS — Mobile app</title><link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script><script>window.DS=window.IMISDesignSystem_ab406a;</script><script src="../web-app/data.js"></script>
+<style>body{background:var(--paper-200)}</style></head><body><div id="root"></div>
+<script type="text/babel" src="Screens.jsx"></script>
+<script type="text/babel">
+const {IconButton,Toast}=window.DS;
+function Device({start}){const [tab,setTab]=React.useState(start);const [t,setT]=React.useState(false);
+  const M={home:['Oggi',<Home/>],ideas:['Nuova idea',<Capture done={()=>{setT(true);setTimeout(()=>setT(false),2500)}}/>],funding:['Bandi',<Funding/>],ai:['Assistente',<Assistant/>]};
+  return <div style={{position:'relative'}}><Phone tab={tab} setTab={setTab} title={M[tab][0]} action={<IconButton icon="bell" label="Notifiche" size="lg"/>}>{M[tab][1]}</Phone>{t&&<div style={{position:'absolute',left:20,right:20,top:60}}><Toast tone="success" title="Idea salvata" style={{width:'auto'}}/></div>}</div>}
+ReactDOM.createRoot(document.getElementById('root')).render(<div style={{display:'flex',gap:32,padding:30,justifyContent:'center'}}><Device start="home"/><Device start="ideas"/><Device start="ai"/></div>);
+</script></body></html>
