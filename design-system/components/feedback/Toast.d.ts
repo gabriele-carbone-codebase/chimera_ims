@@ -1,5 +1,5 @@
 export interface ToastProps {
-  /** ai = assistant-generated notice (sparkles icon, bronze). */
+  /** ai = assistant-generated notice (sparkles icon, gold). */
   tone?: 'neutral' | 'success' | 'warning' | 'danger' | 'ai';
   title: React.ReactNode;
   message?: React.ReactNode;

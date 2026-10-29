@@ -29,7 +29,7 @@ function Avatar({
       height: size,
       borderRadius: '50%',
       background: src ? 'var(--surface-sunken)' : c,
-      color: '#FFFDF9',
+      color: '#FFFFFF',
       fontSize: Math.round(size * .38),
       fontWeight: 600,
       fontFamily: 'var(--font-ui)',
@@ -191,9 +191,9 @@ const PX = {
 };
 const V = {
   primary: {
-    background: 'var(--accent)',
-    color: 'var(--on-accent)',
-    border: '1px solid var(--accent)'
+    background: 'var(--action)',
+    color: 'var(--on-action)',
+    border: '1px solid var(--action)'
   },
   secondary: {
     background: 'var(--surface-card)',
@@ -214,8 +214,8 @@ const V = {
 };
 const HOV = {
   primary: {
-    background: 'var(--accent-hover)',
-    borderColor: 'var(--accent-hover)'
+    background: 'var(--action-hover)',
+    borderColor: 'var(--action-hover)'
   },
   secondary: {
     background: 'var(--surface-hover)'
@@ -1039,7 +1039,7 @@ function Switch({
       width: 14,
       height: 14,
       borderRadius: 7,
-      background: '#FFFDF9',
+      background: '#FFFFFF',
       boxShadow: 'var(--shadow-1)',
       transition: 'left var(--dur-base) var(--ease-standard)'
     }
@@ -1314,7 +1314,7 @@ try { (() => {
         height: 800,
         borderRadius: 44,
         background: 'var(--surface-page)',
-        border: '10px solid #1F1B16',
+        border: '10px solid #0A0A0A',
         boxShadow: 'var(--shadow-3)',
         overflow: 'hidden',
         display: 'flex',
@@ -2776,7 +2776,7 @@ try { (() => {
       style: {
         width: 28,
         height: v / max * 100 + '%',
-        background: 'var(--bronze-200)',
+        background: 'var(--gold-200)',
         borderRadius: '3px 3px 0 0'
       }
     }), /*#__PURE__*/React.createElement("div", {
@@ -2867,7 +2867,7 @@ try { (() => {
         style: {
           width: 10,
           height: 10,
-          background: 'var(--bronze-200)',
+          background: 'var(--gold-200)',
           borderRadius: 2
         }
       }), "Raccolte"), /*#__PURE__*/React.createElement("span", {
@@ -3122,7 +3122,7 @@ try { (() => {
         letterSpacing: '-.02em',
         color: 'var(--accent)'
       }
-    }, "IMIS"), /*#__PURE__*/React.createElement("span", {
+    }, "CHIMERA"), /*#__PURE__*/React.createElement("span", {
       style: {
         fontFamily: 'var(--font-mono)',
         fontSize: 10,

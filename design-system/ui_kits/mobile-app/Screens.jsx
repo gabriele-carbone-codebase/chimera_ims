@@ -1,7 +1,7 @@
 (()=>{
 const {Icon,IconButton,Button,Input,Badge,Progress,Tag,Avatar,StatCard,Radio,Select}=window.DS;
 function Phone({children,tab,setTab,title,action}){
-  return <div style={{width:390,height:800,borderRadius:44,background:'var(--surface-page)',border:'10px solid #1F1B16',boxShadow:'var(--shadow-3)',overflow:'hidden',display:'flex',flexDirection:'column',flex:'none'}}>
+  return <div style={{width:390,height:800,borderRadius:44,background:'var(--surface-page)',border:'10px solid #0A0A0A',boxShadow:'var(--shadow-3)',overflow:'hidden',display:'flex',flexDirection:'column',flex:'none'}}>
     <div style={{height:44,display:'flex',alignItems:'center',justifyContent:'space-between',padding:'0 24px',fontSize:14,fontWeight:600}}><span>9:41</span><span style={{display:'flex',gap:6}}><Icon name="signal" size={14}/><Icon name="wifi" size={14}/><Icon name="battery-full" size={16}/></span></div>
     <header style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'8px 20px 12px'}}><h1 style={{fontSize:28,lineHeight:'34px'}}>{title}</h1>{action}</header>
     <div style={{flex:1,overflow:'auto',padding:'0 20px 20px'}}>{children}</div>

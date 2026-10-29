@@ -4,4 +4,4 @@ h1,h2,h3{font-family:var(--font-heading);font-weight:var(--fw-medium);letter-spa
 p{text-wrap:pretty}
 a{color:var(--text-accent);text-decoration:underline;text-decoration-color:var(--accent-soft-border);text-underline-offset:3px}
 a:hover{color:var(--accent-hover);text-decoration-color:currentColor}
-::selection{background:var(--bronze-100)}
+::selection{background:var(--gold-100)}

@@ -1,4 +1,4 @@
-Lucide line icon rendered as a currentColor mask — use for every glyph in IMIS UI.
+Lucide line icon rendered as a currentColor mask — use for every glyph in CHIMERA UI.
 ```jsx
 <Icon name="lightbulb" size={16} />
 <Icon name="sparkles" color="var(--accent)" />
