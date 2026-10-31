@@ -1,0 +1,24 @@
+{
+  "app": { "name": "CHIMERA", "tagline": "Innovation made simple" },
+  "auth": {
+    "signIn": "Sign in", "signUp": "Create account", "email": "Email", "password": "Password", "name": "Your name",
+    "noAccount": "No account yet? Create one", "haveAccount": "Already have an account? Sign in",
+    "checkEmail": "Check your email to confirm your account, then sign in.", "signOut": "Sign out"
+  },
+  "business": {
+    "createTitle": "Create your first business", "createHint": "A business is your workspace. You can add more later.",
+    "name": "Business name", "create": "Create business", "switch": "Switch business", "new": "New business", "current": "Current business"
+  },
+  "expertise": {
+    "title": "How would you describe yourself?", "hint": "This sets how simple or detailed CHIMERA looks. You can change it any time in settings.",
+    "business_owner": "Business owner", "business_owner_desc": "I run a business. Keep it simple and guide me.",
+    "technician": "Innovation technician", "technician_desc": "I carry out innovation work: ideas, projects, tasks.",
+    "specialist": "Innovation specialist", "specialist_desc": "I design and tune innovation programs and criteria.",
+    "manager": "Innovation manager", "manager_desc": "I own the innovation system. Show me everything.",
+    "save": "Continue"
+  },
+  "home": { "title": "Home", "welcome": "Welcome, {{name}}", "soon": "Your dashboard will appear here as we build the next sections.", "role": "Role", "level": "Experience level" },
+  "roles": { "owner": "Owner", "innovation_manager": "Innovation manager", "evaluator": "Evaluator", "contributor": "Contributor", "viewer": "Viewer" },
+  "settings": { "language": "Language", "english": "English", "italian": "Italiano", "level": "Experience level" },
+  "common": { "loading": "Loading…", "error": "Something went wrong. Please try again.", "cancel": "Cancel" }
+}

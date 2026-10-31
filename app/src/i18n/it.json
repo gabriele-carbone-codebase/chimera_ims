@@ -1,0 +1,24 @@
+{
+  "app": { "name": "CHIMERA", "tagline": "L'innovazione resa semplice" },
+  "auth": {
+    "signIn": "Accedi", "signUp": "Crea account", "email": "Email", "password": "Password", "name": "Il tuo nome",
+    "noAccount": "Non hai un account? Creane uno", "haveAccount": "Hai già un account? Accedi",
+    "checkEmail": "Controlla la tua email per confermare l'account, poi accedi.", "signOut": "Esci"
+  },
+  "business": {
+    "createTitle": "Crea la tua prima azienda", "createHint": "Un'azienda è il tuo spazio di lavoro. Potrai aggiungerne altre.",
+    "name": "Nome dell'azienda", "create": "Crea azienda", "switch": "Cambia azienda", "new": "Nuova azienda", "current": "Azienda attuale"
+  },
+  "expertise": {
+    "title": "Come ti descriveresti?", "hint": "Questo decide quanto CHIMERA appare semplice o dettagliata. Puoi cambiarlo quando vuoi nelle impostazioni.",
+    "business_owner": "Titolare d'impresa", "business_owner_desc": "Gestisco un'azienda. Rendi tutto semplice e guidami.",
+    "technician": "Tecnico dell'innovazione", "technician_desc": "Porto avanti il lavoro: idee, progetti, attività.",
+    "specialist": "Specialista dell'innovazione", "specialist_desc": "Progetto e regolo programmi e criteri di innovazione.",
+    "manager": "Innovation manager", "manager_desc": "Gestisco il sistema di innovazione. Mostrami tutto.",
+    "save": "Continua"
+  },
+  "home": { "title": "Home", "welcome": "Benvenuto, {{name}}", "soon": "Qui apparirà la tua dashboard man mano che costruiamo le prossime sezioni.", "role": "Ruolo", "level": "Livello di esperienza" },
+  "roles": { "owner": "Titolare", "innovation_manager": "Innovation manager", "evaluator": "Valutatore", "contributor": "Collaboratore", "viewer": "Osservatore" },
+  "settings": { "language": "Lingua", "english": "English", "italian": "Italiano", "level": "Livello di esperienza" },
+  "common": { "loading": "Caricamento…", "error": "Qualcosa è andato storto. Riprova.", "cancel": "Annulla" }
+}
