@@ -4,8 +4,8 @@ import { useTranslation } from 'react-i18next';
 import { useTheme } from '../theme/ThemeProvider';
 import { fontSize, fonts, radius, space } from '../theme/tokens';
 
-export type Section = 'home' | 'ideas' | 'inventory';
-const SECTIONS: Section[] = ['home', 'ideas', 'inventory'];
+export type Section = 'home' | 'ideas' | 'projects' | 'inventory';
+const SECTIONS: Section[] = ['home', 'ideas', 'projects', 'inventory'];
 const SIDEBAR_WIDTH = 240;
 const WIDE = 900;
 

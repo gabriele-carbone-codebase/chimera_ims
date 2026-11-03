@@ -66,7 +66,8 @@
     "home": "Home",
     "inventory": "Inventario",
     "ideas": "Idee",
-    "menu": "Menu"
+    "menu": "Menu",
+    "projects": "Progetti"
   },
   "type": {
     "person": "Persona",
@@ -102,7 +103,9 @@
     "project": "Progetto",
     "program": "Programma",
     "event": "Evento",
-    "training": "Formazione"
+    "training": "Formazione",
+    "product": "Prodotto",
+    "service": "Servizio"
   },
   "inventory": {
     "title": "Inventario",
@@ -227,6 +230,72 @@
       "on_hold": "Metti in attesa",
       "rejected": "Rifiuta"
     },
-    "approvedNext": "Approvata. Il passaggio da idea a progetto è il prossimo passo."
+    "buildTitle": "Pronta da realizzare",
+    "buildHint": "Questa idea è approvata. Trasformala in progetto per iniziare a lavorarci.",
+    "turnIntoProject": "Trasforma in progetto",
+    "hasProject": "Questa idea è diventata un progetto",
+    "openProject": "Apri il progetto"
+  },
+  "stage": {
+    "define": "Definizione",
+    "build": "Sviluppo",
+    "test": "Test",
+    "shipped": "Lanciato"
+  },
+  "projectStatus": {
+    "active": "Attivo",
+    "on_hold": "In attesa",
+    "stopped": "Fermato"
+  },
+  "decision": {
+    "go": "Via libera",
+    "hold": "In attesa",
+    "stop": "Fermato"
+  },
+  "gateCriteria": {
+    "problem_clear": "Il problema e l’obiettivo sono descritti con chiarezza",
+    "team_assigned": "Sono assegnati un team e un responsabile",
+    "budget_defined": "Tempi e budget sono definiti",
+    "prototype_ready": "Esiste un prototipo funzionante o una prima versione",
+    "risks_assessed": "I rischi principali sono stati individuati",
+    "validated_users": "È stato provato con utenti o clienti reali",
+    "launch_ready": "Tutto il necessario per il lancio è pronto"
+  },
+  "projects": {
+    "title": "Progetti",
+    "hint": "Le idee approvate diventano progetti. Ogni progetto avanza solo quando supera un gate.",
+    "new": "Nuovo progetto",
+    "empty": "Ancora nessun progetto",
+    "emptyHint": "Approva un’idea e trasformala in progetto, oppure parti da zero.",
+    "criteriaMet": "{{met}} criteri su {{total}} soddisfatti",
+    "shipped": "Lanciato",
+    "fromIdea": "da un’idea",
+    "formTitle": "Nuovo progetto",
+    "formHint": "Parti da un nome. Definirai i dettagli al primo gate.",
+    "fieldName": "Nome del progetto",
+    "fieldDescription": "Che cosa realizzerà?",
+    "create": "Crea progetto",
+    "notFound": "Questo progetto non esiste più.",
+    "sourceIdea": "Idea",
+    "openInInventory": "Apri nell’Inventario",
+    "shippedTitle": "Lanciato",
+    "shippedHint": "Questo progetto è concluso. Il risultato ora è nel tuo Inventario.",
+    "gateTitle": "Gate: {{stage}} → {{next}}",
+    "gateHint": "Tutti i criteri devono essere soddisfatti prima di andare avanti.",
+    "met": "Fatto",
+    "notMet": "Non ancora",
+    "newCriterion": "Aggiungi un criterio per questo gate",
+    "reviewTitle": "Revisione del gate",
+    "reviewNote": "Nota (facoltativa)",
+    "unmet": "Mancano ancora {{count}} criteri per poter andare avanti.",
+    "go": "Supera il gate",
+    "ship": "Lancia",
+    "hold": "Metti in attesa",
+    "stop": "Ferma il progetto",
+    "resume": "Riprendi",
+    "shipAs": "Lancia come",
+    "is_on_hold": "Questo progetto è in attesa.",
+    "is_stopped": "Questo progetto è stato fermato. Puoi riprenderlo.",
+    "history": "Storico dei gate"
   }
 }

@@ -6,7 +6,7 @@ export const NODE_TYPES: NodeType[] = ['person', 'resource', 'concept', 'activit
 // Suggested subtypes per type. Keys are translated in i18n (subtype.<key>).
 export const SUBTYPES: Record<NodeType, string[]> = {
   person: ['employee', 'customer', 'partner', 'expert', 'team'],
-  resource: ['budget', 'tool', 'space', 'data', 'equipment', 'incentive'],
+  resource: ['product', 'service', 'budget', 'tool', 'space', 'data', 'equipment', 'incentive'],
   concept: ['framework', 'knowledge', 'culture', 'policy', 'ip'],
   activity: ['process', 'project', 'program', 'event', 'training'],
 };

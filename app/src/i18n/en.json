@@ -66,7 +66,8 @@
     "home": "Home",
     "inventory": "Inventory",
     "ideas": "Ideas",
-    "menu": "Menu"
+    "menu": "Menu",
+    "projects": "Projects"
   },
   "type": {
     "person": "Person",
@@ -102,7 +103,9 @@
     "project": "Project",
     "program": "Program",
     "event": "Event",
-    "training": "Training"
+    "training": "Training",
+    "product": "Product",
+    "service": "Service"
   },
   "inventory": {
     "title": "Inventory",
@@ -227,6 +230,72 @@
       "on_hold": "Put on hold",
       "rejected": "Reject"
     },
-    "approvedNext": "Approved. Turning ideas into projects comes next."
+    "buildTitle": "Ready to build",
+    "buildHint": "This idea is approved. Turn it into a project to start working on it.",
+    "turnIntoProject": "Turn into project",
+    "hasProject": "This idea became a project",
+    "openProject": "Open project"
+  },
+  "stage": {
+    "define": "Define",
+    "build": "Build",
+    "test": "Test",
+    "shipped": "Shipped"
+  },
+  "projectStatus": {
+    "active": "Active",
+    "on_hold": "On hold",
+    "stopped": "Stopped"
+  },
+  "decision": {
+    "go": "Go",
+    "hold": "On hold",
+    "stop": "Stopped"
+  },
+  "gateCriteria": {
+    "problem_clear": "The problem and the goal are clearly described",
+    "team_assigned": "A team and a responsible person are assigned",
+    "budget_defined": "Time and budget are defined",
+    "prototype_ready": "A working prototype or first version exists",
+    "risks_assessed": "Main risks have been identified",
+    "validated_users": "It has been tested with real users or customers",
+    "launch_ready": "Everything needed to launch is in place"
+  },
+  "projects": {
+    "title": "Projects",
+    "hint": "Approved ideas become projects. Each project moves forward only when it passes a gate.",
+    "new": "New project",
+    "empty": "No projects yet",
+    "emptyHint": "Approve an idea and turn it into a project, or start a project from scratch.",
+    "criteriaMet": "{{met}} of {{total}} criteria met",
+    "shipped": "Shipped",
+    "fromIdea": "from an idea",
+    "formTitle": "New project",
+    "formHint": "Start with a name. You will define the details at the first gate.",
+    "fieldName": "Project name",
+    "fieldDescription": "What will it deliver?",
+    "create": "Create project",
+    "notFound": "This project no longer exists.",
+    "sourceIdea": "Idea",
+    "openInInventory": "Open in Inventory",
+    "shippedTitle": "Shipped",
+    "shippedHint": "This project is complete. The result now lives in your Inventory.",
+    "gateTitle": "Gate: {{stage}} → {{next}}",
+    "gateHint": "All criteria must be met before the project can move on.",
+    "met": "Met",
+    "notMet": "Not yet",
+    "newCriterion": "Add a criterion for this gate",
+    "reviewTitle": "Gate review",
+    "reviewNote": "Note (optional)",
+    "unmet": "{{count}} criteria still to meet before you can move on.",
+    "go": "Pass the gate",
+    "ship": "Ship it",
+    "hold": "Put on hold",
+    "stop": "Stop the project",
+    "resume": "Resume",
+    "shipAs": "Ship as",
+    "is_on_hold": "This project is on hold.",
+    "is_stopped": "This project was stopped. You can resume it.",
+    "history": "Gate history"
   }
 }

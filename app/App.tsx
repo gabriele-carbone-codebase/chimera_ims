@@ -10,6 +10,10 @@ import { IBMPlexMono_400Regular } from '@expo-google-fonts/ibm-plex-mono/400Regu
 import { AppProvider, useApp } from './src/state/AppState';
 import { InventoryProvider } from './src/state/Inventory';
 import { IdeasProvider } from './src/state/Ideas';
+import { ProjectsProvider } from './src/state/Projects';
+import { ProjectsScreen } from './src/screens/ProjectsScreen';
+import { ProjectFormScreen } from './src/screens/ProjectFormScreen';
+import { ProjectDetailScreen } from './src/screens/ProjectDetailScreen';
 import { ThemeProvider, useTheme } from './src/theme/ThemeProvider';
 import { AppShell, type Section } from './src/components/AppBar';
 import { AuthScreen } from './src/screens/AuthScreen';
@@ -30,6 +34,9 @@ type Route =
   | { name: 'ideas' }
   | { name: 'idea'; id: string }
   | { name: 'ideaForm' }
+  | { name: 'projects' }
+  | { name: 'project'; id: string }
+  | { name: 'projectForm' }
   | { name: 'inventory' }
   | { name: 'node'; id: string }
   | { name: 'form'; id?: string; type: NodeType };
@@ -51,7 +58,13 @@ function Main({ setOverlay }: { setOverlay: (o: Overlay) => void }) {
 
       {route.name === 'ideas' && <IdeasScreen onOpen={(id) => push({ name: 'idea', id })} onPropose={() => push({ name: 'ideaForm' })} />}
       {route.name === 'ideaForm' && <IdeaFormScreen onCancel={pop} onDone={(id) => replaceTop({ name: 'idea', id })} />}
-      {route.name === 'idea' && <IdeaDetailScreen id={route.id} onBack={pop} />}
+      {route.name === 'idea' && <IdeaDetailScreen id={route.id} onBack={pop} onOpenProject={(id) => setStack([{ name: 'projects' }, { name: 'project', id }])} />}
+
+      {route.name === 'projects' && <ProjectsScreen onOpen={(id) => push({ name: 'project', id })} onNew={() => push({ name: 'projectForm' })} />}
+      {route.name === 'projectForm' && <ProjectFormScreen onCancel={pop} onDone={(id) => replaceTop({ name: 'project', id })} />}
+      {route.name === 'project' && (
+        <ProjectDetailScreen id={route.id} onBack={pop} onOpenNode={(id) => push({ name: 'node', id })} onOpenIdea={(id) => setStack([{ name: 'ideas' }, { name: 'idea', id }])} />
+      )}
 
       {route.name === 'inventory' && (
         <InventoryScreen tab={tab} onTab={setTab} onOpen={(id) => push({ name: 'node', id })} onAdd={(type) => push({ name: 'form', type })} />
@@ -78,7 +91,9 @@ function Root() {
   return (
     <InventoryProvider key={current.business_id}>
       <IdeasProvider>
-        <Main setOverlay={setOverlay} />
+        <ProjectsProvider>
+          <Main setOverlay={setOverlay} />
+        </ProjectsProvider>
       </IdeasProvider>
     </InventoryProvider>
   );

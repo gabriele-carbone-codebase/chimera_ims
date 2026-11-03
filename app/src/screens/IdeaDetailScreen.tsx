@@ -4,15 +4,17 @@ import { useTranslation } from 'react-i18next';
 import { useApp } from '../state/AppState';
 import { useInventory } from '../state/Inventory';
 import { useIdeas } from '../state/Ideas';
+import { useProjects } from '../state/Projects';
 import { canManageAll } from '../lib/inventory';
 import { DEFAULT_WEIGHT, SCORES, WEIGHTS, computeResult, type Criterion, type IdeaStatus } from '../lib/ideas';
 import { Button, Card, Chip, Field, Page, Text } from '../components/ui';
 import { space } from '../theme/tokens';
 
-export function IdeaDetailScreen({ id, onBack }: { id: string; onBack: () => void }) {
+export function IdeaDetailScreen({ id, onBack, onOpenProject }: { id: string; onBack: () => void; onOpenProject: (id: string) => void }) {
   const { t } = useTranslation();
   const { current, session } = useApp();
   const { byId } = useInventory();
+  const { projects, createProject } = useProjects();
   const { ideas, criteria, ideaCriteria, evaluations, authors, addCriterion, startEvaluation, saveEvaluation, decide } = useIdeas();
   const node = byId[id];
   const idea = ideas.find((i) => i.node_id === id);
@@ -150,9 +152,25 @@ export function IdeaDetailScreen({ id, onBack }: { id: string; onBack: () => voi
                 onPress={() => run(s, () => decide(id, s, note.trim() || null))} />
             ))}
           </View>
-          {idea.status === 'approved' && <Text variant="secondary" style={{ marginTop: space[4] }}>{t('ideas.approvedNext')}</Text>}
         </Card>
       )}
+
+      {idea.status === 'approved' && (() => {
+        const project = projects.find((p) => p.source_idea_id === id);
+        const canBuild = role !== 'viewer' && role !== 'evaluator';
+        return (
+          <Card selected>
+            <Text variant="h3">{project ? t('ideas.hasProject') : t('ideas.buildTitle')}</Text>
+            {!project && <Text variant="secondary">{t('ideas.buildHint')}</Text>}
+            {project ? (
+              <Button label={t('ideas.openProject')} onPress={() => onOpenProject(project.node_id)} style={{ alignSelf: 'flex-start', marginTop: space[3] }} />
+            ) : canBuild && (
+              <Button label={t('ideas.turnIntoProject')} loading={busy === 'project'} style={{ alignSelf: 'flex-start', marginTop: space[3] }}
+                onPress={() => run('project', async () => { onOpenProject(await createProject(node.title, node.description, id)); })} />
+            )}
+          </Card>
+        );
+      })()}
 
       {!manager && idea.decision_note && (idea.status === 'approved' || idea.status === 'rejected' || idea.status === 'on_hold') && (
         <Card><Text variant="overline">{t('ideas.decisionTitle')}</Text><Text>{idea.decision_note}</Text></Card>
