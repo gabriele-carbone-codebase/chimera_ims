@@ -107,6 +107,7 @@ Principle: simplicity over customization for owners; customization over simplici
 
 - **Innovation Outcome Optimization (IOO):** simulations and predictions with different investments per activity, so managers can compare outcomes. Version 1 stores investments, units and βᵢ so IOO can be built on top.
 - **Relations Network Navigator (RNN):** 2D and 3D visualization of all entities and relationships in an innovation field, with relationship strength.
+- **Documents:** build standard and custom innovation management documents (for example the innovation strategy, the innovation policy, program plans, gate review reports). Standard documents are templates filled in automatically from the data already in CHIMERA (field, system, assumptions, goals, programs, outcomes); custom documents let the user define their own structure. Documents are versioned, exportable (PDF, Word) and available in English and Italian.
 - **Academy:** lessons on innovation concepts and the advanced functions; completing them unlocks power-user features.
 - **AI assistant:** helps decide the used / not used / undecided choice for each known artifact, so small organizations are not overwhelmed. Needs an API key, cost control and a privacy decision.
 - Phone apps (Android and iOS), integrations, rewards, offline mode.
