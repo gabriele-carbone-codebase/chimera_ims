@@ -23,6 +23,7 @@ export type InvNode = {
 };
 export type InvRel = {
   id: string; business_id: string; from_node: string; to_node: string; type: RelType; strength: Strength; note: string | null; created_by: string | null;
+  position: number | null;
 };
 
 export const canWrite = (role: Role) => role === 'owner' || role === 'innovation_manager' || role === 'contributor';

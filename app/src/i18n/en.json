@@ -67,7 +67,8 @@
     "inventory": "Inventory",
     "ideas": "Ideas",
     "menu": "Menu",
-    "projects": "Projects"
+    "projects": "Projects",
+    "programs": "Programs"
   },
   "type": {
     "person": "Person",
@@ -297,5 +298,211 @@
     "is_on_hold": "This project is on hold.",
     "is_stopped": "This project was stopped. You can resume it.",
     "history": "Gate history"
+  },
+  "tplItem": {
+    "top_management": "Top management",
+    "innovation_manager": "Innovation manager",
+    "innovation_team": "Innovation team",
+    "employees": "Employees",
+    "project_team": "Project team",
+    "project_owners": "Project owners",
+    "gatekeepers": "Gatekeepers",
+    "finance": "Finance",
+    "marketing": "Marketing",
+    "customers": "Customers",
+    "design_team": "Design team",
+    "founders": "Founders",
+    "advisors": "Advisors",
+    "market_data": "Market data",
+    "innovation_budget": "Innovation budget",
+    "idea_platform": "Idea platform",
+    "kpi_dashboard": "KPI dashboard",
+    "workshop_space": "Workshop space",
+    "prototyping_tools": "Prototyping tools",
+    "analytics_tool": "Analytics tool",
+    "context_analysis": "Context analysis",
+    "innovation_vision": "Innovation vision",
+    "innovation_strategy": "Innovation strategy",
+    "innovation_plan": "Innovation plan",
+    "opportunity_list": "Opportunity list",
+    "validated_concepts": "Validated concepts",
+    "new_solutions": "New solutions",
+    "performance_review": "Performance review",
+    "improvement_actions": "Improvement actions",
+    "raw_ideas": "Raw ideas",
+    "preliminary_assessment": "Preliminary assessment",
+    "business_case": "Business case",
+    "working_solution": "Working solution",
+    "validation_results": "Validation results",
+    "launched_offer": "Launched offer",
+    "gate_decisions": "Gate decisions",
+    "user_insights": "User insights",
+    "problem_statement": "Problem statement",
+    "idea_pool": "Idea pool",
+    "prototype": "Prototype",
+    "user_feedback": "User feedback",
+    "assumptions_list": "List of assumptions",
+    "mvp": "Minimum viable product",
+    "metrics": "Metrics",
+    "pivot_decision": "Pivot or persevere decision"
+  },
+  "tpl": {
+    "iso56002": {
+      "name": "ISO 56002 innovation management system",
+      "description": "The international standard for managing innovation: understand your context, set a strategy, plan, support, run the innovation process, measure and improve.",
+      "activities": {
+        "context": {
+          "title": "Understand the organization and its context",
+          "description": "Study customers, market, competitors and internal strengths that shape innovation."
+        },
+        "strategy": {
+          "title": "Set the innovation vision and strategy",
+          "description": "Decide where innovation should take the business and how."
+        },
+        "planning": {
+          "title": "Plan innovation objectives and initiatives",
+          "description": "Turn the strategy into objectives, budgets and a plan of initiatives."
+        },
+        "opportunities": {
+          "title": "Identify opportunities",
+          "description": "Collect needs, problems and ideas from inside and outside the business."
+        },
+        "concepts": {
+          "title": "Create and validate concepts",
+          "description": "Shape promising ideas into concepts and check that they make sense."
+        },
+        "solutions": {
+          "title": "Develop and deploy solutions",
+          "description": "Build the validated concepts and bring them to the market or into operations."
+        },
+        "evaluation": {
+          "title": "Evaluate innovation performance",
+          "description": "Measure results against objectives and review them with management."
+        },
+        "improvement": {
+          "title": "Improve the system",
+          "description": "Act on what the evaluation shows to make the innovation system better."
+        }
+      }
+    },
+    "stage_gate": {
+      "name": "Stage-Gate",
+      "description": "A staged path from discovery to launch, with a decision gate between each stage. Good for structured product development.",
+      "activities": {
+        "discovery": {
+          "title": "Discovery",
+          "description": "Look for opportunities and collect raw ideas."
+        },
+        "scoping": {
+          "title": "Scoping",
+          "description": "Make a quick, low-cost assessment of the most promising ideas."
+        },
+        "business_case": {
+          "title": "Build the business case",
+          "description": "Define the product, the market, the cost and the expected return."
+        },
+        "development": {
+          "title": "Development",
+          "description": "Design and build the product or service."
+        },
+        "testing": {
+          "title": "Testing and validation",
+          "description": "Test the solution with real users and in real conditions."
+        },
+        "launch": {
+          "title": "Launch",
+          "description": "Bring the product or service to market."
+        },
+        "gate_reviews": {
+          "title": "Gate reviews",
+          "description": "Decide at each gate whether to go on, hold or stop."
+        }
+      }
+    },
+    "design_thinking": {
+      "name": "Design Thinking",
+      "description": "A human-centred way to solve problems: understand people, define the real problem, imagine, prototype and test.",
+      "activities": {
+        "empathize": {
+          "title": "Empathize",
+          "description": "Observe and listen to the people you are designing for."
+        },
+        "define": {
+          "title": "Define the problem",
+          "description": "State clearly the problem worth solving."
+        },
+        "ideate": {
+          "title": "Ideate",
+          "description": "Generate many ideas, then choose the best ones."
+        },
+        "prototype": {
+          "title": "Prototype",
+          "description": "Build quick, simple versions to make ideas tangible."
+        },
+        "test": {
+          "title": "Test",
+          "description": "Try the prototypes with users and learn from their reactions."
+        }
+      }
+    },
+    "lean_startup": {
+      "name": "Lean Startup",
+      "description": "Learn fast with little money: test your riskiest assumptions with a simple product and decide from real data.",
+      "activities": {
+        "assumptions": {
+          "title": "Identify the riskiest assumptions",
+          "description": "List what must be true for the idea to work."
+        },
+        "build": {
+          "title": "Build a minimum viable product",
+          "description": "Make the smallest version that can test the assumptions."
+        },
+        "measure": {
+          "title": "Measure",
+          "description": "Collect real data on how customers behave."
+        },
+        "learn": {
+          "title": "Learn and decide",
+          "description": "Decide whether to pivot, persevere or stop."
+        }
+      }
+    }
+  },
+  "programs": {
+    "title": "Programs",
+    "hint": "A program is how innovation gets done: activities performed by people, using resources, to produce ideas and results.",
+    "new": "New program",
+    "empty": "No programs yet",
+    "emptyHint": "Start from a proven methodology or build your own from scratch.",
+    "activitiesCount": "{{count}} activities",
+    "custom": "Custom program",
+    "fromTemplate": "Based on",
+    "newTitle": "New program",
+    "newHint": "Pick a methodology to start from. Everything can be changed afterwards.",
+    "scratch": "Start from scratch",
+    "scratchHint": "An empty program: you add the activities, people and resources yourself.",
+    "name": "Program name",
+    "description": "Description (optional)",
+    "create": "Create program",
+    "creating": "Creating…",
+    "notFound": "This program no longer exists.",
+    "activities": "Activities",
+    "noActivities": "No activities yet. Add the first one below.",
+    "performedBy": "Performed by",
+    "uses": "Uses",
+    "produces": "Produces",
+    "nothingYet": "Nothing yet",
+    "add": "Add",
+    "editLinks": "Edit links",
+    "doneEditing": "Done",
+    "removeHint": "Tap an item to remove it from this activity.",
+    "searchExisting": "Search or type a new name",
+    "createNew": "Create “{{name}}”",
+    "cancel": "Cancel",
+    "newActivity": "New activity",
+    "addActivity": "Add activity",
+    "delete": "Delete program",
+    "confirmDelete": "Tap again to delete",
+    "deleteHint": "The program is removed. Its activities and people stay in your Inventory."
   }
 }

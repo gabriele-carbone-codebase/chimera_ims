@@ -67,7 +67,8 @@
     "inventory": "Inventario",
     "ideas": "Idee",
     "menu": "Menu",
-    "projects": "Progetti"
+    "projects": "Progetti",
+    "programs": "Programmi"
   },
   "type": {
     "person": "Persona",
@@ -297,5 +298,211 @@
     "is_on_hold": "Questo progetto è in attesa.",
     "is_stopped": "Questo progetto è stato fermato. Puoi riprenderlo.",
     "history": "Storico dei gate"
+  },
+  "tplItem": {
+    "top_management": "Direzione",
+    "innovation_manager": "Innovation manager",
+    "innovation_team": "Team di innovazione",
+    "employees": "Dipendenti",
+    "project_team": "Team di progetto",
+    "project_owners": "Responsabili di progetto",
+    "gatekeepers": "Comitato dei gate",
+    "finance": "Amministrazione e finanza",
+    "marketing": "Marketing",
+    "customers": "Clienti",
+    "design_team": "Team di design",
+    "founders": "Fondatori",
+    "advisors": "Consulenti",
+    "market_data": "Dati di mercato",
+    "innovation_budget": "Budget per l’innovazione",
+    "idea_platform": "Piattaforma delle idee",
+    "kpi_dashboard": "Cruscotto dei KPI",
+    "workshop_space": "Spazio per workshop",
+    "prototyping_tools": "Strumenti di prototipazione",
+    "analytics_tool": "Strumento di analisi",
+    "context_analysis": "Analisi del contesto",
+    "innovation_vision": "Visione dell’innovazione",
+    "innovation_strategy": "Strategia di innovazione",
+    "innovation_plan": "Piano di innovazione",
+    "opportunity_list": "Elenco delle opportunità",
+    "validated_concepts": "Concept validati",
+    "new_solutions": "Nuove soluzioni",
+    "performance_review": "Riesame delle prestazioni",
+    "improvement_actions": "Azioni di miglioramento",
+    "raw_ideas": "Idee grezze",
+    "preliminary_assessment": "Valutazione preliminare",
+    "business_case": "Business case",
+    "working_solution": "Soluzione funzionante",
+    "validation_results": "Risultati della validazione",
+    "launched_offer": "Offerta lanciata",
+    "gate_decisions": "Decisioni dei gate",
+    "user_insights": "Intuizioni sugli utenti",
+    "problem_statement": "Definizione del problema",
+    "idea_pool": "Raccolta di idee",
+    "prototype": "Prototipo",
+    "user_feedback": "Feedback degli utenti",
+    "assumptions_list": "Elenco delle ipotesi",
+    "mvp": "Prodotto minimo funzionante",
+    "metrics": "Metriche",
+    "pivot_decision": "Decisione: cambiare rotta o proseguire"
+  },
+  "tpl": {
+    "iso56002": {
+      "name": "Sistema di gestione dell’innovazione ISO 56002",
+      "description": "Lo standard internazionale per gestire l’innovazione: capire il contesto, definire la strategia, pianificare, supportare, eseguire il processo, misurare e migliorare.",
+      "activities": {
+        "context": {
+          "title": "Comprendere l’organizzazione e il suo contesto",
+          "description": "Studiare clienti, mercato, concorrenti e punti di forza interni che influenzano l’innovazione."
+        },
+        "strategy": {
+          "title": "Definire visione e strategia di innovazione",
+          "description": "Decidere dove l’innovazione deve portare l’azienda e come."
+        },
+        "planning": {
+          "title": "Pianificare obiettivi e iniziative",
+          "description": "Trasformare la strategia in obiettivi, budget e un piano di iniziative."
+        },
+        "opportunities": {
+          "title": "Individuare le opportunità",
+          "description": "Raccogliere bisogni, problemi e idee dentro e fuori l’azienda."
+        },
+        "concepts": {
+          "title": "Creare e validare i concept",
+          "description": "Dare forma alle idee più promettenti e verificare che abbiano senso."
+        },
+        "solutions": {
+          "title": "Sviluppare e rendere operative le soluzioni",
+          "description": "Realizzare i concept validati e portarli sul mercato o nei processi."
+        },
+        "evaluation": {
+          "title": "Valutare le prestazioni dell’innovazione",
+          "description": "Misurare i risultati rispetto agli obiettivi e riesaminarli con la direzione."
+        },
+        "improvement": {
+          "title": "Migliorare il sistema",
+          "description": "Agire su ciò che la valutazione mostra per rendere migliore il sistema di innovazione."
+        }
+      }
+    },
+    "stage_gate": {
+      "name": "Stage-Gate",
+      "description": "Un percorso a fasi dalla scoperta al lancio, con un gate decisionale tra una fase e l’altra. Adatto allo sviluppo strutturato di prodotti.",
+      "activities": {
+        "discovery": {
+          "title": "Scoperta",
+          "description": "Cercare opportunità e raccogliere idee grezze."
+        },
+        "scoping": {
+          "title": "Valutazione preliminare",
+          "description": "Fare una valutazione rapida e a basso costo delle idee più promettenti."
+        },
+        "business_case": {
+          "title": "Costruire il business case",
+          "description": "Definire prodotto, mercato, costi e ritorno atteso."
+        },
+        "development": {
+          "title": "Sviluppo",
+          "description": "Progettare e realizzare il prodotto o servizio."
+        },
+        "testing": {
+          "title": "Test e validazione",
+          "description": "Provare la soluzione con utenti reali e in condizioni reali."
+        },
+        "launch": {
+          "title": "Lancio",
+          "description": "Portare il prodotto o servizio sul mercato."
+        },
+        "gate_reviews": {
+          "title": "Revisioni dei gate",
+          "description": "Decidere a ogni gate se proseguire, sospendere o fermarsi."
+        }
+      }
+    },
+    "design_thinking": {
+      "name": "Design Thinking",
+      "description": "Un modo di risolvere problemi centrato sulle persone: capire le persone, definire il vero problema, immaginare, prototipare e testare.",
+      "activities": {
+        "empathize": {
+          "title": "Empatizzare",
+          "description": "Osservare e ascoltare le persone per cui si progetta."
+        },
+        "define": {
+          "title": "Definire il problema",
+          "description": "Formulare con chiarezza il problema che vale la pena risolvere."
+        },
+        "ideate": {
+          "title": "Generare idee",
+          "description": "Produrre molte idee e poi scegliere le migliori."
+        },
+        "prototype": {
+          "title": "Prototipare",
+          "description": "Costruire versioni semplici e rapide per rendere concrete le idee."
+        },
+        "test": {
+          "title": "Testare",
+          "description": "Provare i prototipi con gli utenti e imparare dalle loro reazioni."
+        }
+      }
+    },
+    "lean_startup": {
+      "name": "Lean Startup",
+      "description": "Imparare in fretta con poche risorse: mettere alla prova le ipotesi più rischiose con un prodotto semplice e decidere sui dati reali.",
+      "activities": {
+        "assumptions": {
+          "title": "Individuare le ipotesi più rischiose",
+          "description": "Elencare ciò che deve essere vero perché l’idea funzioni."
+        },
+        "build": {
+          "title": "Costruire un prodotto minimo funzionante",
+          "description": "Realizzare la versione più piccola in grado di verificare le ipotesi."
+        },
+        "measure": {
+          "title": "Misurare",
+          "description": "Raccogliere dati reali su come si comportano i clienti."
+        },
+        "learn": {
+          "title": "Imparare e decidere",
+          "description": "Decidere se cambiare rotta, proseguire o fermarsi."
+        }
+      }
+    }
+  },
+  "programs": {
+    "title": "Programmi",
+    "hint": "Un programma è il modo in cui si fa innovazione: attività svolte da persone, con risorse, per produrre idee e risultati.",
+    "new": "Nuovo programma",
+    "empty": "Ancora nessun programma",
+    "emptyHint": "Parti da una metodologia collaudata o costruisci il tuo da zero.",
+    "activitiesCount": "{{count}} attività",
+    "custom": "Programma personalizzato",
+    "fromTemplate": "Basato su",
+    "newTitle": "Nuovo programma",
+    "newHint": "Scegli una metodologia da cui partire. Potrai modificare tutto dopo.",
+    "scratch": "Parti da zero",
+    "scratchHint": "Un programma vuoto: aggiungi tu attività, persone e risorse.",
+    "name": "Nome del programma",
+    "description": "Descrizione (facoltativa)",
+    "create": "Crea programma",
+    "creating": "Creazione…",
+    "notFound": "Questo programma non esiste più.",
+    "activities": "Attività",
+    "noActivities": "Ancora nessuna attività. Aggiungi la prima qui sotto.",
+    "performedBy": "Svolta da",
+    "uses": "Usa",
+    "produces": "Produce",
+    "nothingYet": "Ancora niente",
+    "add": "Aggiungi",
+    "editLinks": "Modifica i collegamenti",
+    "doneEditing": "Fatto",
+    "removeHint": "Tocca un elemento per toglierlo da questa attività.",
+    "searchExisting": "Cerca o scrivi un nuovo nome",
+    "createNew": "Crea “{{name}}”",
+    "cancel": "Annulla",
+    "newActivity": "Nuova attività",
+    "addActivity": "Aggiungi attività",
+    "delete": "Elimina programma",
+    "confirmDelete": "Tocca di nuovo per eliminare",
+    "deleteHint": "Il programma viene eliminato. Le sue attività e persone restano nel tuo Inventario."
   }
 }

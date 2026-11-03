@@ -4,7 +4,7 @@ import { useApp } from './AppState';
 import type { InvNode, InvRel, NodeType, RelType, Strength } from '../lib/inventory';
 
 export type NodeInput = { id?: string; type: NodeType; subtype: string | null; title: string; description: string | null };
-export type RelInput = { from: string; to: string; type: RelType; strength: Strength; note?: string | null };
+export type RelInput = { from: string; to: string; type: RelType; strength: Strength; note?: string | null; position?: number | null };
 
 type Ctx = {
   loading: boolean;
@@ -69,7 +69,7 @@ export function InventoryProvider({ children }: { children: React.ReactNode }) {
     saveRelationship: async (input) => {
       if (!businessId || !session) throw new Error('No business');
       const { error } = await supabase.from('relationships').upsert(
-        { business_id: businessId, from_node: input.from, to_node: input.to, type: input.type, strength: input.strength, note: input.note ?? null, created_by: session.user.id },
+        { business_id: businessId, from_node: input.from, to_node: input.to, type: input.type, strength: input.strength, note: input.note ?? null, position: input.position ?? null, created_by: session.user.id },
         { onConflict: 'business_id,from_node,to_node,type' },
       );
       if (error) throw error;

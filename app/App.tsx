@@ -11,6 +11,10 @@ import { AppProvider, useApp } from './src/state/AppState';
 import { InventoryProvider } from './src/state/Inventory';
 import { IdeasProvider } from './src/state/Ideas';
 import { ProjectsProvider } from './src/state/Projects';
+import { ProgramsProvider } from './src/state/Programs';
+import { ProgramsScreen } from './src/screens/ProgramsScreen';
+import { ProgramNewScreen } from './src/screens/ProgramNewScreen';
+import { ProgramDetailScreen } from './src/screens/ProgramDetailScreen';
 import { ProjectsScreen } from './src/screens/ProjectsScreen';
 import { ProjectFormScreen } from './src/screens/ProjectFormScreen';
 import { ProjectDetailScreen } from './src/screens/ProjectDetailScreen';
@@ -31,6 +35,9 @@ import type { NodeType } from './src/lib/inventory';
 type Overlay = null | 'business' | 'expertise';
 type Route =
   | { name: 'home' }
+  | { name: 'programs' }
+  | { name: 'program'; id: string }
+  | { name: 'programNew' }
   | { name: 'ideas' }
   | { name: 'idea'; id: string }
   | { name: 'ideaForm' }
@@ -55,6 +62,10 @@ function Main({ setOverlay }: { setOverlay: (o: Overlay) => void }) {
   return (
     <AppShell section={section} onSection={goSection} business={current?.business.name ?? ''}>
       {route.name === 'home' && <HomeScreen go={setOverlay} />}
+
+      {route.name === 'programs' && <ProgramsScreen onOpen={(id) => push({ name: 'program', id })} onNew={() => push({ name: 'programNew' })} />}
+      {route.name === 'programNew' && <ProgramNewScreen onCancel={pop} onDone={(id) => replaceTop({ name: 'program', id })} />}
+      {route.name === 'program' && <ProgramDetailScreen id={route.id} onBack={pop} onOpenNode={(id) => push({ name: 'node', id })} />}
 
       {route.name === 'ideas' && <IdeasScreen onOpen={(id) => push({ name: 'idea', id })} onPropose={() => push({ name: 'ideaForm' })} />}
       {route.name === 'ideaForm' && <IdeaFormScreen onCancel={pop} onDone={(id) => replaceTop({ name: 'idea', id })} />}
@@ -92,7 +103,9 @@ function Root() {
     <InventoryProvider key={current.business_id}>
       <IdeasProvider>
         <ProjectsProvider>
-          <Main setOverlay={setOverlay} />
+          <ProgramsProvider>
+            <Main setOverlay={setOverlay} />
+          </ProgramsProvider>
         </ProjectsProvider>
       </IdeasProvider>
     </InventoryProvider>
