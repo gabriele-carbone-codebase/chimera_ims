@@ -1,5 +1,5 @@
 import React from 'react';
-import { ActivityIndicator, Pressable, StyleSheet, Text as RNText, TextInput, View, type TextInputProps, type TextProps, type ViewStyle } from 'react-native';
+import { ActivityIndicator, Pressable, ScrollView, StyleSheet, Text as RNText, TextInput, View, type TextInputProps, type TextProps, type ViewStyle } from 'react-native';
 import { useTheme } from '../theme/ThemeProvider';
 import { fontSize, fonts, radius, space } from '../theme/tokens';
 
@@ -44,8 +44,30 @@ export function Field({ label, ...p }: TextInputProps & { label: string }) {
     <View style={{ gap: space[2] }}>
       <Text variant="overline">{label}</Text>
       <TextInput {...p} onFocus={() => setFocus(true)} onBlur={() => setFocus(false)} placeholderTextColor={c.textDisabled}
-        style={[s.input, { backgroundColor: c.card, color: c.text, borderColor: focus ? c.focus : c.border, fontFamily: fonts.body }]} />
+        style={[s.input, p.multiline && { height: undefined, minHeight: 96, paddingTop: space[4], textAlignVertical: 'top' }, { backgroundColor: c.card, color: c.text, borderColor: focus ? c.focus : c.border, fontFamily: fonts.body }]} />
     </View>
+  );
+}
+
+export function Chip({ label, selected, onPress, tone }: { label: string; selected?: boolean; onPress?: () => void; tone?: 'accent' | 'danger' }) {
+  const c = useTheme();
+  const bg = selected ? c.action : c.card;
+  const fg = selected ? c.onAction : tone === 'danger' ? c.danger : c.textSecondary;
+  const bd = selected ? c.action : c.border;
+  return (
+    <Pressable accessibilityRole="button" onPress={onPress} disabled={!onPress}
+      style={{ height: 30, paddingHorizontal: space[4], borderRadius: radius.pill, borderWidth: 1, borderColor: bd, backgroundColor: bg, justifyContent: 'center' }}>
+      <RNText style={{ fontFamily: fonts.bodyMedium, fontSize: fontSize.sm, color: fg }}>{label}</RNText>
+    </Pressable>
+  );
+}
+
+export function Page({ children }: { children: React.ReactNode }) {
+  const c = useTheme();
+  return (
+    <ScrollView style={{ flex: 1, backgroundColor: c.page }} contentContainerStyle={{ alignItems: 'center' }} keyboardShouldPersistTaps="handled">
+      <View style={{ width: '100%', maxWidth: 720, padding: space[7], gap: space[6] }}>{children}</View>
+    </ScrollView>
   );
 }
 

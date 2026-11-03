@@ -1,24 +1,171 @@
 {
-  "app": { "name": "CHIMERA", "tagline": "L'innovazione resa semplice" },
+  "app": {
+    "name": "CHIMERA",
+    "tagline": "L'innovazione resa semplice"
+  },
   "auth": {
-    "signIn": "Accedi", "signUp": "Crea account", "email": "Email", "password": "Password", "name": "Il tuo nome",
-    "noAccount": "Non hai un account? Creane uno", "haveAccount": "Hai già un account? Accedi",
-    "checkEmail": "Controlla la tua email per confermare l'account, poi accedi.", "signOut": "Esci"
+    "signIn": "Accedi",
+    "signUp": "Crea account",
+    "email": "Email",
+    "password": "Password",
+    "name": "Il tuo nome",
+    "noAccount": "Non hai un account? Creane uno",
+    "haveAccount": "Hai già un account? Accedi",
+    "checkEmail": "Controlla la tua email per confermare l'account, poi accedi.",
+    "signOut": "Esci"
   },
   "business": {
-    "createTitle": "Crea la tua prima azienda", "createHint": "Un'azienda è il tuo spazio di lavoro. Potrai aggiungerne altre.",
-    "name": "Nome dell'azienda", "create": "Crea azienda", "switch": "Cambia azienda", "new": "Nuova azienda", "current": "Azienda attuale"
+    "createTitle": "Crea la tua prima azienda",
+    "createHint": "Un'azienda è il tuo spazio di lavoro. Potrai aggiungerne altre.",
+    "name": "Nome dell'azienda",
+    "create": "Crea azienda",
+    "switch": "Cambia azienda",
+    "new": "Nuova azienda",
+    "current": "Azienda attuale"
   },
   "expertise": {
-    "title": "Come ti descriveresti?", "hint": "Questo decide quanto CHIMERA appare semplice o dettagliata. Puoi cambiarlo quando vuoi nelle impostazioni.",
-    "business_owner": "Titolare d'impresa", "business_owner_desc": "Gestisco un'azienda. Rendi tutto semplice e guidami.",
-    "technician": "Tecnico dell'innovazione", "technician_desc": "Porto avanti il lavoro: idee, progetti, attività.",
-    "specialist": "Specialista dell'innovazione", "specialist_desc": "Progetto e regolo programmi e criteri di innovazione.",
-    "manager": "Innovation manager", "manager_desc": "Gestisco il sistema di innovazione. Mostrami tutto.",
+    "title": "Come ti descriveresti?",
+    "hint": "Questo decide quanto CHIMERA appare semplice o dettagliata. Puoi cambiarlo quando vuoi nelle impostazioni.",
+    "business_owner": "Titolare d'impresa",
+    "business_owner_desc": "Gestisco un'azienda. Rendi tutto semplice e guidami.",
+    "technician": "Tecnico dell'innovazione",
+    "technician_desc": "Porto avanti il lavoro: idee, progetti, attività.",
+    "specialist": "Specialista dell'innovazione",
+    "specialist_desc": "Progetto e regolo programmi e criteri di innovazione.",
+    "manager": "Innovation manager",
+    "manager_desc": "Gestisco il sistema di innovazione. Mostrami tutto.",
     "save": "Continua"
   },
-  "home": { "title": "Home", "welcome": "Benvenuto, {{name}}", "soon": "Qui apparirà la tua dashboard man mano che costruiamo le prossime sezioni.", "role": "Ruolo", "level": "Livello di esperienza" },
-  "roles": { "owner": "Titolare", "innovation_manager": "Innovation manager", "evaluator": "Valutatore", "contributor": "Collaboratore", "viewer": "Osservatore" },
-  "settings": { "language": "Lingua", "english": "English", "italian": "Italiano", "level": "Livello di esperienza" },
-  "common": { "loading": "Caricamento…", "error": "Qualcosa è andato storto. Riprova.", "cancel": "Annulla" }
+  "home": {
+    "title": "Home",
+    "welcome": "Benvenuto, {{name}}",
+    "soon": "Qui apparirà la tua dashboard man mano che costruiamo le prossime sezioni.",
+    "role": "Ruolo",
+    "level": "Livello di esperienza"
+  },
+  "roles": {
+    "owner": "Titolare",
+    "innovation_manager": "Innovation manager",
+    "evaluator": "Valutatore",
+    "contributor": "Collaboratore",
+    "viewer": "Osservatore"
+  },
+  "settings": {
+    "language": "Lingua",
+    "english": "English",
+    "italian": "Italiano",
+    "level": "Livello di esperienza"
+  },
+  "common": {
+    "loading": "Caricamento…",
+    "error": "Qualcosa è andato storto. Riprova.",
+    "cancel": "Annulla",
+    "back": "Indietro"
+  },
+  "nav": {
+    "home": "Home",
+    "inventory": "Inventario"
+  },
+  "type": {
+    "person": "Persona",
+    "resource": "Risorsa",
+    "concept": "Concetto",
+    "activity": "Attività"
+  },
+  "typePlural": {
+    "person": "Persone",
+    "resource": "Risorse",
+    "concept": "Concetti",
+    "activity": "Attività"
+  },
+  "subtype": {
+    "employee": "Dipendente",
+    "customer": "Cliente",
+    "partner": "Partner",
+    "expert": "Esperto esterno",
+    "team": "Team",
+    "budget": "Budget",
+    "tool": "Strumento",
+    "space": "Spazio",
+    "data": "Dati",
+    "equipment": "Attrezzatura",
+    "incentive": "Incentivo",
+    "idea": "Idea",
+    "framework": "Framework",
+    "knowledge": "Conoscenza",
+    "culture": "Cultura",
+    "policy": "Politica",
+    "ip": "Proprietà intellettuale",
+    "process": "Processo",
+    "project": "Progetto",
+    "program": "Programma",
+    "event": "Evento",
+    "training": "Formazione"
+  },
+  "inventory": {
+    "title": "Inventario",
+    "hint": "Tutto ciò che compone il tuo sistema di innovazione: persone, risorse, concetti e attività, e come si collegano.",
+    "search": "Cerca",
+    "searchPlaceholder": "Scrivi per filtrare…",
+    "add": "Aggiungi {{type}}",
+    "noResults": "Nessun risultato per la tua ricerca.",
+    "empty": "Ancora nessun elemento: {{type}}",
+    "links": "{{count}} collegamenti",
+    "emptyHint": {
+      "person": "Aggiungi chi partecipa all’innovazione: il tuo team, clienti, partner, esperti.",
+      "resource": "Aggiungi ciò che usi: budget, strumenti, spazi, dati, incentivi.",
+      "concept": "Aggiungi idee, conoscenze, framework e la cultura in cui lavori.",
+      "activity": "Aggiungi ciò che si fa: processi, progetti, programmi, formazione."
+    }
+  },
+  "form": {
+    "newTitle": "Nuovo elemento",
+    "editTitle": "Modifica elemento",
+    "type": "Tipo",
+    "subtype": "Genere (facoltativo)",
+    "name": "Nome",
+    "description": "Descrizione",
+    "save": "Salva"
+  },
+  "detail": {
+    "notFound": "Questo elemento non esiste più.",
+    "edit": "Modifica",
+    "delete": "Elimina",
+    "confirmDelete": "Tocca di nuovo per eliminare",
+    "relationships": "Relazioni",
+    "addRelationship": "Aggiungi relazione",
+    "noRelationships": "Ancora nessuna relazione.",
+    "needTwo": "Aggiungi almeno due elementi per collegarli.",
+    "chooseTarget": "Collega a",
+    "relationType": "Relazione",
+    "reverse": "Inverti direzione",
+    "strength": "Intensità",
+    "removeRelationship": "Rimuovi",
+    "linkedTo": "Collegato a"
+  },
+  "strength": {
+    "none": "Nessuna",
+    "weak": "Debole",
+    "strong": "Forte"
+  },
+  "rel": {
+    "related_to": "è collegato a",
+    "performs": "svolge",
+    "uses": "usa",
+    "produces": "produce",
+    "owns": "possiede",
+    "part_of": "fa parte di",
+    "derived_from": "deriva da",
+    "targets": "mira a"
+  },
+  "relInv": {
+    "related_to": "è collegato a",
+    "performs": "è svolto da",
+    "uses": "è usato da",
+    "produces": "è prodotto da",
+    "owns": "è posseduto da",
+    "part_of": "comprende",
+    "derived_from": "è all’origine di",
+    "targets": "è l’obiettivo di"
+  }
 }
