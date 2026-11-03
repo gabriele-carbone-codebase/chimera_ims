@@ -7,7 +7,7 @@ export const NODE_TYPES: NodeType[] = ['person', 'resource', 'concept', 'activit
 export const SUBTYPES: Record<NodeType, string[]> = {
   person: ['employee', 'customer', 'partner', 'expert', 'team'],
   resource: ['budget', 'tool', 'space', 'data', 'equipment', 'incentive'],
-  concept: ['idea', 'framework', 'knowledge', 'culture', 'policy', 'ip'],
+  concept: ['framework', 'knowledge', 'culture', 'policy', 'ip'],
   activity: ['process', 'project', 'program', 'event', 'training'],
 };
 

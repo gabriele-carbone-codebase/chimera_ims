@@ -64,7 +64,9 @@
   },
   "nav": {
     "home": "Home",
-    "inventory": "Inventory"
+    "inventory": "Inventory",
+    "ideas": "Ideas",
+    "menu": "Menu"
   },
   "type": {
     "person": "Person",
@@ -167,5 +169,64 @@
     "part_of": "includes",
     "derived_from": "is the source of",
     "targets": "is targeted by"
+  },
+  "status": {
+    "submitted": "Submitted",
+    "in_evaluation": "In evaluation",
+    "approved": "Approved",
+    "rejected": "Rejected",
+    "on_hold": "On hold"
+  },
+  "criteria": {
+    "impact": "Impact",
+    "feasibility": "Feasibility",
+    "strategic_fit": "Strategic fit",
+    "cost": "Cost efficiency (5 = low cost)"
+  },
+  "ideas": {
+    "title": "Ideas",
+    "hint": "Propose ideas, evaluate them with clear criteria, and decide which ones to build.",
+    "propose": "Propose an idea",
+    "all": "All",
+    "empty": "No ideas yet",
+    "emptyHint": "Be the first: describe a problem or an opportunity in a few lines.",
+    "anonymous": "Anonymous",
+    "score": "Score",
+    "notFound": "This idea no longer exists.",
+    "formTitle": "Propose an idea",
+    "formHint": "Keep it short. You can always add detail later.",
+    "fieldTitle": "Idea in one line",
+    "fieldTitlePlaceholder": "e.g. Self-service returns portal",
+    "fieldDescription": "What problem does it solve?",
+    "fieldDescriptionPlaceholder": "A few lines are enough",
+    "anonymousTitle": "Send anonymously",
+    "yes": "Yes",
+    "no": "No",
+    "anonymousOn": "Nobody will know who sent this idea, not even the administrators. You also will not be able to edit it later.",
+    "anonymousOff": "Your name will be shown with the idea.",
+    "send": "Send idea",
+    "criteriaTitle": "Evaluation criteria",
+    "criteriaHint": "Choose the criteria for this idea and how much each one counts (1 to 5).",
+    "criteriaHintSimple": "We suggest the standard criteria. Tap one to turn it on or off.",
+    "weight": "Weight",
+    "newCriterion": "New criterion",
+    "addCriterion": "Add",
+    "startEvaluation": "Start evaluation",
+    "updateCriteria": "Update criteria",
+    "yourEvaluation": "Your evaluation",
+    "scoreHint": "Score each criterion from 1 (low) to 5 (high).",
+    "saveEvaluation": "Save evaluation",
+    "saved": "Saved",
+    "results": "Results",
+    "noScores": "No scores yet.",
+    "evaluators": "{{count}} evaluators",
+    "decisionTitle": "Decision",
+    "decisionNote": "Note (optional)",
+    "decide": {
+      "approved": "Approve",
+      "on_hold": "Put on hold",
+      "rejected": "Reject"
+    },
+    "approvedNext": "Approved. Turning ideas into projects comes next."
   }
 }

@@ -64,7 +64,9 @@
   },
   "nav": {
     "home": "Home",
-    "inventory": "Inventario"
+    "inventory": "Inventario",
+    "ideas": "Idee",
+    "menu": "Menu"
   },
   "type": {
     "person": "Persona",
@@ -167,5 +169,64 @@
     "part_of": "comprende",
     "derived_from": "è all’origine di",
     "targets": "è l’obiettivo di"
+  },
+  "status": {
+    "submitted": "Inviata",
+    "in_evaluation": "In valutazione",
+    "approved": "Approvata",
+    "rejected": "Rifiutata",
+    "on_hold": "In attesa"
+  },
+  "criteria": {
+    "impact": "Impatto",
+    "feasibility": "Fattibilità",
+    "strategic_fit": "Coerenza strategica",
+    "cost": "Efficienza dei costi (5 = costo basso)"
+  },
+  "ideas": {
+    "title": "Idee",
+    "hint": "Proponi idee, valutale con criteri chiari e decidi quali realizzare.",
+    "propose": "Proponi un’idea",
+    "all": "Tutte",
+    "empty": "Ancora nessuna idea",
+    "emptyHint": "Inizia tu: descrivi un problema o un’opportunità in poche righe.",
+    "anonymous": "Anonima",
+    "score": "Punteggio",
+    "notFound": "Questa idea non esiste più.",
+    "formTitle": "Proponi un’idea",
+    "formHint": "Sii breve. Potrai aggiungere dettagli in seguito.",
+    "fieldTitle": "L’idea in una riga",
+    "fieldTitlePlaceholder": "es. Portale self-service per i resi",
+    "fieldDescription": "Quale problema risolve?",
+    "fieldDescriptionPlaceholder": "Bastano poche righe",
+    "anonymousTitle": "Invia in modo anonimo",
+    "yes": "Sì",
+    "no": "No",
+    "anonymousOn": "Nessuno saprà chi ha inviato questa idea, nemmeno gli amministratori. Inoltre non potrai modificarla in seguito.",
+    "anonymousOff": "Il tuo nome verrà mostrato insieme all’idea.",
+    "send": "Invia idea",
+    "criteriaTitle": "Criteri di valutazione",
+    "criteriaHint": "Scegli i criteri per questa idea e quanto conta ciascuno (da 1 a 5).",
+    "criteriaHintSimple": "Ti suggeriamo i criteri standard. Tocca un criterio per attivarlo o disattivarlo.",
+    "weight": "Peso",
+    "newCriterion": "Nuovo criterio",
+    "addCriterion": "Aggiungi",
+    "startEvaluation": "Avvia la valutazione",
+    "updateCriteria": "Aggiorna i criteri",
+    "yourEvaluation": "La tua valutazione",
+    "scoreHint": "Assegna un voto a ogni criterio, da 1 (basso) a 5 (alto).",
+    "saveEvaluation": "Salva valutazione",
+    "saved": "Salvato",
+    "results": "Risultati",
+    "noScores": "Ancora nessun voto.",
+    "evaluators": "{{count}} valutatori",
+    "decisionTitle": "Decisione",
+    "decisionNote": "Nota (facoltativa)",
+    "decide": {
+      "approved": "Approva",
+      "on_hold": "Metti in attesa",
+      "rejected": "Rifiuta"
+    },
+    "approvedNext": "Approvata. Il passaggio da idea a progetto è il prossimo passo."
   }
 }

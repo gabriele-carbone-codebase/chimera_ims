@@ -9,8 +9,9 @@ import { InstrumentSans_500Medium } from '@expo-google-fonts/instrument-sans/500
 import { IBMPlexMono_400Regular } from '@expo-google-fonts/ibm-plex-mono/400Regular';
 import { AppProvider, useApp } from './src/state/AppState';
 import { InventoryProvider } from './src/state/Inventory';
+import { IdeasProvider } from './src/state/Ideas';
 import { ThemeProvider, useTheme } from './src/theme/ThemeProvider';
-import { AppBar, type Section } from './src/components/AppBar';
+import { AppShell, type Section } from './src/components/AppBar';
 import { AuthScreen } from './src/screens/AuthScreen';
 import { BusinessScreen } from './src/screens/BusinessScreen';
 import { ExpertiseScreen } from './src/screens/ExpertiseScreen';
@@ -18,29 +19,40 @@ import { HomeScreen } from './src/screens/HomeScreen';
 import { InventoryScreen } from './src/screens/InventoryScreen';
 import { NodeFormScreen } from './src/screens/NodeFormScreen';
 import { NodeDetailScreen } from './src/screens/NodeDetailScreen';
+import { IdeasScreen } from './src/screens/IdeasScreen';
+import { IdeaFormScreen } from './src/screens/IdeaFormScreen';
+import { IdeaDetailScreen } from './src/screens/IdeaDetailScreen';
 import type { NodeType } from './src/lib/inventory';
 
 type Overlay = null | 'business' | 'expertise';
 type Route =
   | { name: 'home' }
+  | { name: 'ideas' }
+  | { name: 'idea'; id: string }
+  | { name: 'ideaForm' }
   | { name: 'inventory' }
   | { name: 'node'; id: string }
   | { name: 'form'; id?: string; type: NodeType };
 
-function Main({ overlay, setOverlay }: { overlay: Overlay; setOverlay: (o: Overlay) => void }) {
+function Main({ setOverlay }: { setOverlay: (o: Overlay) => void }) {
   const { current } = useApp();
   const [stack, setStack] = useState<Route[]>([{ name: 'home' }]);
   const [tab, setTab] = useState<NodeType>('person');
   const route = stack[stack.length - 1];
   const push = (r: Route) => setStack((s) => [...s, r]);
   const pop = () => setStack((s) => (s.length > 1 ? s.slice(0, -1) : s));
+  const replaceTop = (r: Route) => setStack((s) => [...s.slice(0, -1), r]);
   const goSection = (s: Section) => setStack([{ name: s }]);
   const section = stack[0].name as Section;
 
   return (
-    <View style={{ flex: 1 }}>
-      <AppBar section={section} onSection={goSection} business={current?.business.name ?? ''} />
+    <AppShell section={section} onSection={goSection} business={current?.business.name ?? ''}>
       {route.name === 'home' && <HomeScreen go={setOverlay} />}
+
+      {route.name === 'ideas' && <IdeasScreen onOpen={(id) => push({ name: 'idea', id })} onPropose={() => push({ name: 'ideaForm' })} />}
+      {route.name === 'ideaForm' && <IdeaFormScreen onCancel={pop} onDone={(id) => replaceTop({ name: 'idea', id })} />}
+      {route.name === 'idea' && <IdeaDetailScreen id={route.id} onBack={pop} />}
+
       {route.name === 'inventory' && (
         <InventoryScreen tab={tab} onTab={setTab} onOpen={(id) => push({ name: 'node', id })} onAdd={(type) => push({ name: 'form', type })} />
       )}
@@ -48,14 +60,9 @@ function Main({ overlay, setOverlay }: { overlay: Overlay; setOverlay: (o: Overl
         <NodeDetailScreen id={route.id} onOpen={(id) => push({ name: 'node', id })} onEdit={() => push({ name: 'form', id: route.id, type: tab })} onBack={pop} />
       )}
       {route.name === 'form' && (
-        <NodeFormScreen
-          id={route.id}
-          initialType={route.type}
-          onCancel={pop}
-          onDone={(id) => (route.id ? pop() : setStack((s) => [...s.slice(0, -1), { name: 'node', id }]))}
-        />
+        <NodeFormScreen id={route.id} initialType={route.type} onCancel={pop} onDone={(id) => (route.id ? pop() : replaceTop({ name: 'node', id }))} />
       )}
-    </View>
+    </AppShell>
   );
 }
 
@@ -70,7 +77,9 @@ function Root() {
   if (!current?.expertise_level || overlay === 'expertise') return <ExpertiseScreen onDone={current?.expertise_level ? () => setOverlay(null) : undefined} />;
   return (
     <InventoryProvider key={current.business_id}>
-      <Main overlay={overlay} setOverlay={setOverlay} />
+      <IdeasProvider>
+        <Main setOverlay={setOverlay} />
+      </IdeasProvider>
     </InventoryProvider>
   );
 }

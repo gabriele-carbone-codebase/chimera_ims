@@ -11,6 +11,7 @@ type Ctx = {
   nodes: InvNode[];
   relationships: InvRel[];
   byId: Record<string, InvNode>;
+  reload: () => Promise<void>;
   saveNode: (input: NodeInput) => Promise<string>;
   deleteNode: (id: string) => Promise<void>;
   saveRelationship: (input: RelInput) => Promise<void>;
@@ -45,7 +46,7 @@ export function InventoryProvider({ children }: { children: React.ReactNode }) {
   const byId = useMemo(() => Object.fromEntries(nodes.map((n) => [n.id, n])), [nodes]);
 
   const value: Ctx = {
-    loading, nodes, relationships, byId,
+    loading, nodes, relationships, byId, reload,
     saveNode: async (input) => {
       if (!businessId || !session) throw new Error('No business');
       const row = { type: input.type, subtype: input.subtype, title: input.title, description: input.description };
