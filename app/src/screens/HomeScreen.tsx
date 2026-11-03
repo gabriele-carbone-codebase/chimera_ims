@@ -2,11 +2,13 @@ import React from 'react';
 import { ScrollView, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useApp } from '../state/AppState';
+import { AttentionCard } from './NotificationsScreen';
+import type { Attention, Target } from '../state/Notifications';
 import { Button, Card, Text } from '../components/ui';
 import { useTheme } from '../theme/ThemeProvider';
 import { space } from '../theme/tokens';
 
-export function HomeScreen({ go }: { go: (r: 'business' | 'expertise') => void }) {
+export function HomeScreen({ go, attention, onOpenTarget, onSeeAll }: { go: (r: 'business' | 'expertise') => void; attention: Attention[]; onOpenTarget: (t: Target) => void; onSeeAll: () => void }) {
   const { t } = useTranslation();
   const c = useTheme();
   const { profile, memberships, current, selectBusiness, setLanguage, signOut } = useApp();
@@ -20,6 +22,14 @@ export function HomeScreen({ go }: { go: (r: 'business' | 'expertise') => void }
           <Text variant="h1">{t('home.welcome', { name: profile?.display_name ?? '' })}</Text>
           <Text variant="secondary">{t('home.soon')}</Text>
         </View>
+
+        {attention.length > 0 && (
+          <View style={{ gap: space[4] }}>
+            <Text variant="overline">{t('home.attention')}</Text>
+            {attention.map((a) => <AttentionCard key={a.key} item={a} onOpen={onOpenTarget} />)}
+            <Button variant="ghost" label={t('home.seeAll')} onPress={onSeeAll} style={{ alignSelf: 'flex-start', paddingHorizontal: 0 }} />
+          </View>
+        )}
 
         <Card>
           <Text variant="overline">{t('home.role')}</Text>

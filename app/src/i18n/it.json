@@ -41,7 +41,9 @@
     "welcome": "Benvenuto, {{name}}",
     "soon": "Qui apparirà la tua dashboard man mano che costruiamo le prossime sezioni.",
     "role": "Ruolo",
-    "level": "Livello di esperienza"
+    "level": "Livello di esperienza",
+    "attention": "Richiede la tua attenzione",
+    "seeAll": "Vedi tutto"
   },
   "roles": {
     "owner": "Titolare",
@@ -68,7 +70,10 @@
     "ideas": "Idee",
     "menu": "Menu",
     "projects": "Progetti",
-    "programs": "Programmi"
+    "programs": "Programmi",
+    "goals": "Obiettivi",
+    "notifications": "Notifiche",
+    "strategy": "Strategia"
   },
   "type": {
     "person": "Persona",
@@ -504,5 +509,269 @@
     "delete": "Elimina programma",
     "confirmDelete": "Tocca di nuovo per eliminare",
     "deleteHint": "Il programma viene eliminato. Le sue attività e persone restano nel tuo Inventario."
+  },
+  "unit": {
+    "hours": "ore",
+    "money": "denaro",
+    "days": "giorni"
+  },
+  "period": {
+    "all_time": "Sempre",
+    "month": "Questo mese",
+    "quarter": "Questo trimestre",
+    "year": "Quest’anno"
+  },
+  "metric": {
+    "ideas_submitted": {
+      "name": "Idee proposte",
+      "hint": "Conta le idee che le persone hanno proposto.",
+      "unit": "idee"
+    },
+    "ideas_approved": {
+      "name": "Idee approvate",
+      "hint": "Conta le idee che sono state approvate.",
+      "unit": "idee"
+    },
+    "projects_shipped": {
+      "name": "Progetti lanciati",
+      "hint": "Conta i progetti che hanno superato l’ultimo gate e sono stati lanciati.",
+      "unit": "progetti"
+    },
+    "projects_active": {
+      "name": "Progetti attivi",
+      "hint": "Quanti progetti sono in corso adesso.",
+      "unit": "progetti"
+    },
+    "inventory_count": {
+      "name": "Elementi nell’Inventario",
+      "hint": "Conta gli elementi dell’Inventario, per esempio persone, strumenti o concetti.",
+      "unit": "elementi"
+    },
+    "idea_score_avg": {
+      "name": "Punteggio medio delle idee",
+      "hint": "La media dei punteggi ponderati di tutte le idee valutate, da 1 a 5.",
+      "unit": "/ 5"
+    },
+    "manual": {
+      "name": "Inserito a mano",
+      "hint": "Scrivi tu il valore, per esempio le ore di formazione svolte.",
+      "unit": ""
+    }
+  },
+  "goalState": {
+    "achieved": "Raggiunto",
+    "on_track": "Nei tempi",
+    "at_risk": "A rischio",
+    "overdue": "Scaduto",
+    "archived": "Archiviato"
+  },
+  "goals": {
+    "title": "Obiettivi e KPI",
+    "hint": "Stabilisci cosa vuoi ottenere e guardalo avanzare. Ogni obiettivo è misurato da un KPI che CHIMERA calcola dai tuoi dati.",
+    "goalsTab": "Obiettivi",
+    "kpisTab": "KPI",
+    "newGoal": "Nuovo obiettivo",
+    "newKpi": "Nuovo KPI",
+    "empty": "Ancora nessun obiettivo",
+    "emptyHint": "Parti da qualcosa di semplice, come raccogliere 20 idee questo trimestre.",
+    "emptyKpis": "Ancora nessun KPI",
+    "emptyKpisHint": "I KPI nascono con i tuoi obiettivi, oppure puoi crearli qui da soli.",
+    "formTitle": "Nuovo obiettivo",
+    "formHint": "Un obiettivo è un traguardo su qualcosa che puoi misurare.",
+    "fieldTitle": "Obiettivo",
+    "fieldTitlePlaceholder": "es. Raccogliere 20 idee questo trimestre",
+    "basedOn": "Di che cosa si tratta?",
+    "basedOnType": {
+      "person": "Persone (es. formazione)",
+      "resource": "Risorse",
+      "concept": "Concetti (es. idee)",
+      "activity": "Attività (es. progetti)"
+    },
+    "useExistingKpi": "Misura con",
+    "newMeasure": "Una nuova misura",
+    "measure": "Che cosa misuri?",
+    "countOnly": "Conta solo",
+    "allOfType": "Tutti di questo tipo",
+    "unit": "Unità",
+    "unitPlaceholder": "es. ore di formazione",
+    "period": "Periodo",
+    "direction": "Direzione",
+    "atLeast": "Raggiungere almeno",
+    "atMost": "Restare sotto",
+    "target": "Valore obiettivo",
+    "due": "Scadenza (facoltativa)",
+    "linkedItems": "Elementi collegati",
+    "create": "Crea obiettivo",
+    "notFound": "Questo obiettivo non esiste più.",
+    "started": "Iniziato",
+    "dueOn": "scade",
+    "measuredBy": "Misurato da",
+    "history": "Storico",
+    "recordValue": "Registra un valore",
+    "newValue": "Nuovo valore",
+    "markAchieved": "Segna come raggiunto",
+    "archive": "Archivia",
+    "reopen": "Riapri",
+    "confirmDelete": "Tocca di nuovo per eliminare",
+    "delete": "Elimina obiettivo",
+    "kpiFormTitle": "Nuovo KPI",
+    "kpiFormHint": "Un KPI è una misura che vuoi tenere d’occhio.",
+    "kpiName": "Nome del KPI",
+    "createKpi": "Crea KPI",
+    "usedByGoals": "Usato dagli obiettivi",
+    "deleteKpi": "Elimina KPI"
+  },
+  "strategyStatus": {
+    "draft": "Bozza",
+    "active": "Attiva",
+    "archived": "Archiviata"
+  },
+  "assumptionStatus": {
+    "unverified": "Da verificare",
+    "valid": "Valida",
+    "invalid": "Non più valida"
+  },
+  "usage": {
+    "used": "Usato",
+    "not_used": "Non usato",
+    "undecided": "Da decidere"
+  },
+  "strategy": {
+    "title": "Strategia",
+    "hint": "Conosci il tuo campo di innovazione, scrivi le ipotesi dietro le tue scelte e tieni una strategia con le sue versioni.",
+    "driftTitle": "È ora di rivedere la strategia?",
+    "driftBody": "{{changed}} delle {{total}} ipotesi su cui poggia questa strategia sono cambiate da quando è stata scritta.",
+    "driftOk": "Le ipotesi reggono",
+    "dueTitle": "{{count}} ipotesi da rivedere",
+    "dueBody": "Controllale per vedere se valgono ancora.",
+    "tabField": "Campo",
+    "tabAssumptions": "Ipotesi",
+    "tabStrategies": "Strategie",
+    "fieldHint": "Il tuo campo di innovazione è tutto ciò che può portare o ispirare innovazione nella tua azienda: persone, risorse, concetti e attività, cultura compresa. “Monitorato” significa che qualcuno lo tiene d’occhio.",
+    "fieldCoverage": "Ciò che conosci",
+    "fieldKnown": "{{known}} conosciuti · {{monitored}} monitorati",
+    "fieldCoverageValue": "{{pct}}% dei {{total}} che stimi esistano",
+    "fieldEstimate": "Quanti pensi che esistano? (facoltativo)",
+    "fieldEmpty": "Ancora niente nell’Inventario. Aggiungi prima gli elementi lì.",
+    "monitored": "Monitorato",
+    "known": "Conosciuto",
+    "assumptionsHint": "Un’ipotesi è il motivo dietro la scelta di usare, o non usare, qualcosa. Scriverla ti permette di verificarla più avanti.",
+    "newAssumption": "Nuova ipotesi",
+    "noAssumptions": "Ancora nessuna ipotesi",
+    "noAssumptionsHint": "Parti dalla scelta più grande che hai fatto, per esempio perché non usi un certo strumento.",
+    "riskAccepted": "Rischio accettato",
+    "reviewDue": "Da rivedere",
+    "nextReview": "Prossima revisione",
+    "strategiesHint": "Una strategia descrive ciò che usi, ciò che non usi e perché. Ogni versione viene conservata, così vedi come sono cambiate le tue scelte.",
+    "newVersion": "Nuova versione in bozza",
+    "firstStrategy": "Crea la prima strategia",
+    "versionTitle": "Strategia v{{n}}",
+    "firstTitle": "Strategia di innovazione attuale",
+    "noStrategies": "Ancora nessuna strategia",
+    "noStrategiesHint": "Crea la prima per descrivere com’è la situazione oggi (AS IS).",
+    "asIs": "AS IS",
+    "toBe": "TO BE",
+    "transitions": "Transizioni",
+    "notFound": "Questa strategia non esiste più.",
+    "fieldName": "Nome",
+    "summaryTitle": "Sintesi",
+    "summaryPlaceholder": "In poche righe: a cosa mira questa strategia e quali sono le sue scelte principali?",
+    "noSummary": "Nessuna sintesi.",
+    "investments": "Investimento per attività",
+    "investmentsHint": "Indica quanto investi in ogni attività. Zero significa che l’attività non viene usata.",
+    "noActivities": "Ancora nessuna attività. Aggiungile in Programmi o nell’Inventario.",
+    "amount": "Quantità",
+    "notInvested": "Non usata",
+    "saveInvestments": "Salva gli investimenti",
+    "system": "Il tuo sistema di innovazione",
+    "systemSummary": "{{used}} usati · {{not_used}} non usati · {{undecided}} da decidere",
+    "markNotUsed": "Segna come non usato",
+    "because": "Perché (ipotesi)",
+    "noAssumptionsYet": "Aggiungi prima un’ipotesi per spiegare il perché.",
+    "undo": "Annulla",
+    "restsOn": "Ipotesi su cui poggia questa strategia",
+    "noLinks": "Ancora nessuna collegata.",
+    "activateTitle": "Rendi questa la strategia attiva",
+    "activateHint": "La strategia attuale viene archiviata e viene registrata una transizione.",
+    "reason": "Perché questo cambiamento? (facoltativo)",
+    "activate": "Attiva",
+    "deleteDraft": "Elimina la bozza"
+  },
+  "assumption": {
+    "formTitle": "Nuova ipotesi",
+    "formHint": "Ti aiutiamo a scriverla in modo da poterla verificare più avanti.",
+    "step1": "1. Che cosa ipotizzi?",
+    "step2": "2. A quali elementi si riferisce?",
+    "step3": "3. Che cosa la smentirebbe?",
+    "step4": "4. Prove e revisione",
+    "starter": {
+      "we_use": "Usiamo…",
+      "we_use_text": "Usiamo … perché ",
+      "we_dont_use": "Non usiamo…",
+      "we_dont_use_text": "Non usiamo … perché ",
+      "we_believe": "Crediamo che…",
+      "we_believe_text": "Crediamo che "
+    },
+    "statement": "Ipotesi",
+    "statementPlaceholder": "es. Non usiamo una piattaforma per le idee perché il team è troppo piccolo per averne bisogno",
+    "trigger": "Quale cambiamento la renderebbe falsa?",
+    "triggerPlaceholder": "es. Il team supera le 15 persone",
+    "triggerHint": "Una buona ipotesi dice che cosa la smentirebbe. È questo che ti avvisa quando rivedere la strategia.",
+    "evidence": "Prove finora",
+    "reviewEvery": "Rivedi ogni",
+    "days": "{{count}} giorni",
+    "create": "Salva ipotesi",
+    "notFound": "Questa ipotesi non esiste più.",
+    "concerns": "Riguarda",
+    "reviewTitle": "Revisione",
+    "reviewHint": "Vale ancora? Registra ciò che hai trovato.",
+    "reviewNote": "Che cosa hai trovato? (facoltativo)",
+    "acceptRisk": "Mantieni la strategia così com’è, accettando il rischio se non più valida",
+    "mark": {
+      "unverified": "Da verificare",
+      "valid": "Ancora valida",
+      "invalid": "Non più valida"
+    },
+    "history": "Storico delle revisioni",
+    "delete": "Elimina ipotesi"
+  },
+  "notif": {
+    "title": "Notifiche",
+    "hint": "Ciò che richiede la tua attenzione in azienda.",
+    "dismissAll": "Segna tutte come lette",
+    "open": "Apri",
+    "dismiss": "Segna come letta",
+    "empty": "Niente richiede la tua attenzione",
+    "emptyHint": "Sei in pari con tutto.",
+    "vote_needed": {
+      "label": "Serve il tuo voto",
+      "title": "Valuta “{{title}}”",
+      "body": "Questa idea è in valutazione e non hai ancora dato i tuoi voti."
+    },
+    "idea_waiting": {
+      "label": "Nuova idea",
+      "title": "“{{title}}” è in attesa",
+      "body": "Scegli i criteri e avvia la valutazione."
+    },
+    "gate_due": {
+      "label": "Decisione sul gate",
+      "title": "“{{title}}” è pronto per la revisione",
+      "body": "Tutti i criteri di uscita sono soddisfatti. Decidi se superare il gate."
+    },
+    "goal_at_risk": {
+      "label": "Obiettivo a rischio",
+      "title": "“{{title}}” è in ritardo",
+      "body": "L’avanzamento è indietro rispetto a dove dovrebbe essere per la scadenza."
+    },
+    "assumption_due": {
+      "label": "Revisione in scadenza",
+      "title": "Rivedi un’ipotesi",
+      "body": "“{{title}}”"
+    },
+    "strategy_review": {
+      "label": "Strategia",
+      "title": "È ora di rivedere la strategia?",
+      "body": "{{changed}} ipotesi su {{total}} sono cambiate da quando è stata scritta."
+    }
   }
 }

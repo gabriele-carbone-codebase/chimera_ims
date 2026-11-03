@@ -41,7 +41,9 @@
     "welcome": "Welcome, {{name}}",
     "soon": "Your dashboard will appear here as we build the next sections.",
     "role": "Role",
-    "level": "Experience level"
+    "level": "Experience level",
+    "attention": "Needs your attention",
+    "seeAll": "See all"
   },
   "roles": {
     "owner": "Owner",
@@ -68,7 +70,10 @@
     "ideas": "Ideas",
     "menu": "Menu",
     "projects": "Projects",
-    "programs": "Programs"
+    "programs": "Programs",
+    "goals": "Goals",
+    "notifications": "Notifications",
+    "strategy": "Strategy"
   },
   "type": {
     "person": "Person",
@@ -504,5 +509,269 @@
     "delete": "Delete program",
     "confirmDelete": "Tap again to delete",
     "deleteHint": "The program is removed. Its activities and people stay in your Inventory."
+  },
+  "unit": {
+    "hours": "hours",
+    "money": "money",
+    "days": "days"
+  },
+  "period": {
+    "all_time": "All time",
+    "month": "This month",
+    "quarter": "This quarter",
+    "year": "This year"
+  },
+  "metric": {
+    "ideas_submitted": {
+      "name": "Ideas submitted",
+      "hint": "Counts the ideas people have proposed.",
+      "unit": "ideas"
+    },
+    "ideas_approved": {
+      "name": "Ideas approved",
+      "hint": "Counts the ideas that were approved.",
+      "unit": "ideas"
+    },
+    "projects_shipped": {
+      "name": "Projects shipped",
+      "hint": "Counts the projects that passed the last gate and were shipped.",
+      "unit": "projects"
+    },
+    "projects_active": {
+      "name": "Active projects",
+      "hint": "How many projects are running right now.",
+      "unit": "projects"
+    },
+    "inventory_count": {
+      "name": "Items in the Inventory",
+      "hint": "Counts items in the Inventory, for example people, tools or concepts.",
+      "unit": "items"
+    },
+    "idea_score_avg": {
+      "name": "Average idea score",
+      "hint": "The average weighted score of all evaluated ideas, from 1 to 5.",
+      "unit": "/ 5"
+    },
+    "manual": {
+      "name": "Entered by hand",
+      "hint": "You type the value yourself, for example hours of training done.",
+      "unit": ""
+    }
+  },
+  "goalState": {
+    "achieved": "Achieved",
+    "on_track": "On track",
+    "at_risk": "At risk",
+    "overdue": "Overdue",
+    "archived": "Archived"
+  },
+  "goals": {
+    "title": "Goals and KPIs",
+    "hint": "Set what you want to achieve and watch it move. Each goal is measured by a KPI that CHIMERA calculates from your data.",
+    "goalsTab": "Goals",
+    "kpisTab": "KPIs",
+    "newGoal": "New goal",
+    "newKpi": "New KPI",
+    "empty": "No goals yet",
+    "emptyHint": "Start with something simple, like collecting 20 ideas this quarter.",
+    "emptyKpis": "No KPIs yet",
+    "emptyKpisHint": "KPIs are created with your goals, or on their own here.",
+    "formTitle": "New goal",
+    "formHint": "A goal is a target on something you can measure.",
+    "fieldTitle": "Goal",
+    "fieldTitlePlaceholder": "e.g. Collect 20 ideas this quarter",
+    "basedOn": "What is it about?",
+    "basedOnType": {
+      "person": "People (e.g. learning)",
+      "resource": "Resources",
+      "concept": "Concepts (e.g. ideas)",
+      "activity": "Activities (e.g. projects)"
+    },
+    "useExistingKpi": "Measure with",
+    "newMeasure": "A new measure",
+    "measure": "What do you measure?",
+    "countOnly": "Count only",
+    "allOfType": "All of this type",
+    "unit": "Unit",
+    "unitPlaceholder": "e.g. hours of training",
+    "period": "Period",
+    "direction": "Direction",
+    "atLeast": "Reach at least",
+    "atMost": "Stay at most",
+    "target": "Target value",
+    "due": "Deadline (optional)",
+    "linkedItems": "Linked items",
+    "create": "Create goal",
+    "notFound": "This goal no longer exists.",
+    "started": "Started",
+    "dueOn": "due",
+    "measuredBy": "Measured by",
+    "history": "History",
+    "recordValue": "Record a value",
+    "newValue": "New value",
+    "markAchieved": "Mark as achieved",
+    "archive": "Archive",
+    "reopen": "Reopen",
+    "confirmDelete": "Tap again to delete",
+    "delete": "Delete goal",
+    "kpiFormTitle": "New KPI",
+    "kpiFormHint": "A KPI is a measure you want to keep an eye on.",
+    "kpiName": "KPI name",
+    "createKpi": "Create KPI",
+    "usedByGoals": "Used by goals",
+    "deleteKpi": "Delete KPI"
+  },
+  "strategyStatus": {
+    "draft": "Draft",
+    "active": "Active",
+    "archived": "Archived"
+  },
+  "assumptionStatus": {
+    "unverified": "Unverified",
+    "valid": "Valid",
+    "invalid": "Invalid"
+  },
+  "usage": {
+    "used": "Used",
+    "not_used": "Not used",
+    "undecided": "Undecided"
+  },
+  "strategy": {
+    "title": "Strategy",
+    "hint": "Know your innovation field, state the assumptions behind your choices, and keep a versioned strategy.",
+    "driftTitle": "Time to review the strategy?",
+    "driftBody": "{{changed}} of the {{total}} assumptions behind this strategy have changed since it was written.",
+    "driftOk": "Assumptions are holding",
+    "dueTitle": "{{count}} assumptions are due for review",
+    "dueBody": "Check them to see if they still hold.",
+    "tabField": "Field",
+    "tabAssumptions": "Assumptions",
+    "tabStrategies": "Strategies",
+    "fieldHint": "Your innovation field is everything that can bring or inspire innovation in your business: people, resources, concepts and activities, including culture. “Monitored” means someone keeps an eye on it.",
+    "fieldCoverage": "What you know",
+    "fieldKnown": "{{known}} known · {{monitored}} monitored",
+    "fieldCoverageValue": "{{pct}}% of the {{total}} you estimate exist",
+    "fieldEstimate": "How many do you think exist? (optional)",
+    "fieldEmpty": "Nothing in the Inventory yet. Add items there first.",
+    "monitored": "Monitored",
+    "known": "Known",
+    "assumptionsHint": "An assumption is a reason behind a choice to use, or not use, something. Writing it down lets you check it later.",
+    "newAssumption": "New assumption",
+    "noAssumptions": "No assumptions yet",
+    "noAssumptionsHint": "Start with the biggest choice you made, for example why you do not use a certain tool.",
+    "riskAccepted": "Risk accepted",
+    "reviewDue": "Review due",
+    "nextReview": "Next review",
+    "strategiesHint": "A strategy describes what you use, what you do not use and why. Each version is kept, so you can see how your choices changed.",
+    "newVersion": "New draft version",
+    "firstStrategy": "Create the first strategy",
+    "versionTitle": "Strategy v{{n}}",
+    "firstTitle": "Current innovation strategy",
+    "noStrategies": "No strategy yet",
+    "noStrategiesHint": "Create the first one to describe how things are today (AS IS).",
+    "asIs": "AS IS",
+    "toBe": "TO BE",
+    "transitions": "Transitions",
+    "notFound": "This strategy no longer exists.",
+    "fieldName": "Name",
+    "summaryTitle": "Summary",
+    "summaryPlaceholder": "In a few lines: what does this strategy aim for, and what are its main choices?",
+    "noSummary": "No summary.",
+    "investments": "Investment per activity",
+    "investmentsHint": "Put how much you invest in each activity. Zero means the activity is not used.",
+    "noActivities": "No activities yet. Add them in Programs or the Inventory.",
+    "amount": "Amount",
+    "notInvested": "Not used",
+    "saveInvestments": "Save investments",
+    "system": "Your innovation system",
+    "systemSummary": "{{used}} used · {{not_used}} not used · {{undecided}} undecided",
+    "markNotUsed": "Mark as not used",
+    "because": "Because (assumption)",
+    "noAssumptionsYet": "Add an assumption first to explain why.",
+    "undo": "Undo",
+    "restsOn": "Assumptions this strategy rests on",
+    "noLinks": "None linked yet.",
+    "activateTitle": "Make this the active strategy",
+    "activateHint": "The current strategy is archived and a transition is recorded.",
+    "reason": "Why this change? (optional)",
+    "activate": "Activate",
+    "deleteDraft": "Delete draft"
+  },
+  "assumption": {
+    "formTitle": "New assumption",
+    "formHint": "We will help you write it so it can be checked later.",
+    "step1": "1. What do you assume?",
+    "step2": "2. Which items does it concern?",
+    "step3": "3. What would prove it wrong?",
+    "step4": "4. Evidence and review",
+    "starter": {
+      "we_use": "We use…",
+      "we_use_text": "We use … because ",
+      "we_dont_use": "We don’t use…",
+      "we_dont_use_text": "We do not use … because ",
+      "we_believe": "We believe that…",
+      "we_believe_text": "We believe that "
+    },
+    "statement": "Assumption",
+    "statementPlaceholder": "e.g. We do not use an idea platform because our team is too small to need one",
+    "trigger": "What change would make this false?",
+    "triggerPlaceholder": "e.g. The team grows beyond 15 people",
+    "triggerHint": "A good assumption says what would invalidate it. This is what tells you when to review the strategy.",
+    "evidence": "Evidence so far",
+    "reviewEvery": "Review every",
+    "days": "{{count}} days",
+    "create": "Save assumption",
+    "notFound": "This assumption no longer exists.",
+    "concerns": "Concerns",
+    "reviewTitle": "Review",
+    "reviewHint": "Does this still hold? Record what you found.",
+    "reviewNote": "What did you find? (optional)",
+    "acceptRisk": "Keep the strategy as it is, accepting the risk if invalid",
+    "mark": {
+      "unverified": "Unverified",
+      "valid": "Still valid",
+      "invalid": "No longer valid"
+    },
+    "history": "Review history",
+    "delete": "Delete assumption"
+  },
+  "notif": {
+    "title": "Notifications",
+    "hint": "What needs your attention across the business.",
+    "dismissAll": "Dismiss all",
+    "open": "Open",
+    "dismiss": "Dismiss",
+    "empty": "Nothing needs your attention",
+    "emptyHint": "You are all caught up.",
+    "vote_needed": {
+      "label": "Vote needed",
+      "title": "Score “{{title}}”",
+      "body": "This idea is in evaluation and you have not given your scores yet."
+    },
+    "idea_waiting": {
+      "label": "New idea",
+      "title": "“{{title}}” is waiting",
+      "body": "Choose its criteria and start the evaluation."
+    },
+    "gate_due": {
+      "label": "Gate decision",
+      "title": "“{{title}}” is ready for review",
+      "body": "All exit criteria are met. Decide whether to pass the gate."
+    },
+    "goal_at_risk": {
+      "label": "Goal at risk",
+      "title": "“{{title}}” is behind",
+      "body": "Progress is behind where it should be for the deadline."
+    },
+    "assumption_due": {
+      "label": "Review due",
+      "title": "Review an assumption",
+      "body": "“{{title}}”"
+    },
+    "strategy_review": {
+      "label": "Strategy",
+      "title": "Time to review the strategy?",
+      "body": "{{changed}} of {{total}} assumptions have changed since it was written."
+    }
   }
 }

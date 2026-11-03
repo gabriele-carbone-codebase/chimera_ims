@@ -12,12 +12,9 @@ import { InventoryProvider } from './src/state/Inventory';
 import { IdeasProvider } from './src/state/Ideas';
 import { ProjectsProvider } from './src/state/Projects';
 import { ProgramsProvider } from './src/state/Programs';
-import { ProgramsScreen } from './src/screens/ProgramsScreen';
-import { ProgramNewScreen } from './src/screens/ProgramNewScreen';
-import { ProgramDetailScreen } from './src/screens/ProgramDetailScreen';
-import { ProjectsScreen } from './src/screens/ProjectsScreen';
-import { ProjectFormScreen } from './src/screens/ProjectFormScreen';
-import { ProjectDetailScreen } from './src/screens/ProjectDetailScreen';
+import { GoalsProvider } from './src/state/Goals';
+import { StrategyProvider } from './src/state/Strategy';
+import { NotificationsProvider, useNotifications, type Target } from './src/state/Notifications';
 import { ThemeProvider, useTheme } from './src/theme/ThemeProvider';
 import { AppShell, type Section } from './src/components/AppBar';
 import { AuthScreen } from './src/screens/AuthScreen';
@@ -30,11 +27,31 @@ import { NodeDetailScreen } from './src/screens/NodeDetailScreen';
 import { IdeasScreen } from './src/screens/IdeasScreen';
 import { IdeaFormScreen } from './src/screens/IdeaFormScreen';
 import { IdeaDetailScreen } from './src/screens/IdeaDetailScreen';
+import { ProjectsScreen } from './src/screens/ProjectsScreen';
+import { ProjectFormScreen } from './src/screens/ProjectFormScreen';
+import { ProjectDetailScreen } from './src/screens/ProjectDetailScreen';
+import { ProgramsScreen } from './src/screens/ProgramsScreen';
+import { ProgramNewScreen } from './src/screens/ProgramNewScreen';
+import { ProgramDetailScreen } from './src/screens/ProgramDetailScreen';
+import { GoalsScreen } from './src/screens/GoalsScreen';
+import { GoalFormScreen } from './src/screens/GoalFormScreen';
+import { GoalDetailScreen } from './src/screens/GoalDetailScreen';
+import { KpiDetailScreen, KpiFormScreen } from './src/screens/KpiScreens';
+import { StrategyHubScreen } from './src/screens/StrategyHubScreen';
+import { AssumptionDetailScreen, AssumptionFormScreen } from './src/screens/AssumptionScreens';
+import { StrategyDetailScreen } from './src/screens/StrategyDetailScreen';
+import { NotificationsScreen } from './src/screens/NotificationsScreen';
 import type { NodeType } from './src/lib/inventory';
 
 type Overlay = null | 'business' | 'expertise';
 type Route =
   | { name: 'home' }
+  | { name: 'notifications' }
+  | { name: 'goals' }
+  | { name: 'goal'; id: string }
+  | { name: 'goalNew' }
+  | { name: 'kpi'; id: string }
+  | { name: 'kpiNew' }
   | { name: 'programs' }
   | { name: 'program'; id: string }
   | { name: 'programNew' }
@@ -46,10 +63,15 @@ type Route =
   | { name: 'projectForm' }
   | { name: 'inventory' }
   | { name: 'node'; id: string }
-  | { name: 'form'; id?: string; type: NodeType };
+  | { name: 'form'; id?: string; type: NodeType }
+  | { name: 'strategy' }
+  | { name: 'assumption'; id: string }
+  | { name: 'assumptionNew' }
+  | { name: 'strategyVersion'; id: string };
 
 function Main({ setOverlay }: { setOverlay: (o: Overlay) => void }) {
   const { current } = useApp();
+  const { count, items } = useNotifications();
   const [stack, setStack] = useState<Route[]>([{ name: 'home' }]);
   const [tab, setTab] = useState<NodeType>('person');
   const route = stack[stack.length - 1];
@@ -59,9 +81,29 @@ function Main({ setOverlay }: { setOverlay: (o: Overlay) => void }) {
   const goSection = (s: Section) => setStack([{ name: s }]);
   const section = stack[0].name as Section;
 
+  // The strategy layer (field, assumptions, strategy versions) is for specialists and managers.
+  const level = current?.expertise_level;
+  const advanced = level === 'specialist' || level === 'manager';
+  const sections: Section[] = ['home', 'notifications', 'goals', 'programs', 'ideas', 'projects', 'inventory', ...(advanced ? (['strategy'] as Section[]) : [])];
+
+  const openTarget = (t: Target) => {
+    if (t.type === 'idea') setStack([{ name: 'ideas' }, { name: 'idea', id: t.id }]);
+    else if (t.type === 'project') setStack([{ name: 'projects' }, { name: 'project', id: t.id }]);
+    else if (t.type === 'goal') setStack([{ name: 'goals' }, { name: 'goal', id: t.id }]);
+    else if (t.type === 'assumption') setStack([{ name: 'strategy' }, { name: 'assumption', id: t.id }]);
+    else setStack([{ name: 'strategy' }, { name: 'strategyVersion', id: t.id }]);
+  };
+
   return (
-    <AppShell section={section} onSection={goSection} business={current?.business.name ?? ''}>
-      {route.name === 'home' && <HomeScreen go={setOverlay} />}
+    <AppShell section={section} sections={sections} badges={{ notifications: count }} onSection={goSection} business={current?.business.name ?? ''}>
+      {route.name === 'home' && <HomeScreen go={setOverlay} attention={items.slice(0, 3)} onOpenTarget={openTarget} onSeeAll={() => goSection('notifications')} />}
+      {route.name === 'notifications' && <NotificationsScreen onOpen={openTarget} />}
+
+      {route.name === 'goals' && <GoalsScreen onOpenGoal={(id) => push({ name: 'goal', id })} onNewGoal={() => push({ name: 'goalNew' })} onOpenKpi={(id) => push({ name: 'kpi', id })} onNewKpi={() => push({ name: 'kpiNew' })} />}
+      {route.name === 'goalNew' && <GoalFormScreen onCancel={pop} onDone={(id) => replaceTop({ name: 'goal', id })} />}
+      {route.name === 'goal' && <GoalDetailScreen id={route.id} onBack={pop} onOpenNode={(id) => push({ name: 'node', id })} onOpenKpi={(id) => push({ name: 'kpi', id })} />}
+      {route.name === 'kpiNew' && <KpiFormScreen onCancel={pop} onDone={(id) => replaceTop({ name: 'kpi', id })} />}
+      {route.name === 'kpi' && <KpiDetailScreen id={route.id} onBack={pop} onOpenGoal={(id) => push({ name: 'goal', id })} />}
 
       {route.name === 'programs' && <ProgramsScreen onOpen={(id) => push({ name: 'program', id })} onNew={() => push({ name: 'programNew' })} />}
       {route.name === 'programNew' && <ProgramNewScreen onCancel={pop} onDone={(id) => replaceTop({ name: 'program', id })} />}
@@ -86,6 +128,16 @@ function Main({ setOverlay }: { setOverlay: (o: Overlay) => void }) {
       {route.name === 'form' && (
         <NodeFormScreen id={route.id} initialType={route.type} onCancel={pop} onDone={(id) => (route.id ? pop() : replaceTop({ name: 'node', id }))} />
       )}
+
+      {route.name === 'strategy' && (
+        <StrategyHubScreen onOpenAssumption={(id) => push({ name: 'assumption', id })} onNewAssumption={() => push({ name: 'assumptionNew' })}
+          onOpenStrategy={(id) => push({ name: 'strategyVersion', id })} onOpenNode={(id) => push({ name: 'node', id })} />
+      )}
+      {route.name === 'assumptionNew' && <AssumptionFormScreen onCancel={pop} onDone={(id) => replaceTop({ name: 'assumption', id })} />}
+      {route.name === 'assumption' && <AssumptionDetailScreen id={route.id} onBack={pop} onOpenNode={(id) => push({ name: 'node', id })} />}
+      {route.name === 'strategyVersion' && (
+        <StrategyDetailScreen id={route.id} onBack={pop} onOpenNode={(id) => push({ name: 'node', id })} onOpenAssumption={(id) => push({ name: 'assumption', id })} />
+      )}
     </AppShell>
   );
 }
@@ -104,7 +156,13 @@ function Root() {
       <IdeasProvider>
         <ProjectsProvider>
           <ProgramsProvider>
-            <Main setOverlay={setOverlay} />
+            <GoalsProvider>
+              <StrategyProvider>
+                <NotificationsProvider>
+                  <Main setOverlay={setOverlay} />
+                </NotificationsProvider>
+              </StrategyProvider>
+            </GoalsProvider>
           </ProgramsProvider>
         </ProjectsProvider>
       </IdeasProvider>
