@@ -20,8 +20,7 @@
     "name": "Nome dell'azienda",
     "create": "Crea azienda",
     "switch": "Cambia azienda",
-    "new": "Nuova azienda",
-    "current": "Azienda attuale"
+    "new": "Nuova azienda"
   },
   "expertise": {
     "title": "Come ti descriveresti?",
@@ -37,7 +36,6 @@
     "save": "Continua"
   },
   "home": {
-    "title": "Home",
     "welcome": "Benvenuto, {{name}}",
     "soon": "Qui apparirà la tua dashboard man mano che costruiamo le prossime sezioni.",
     "role": "Ruolo",
@@ -62,7 +60,8 @@
     "loading": "Caricamento…",
     "error": "Qualcosa è andato storto. Riprova.",
     "cancel": "Annulla",
-    "back": "Indietro"
+    "back": "Indietro",
+    "retry": "Riprova"
   },
   "nav": {
     "home": "Home",
@@ -489,7 +488,6 @@
     "name": "Nome del programma",
     "description": "Descrizione (facoltativa)",
     "create": "Crea programma",
-    "creating": "Creazione…",
     "notFound": "Questo programma non esiste più.",
     "activities": "Attività",
     "noActivities": "Ancora nessuna attività. Aggiungi la prima qui sotto.",

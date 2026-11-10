@@ -5,7 +5,8 @@ import { useApp } from '../state/AppState';
 import { useInventory } from '../state/Inventory';
 import { useGoals } from '../state/Goals';
 import { canManageAll } from '../lib/inventory';
-import { Button, Card, Chip, Field, Page, Text } from '../components/ui';
+import { BackButton, Button, Card, Chip, NotFound, Page, Text } from '../components/ui';
+import { ManualValueCard } from './KpiScreens';
 import { MiniBars, ProgressBar, fmt } from '../components/charts';
 import { space } from '../theme/tokens';
 
@@ -15,11 +16,10 @@ export function GoalDetailScreen({ id, onBack, onOpenNode, onOpenKpi }: { id: st
   const { byId } = useInventory();
   const { goals, kpis, goalNodes, snapshots, valueOf, stateOf, progressOf, recordManual, setGoalStatus, deleteGoal } = useGoals();
   const goal = goals.find((g) => g.id === id);
-  const [manual, setManual] = useState('');
   const [confirming, setConfirming] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  if (!goal || !current) return <Page><Text variant="secondary">{t('goals.notFound')}</Text><Button variant="secondary" label={t('common.back')} onPress={onBack} /></Page>;
+  if (!goal || !current) return <NotFound message={t('goals.notFound')} onBack={onBack} />;
 
   const manager = canManageAll(current.role);
   const kpi = kpis.find((k) => k.id === goal.kpi_id);
@@ -32,7 +32,7 @@ export function GoalDetailScreen({ id, onBack, onOpenNode, onOpenKpi }: { id: st
 
   return (
     <Page>
-      <Button variant="ghost" label={`← ${t('common.back')}`} onPress={onBack} style={{ alignSelf: 'flex-start', paddingHorizontal: 0 }} />
+      <BackButton onBack={onBack} />
       <View style={{ gap: space[2] }}>
         <Text variant="overline">{t(`goalState.${st}`)} · {t(`goals.basedOnType.${goal.based_on}`)}</Text>
         <Text variant="h1">{goal.title}</Text>
@@ -53,15 +53,7 @@ export function GoalDetailScreen({ id, onBack, onOpenNode, onOpenKpi }: { id: st
         </View>
       )}
 
-      {kpi?.metric === 'manual' && manager && (
-        <Card>
-          <Text variant="h3">{t('goals.recordValue')}</Text>
-          <View style={{ flexDirection: 'row', gap: space[3], alignItems: 'flex-end' }}>
-            <View style={{ flex: 1 }}><Field label={t('goals.newValue')} value={manual} onChangeText={setManual} keyboardType="numeric" /></View>
-            <Button label={t('form.save')} disabled={!Number.isFinite(Number(manual.replace(',', '.'))) || manual.trim() === ''} onPress={() => run(async () => { await recordManual(kpi.id, Number(manual.replace(',', '.'))); setManual(''); })} />
-          </View>
-        </Card>
-      )}
+      {kpi?.metric === 'manual' && manager && <ManualValueCard onSave={(v) => recordManual(kpi.id, v)} />}
 
       {linked.length > 0 && (
         <View style={{ gap: space[3] }}>

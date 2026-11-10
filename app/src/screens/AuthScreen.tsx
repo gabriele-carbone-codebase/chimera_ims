@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { supabase } from '../lib/supabase';
-import { Button, Field, Screen, Text } from '../components/ui';
+import { Button, Field, Header, Screen, Text } from '../components/ui';
 import { space } from '../theme/tokens';
 
 export function AuthScreen() {
@@ -35,10 +35,7 @@ export function AuthScreen() {
 
   return (
     <Screen>
-      <View style={{ gap: space[2] }}>
-        <Text variant="h1">{t('app.name')}</Text>
-        <Text variant="secondary">{t('app.tagline')}</Text>
-      </View>
+      <Header title={t('app.name')} hint={t('app.tagline')} />
       <View style={{ gap: space[5] }}>
         {mode === 'up' && <Field label={t('auth.name')} value={name} onChangeText={setName} autoComplete="name" />}
         <Field label={t('auth.email')} value={email} onChangeText={setEmail} autoCapitalize="none" keyboardType="email-address" autoComplete="email" />

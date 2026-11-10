@@ -2,7 +2,7 @@ import React from 'react';
 import { View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useNotifications, type Attention, type Target } from '../state/Notifications';
-import { Button, Card, Page, Text } from '../components/ui';
+import { Button, Card, Header, Page, Text } from '../components/ui';
 import { space } from '../theme/tokens';
 
 export function AttentionCard({ item, onOpen }: { item: Attention; onOpen: (t: Target) => void }) {
@@ -26,10 +26,7 @@ export function NotificationsScreen({ onOpen }: { onOpen: (t: Target) => void })
   const { items, dismissAll } = useNotifications();
   return (
     <Page>
-      <View style={{ gap: space[2] }}>
-        <Text variant="h1">{t('notif.title')}</Text>
-        <Text variant="secondary">{t('notif.hint')}</Text>
-      </View>
+      <Header title={t('notif.title')} hint={t('notif.hint')} />
       {items.length > 0 && <Button variant="secondary" label={t('notif.dismissAll')} onPress={dismissAll} style={{ alignSelf: 'flex-start' }} />}
       {items.length === 0 ? (
         <Card><Text variant="h3">{t('notif.empty')}</Text><Text variant="secondary">{t('notif.emptyHint')}</Text></Card>

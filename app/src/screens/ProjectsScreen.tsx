@@ -4,8 +4,9 @@ import { useTranslation } from 'react-i18next';
 import { useApp } from '../state/AppState';
 import { useInventory } from '../state/Inventory';
 import { useProjects } from '../state/Projects';
+import { canWrite } from '../lib/inventory';
 import { STAGES, type ProjectStage } from '../lib/projects';
-import { Button, Card, Chip, Page, Text } from '../components/ui';
+import { Button, Card, Chip, Header, Page, Text } from '../components/ui';
 import { StageTrack } from '../components/StageTrack';
 import { space } from '../theme/tokens';
 
@@ -28,14 +29,11 @@ export function ProjectsScreen({ onOpen, onNew }: { onOpen: (id: string) => void
     .filter((r) => r.node)
     .sort((a, b) => b.node.created_at.localeCompare(a.node.created_at));
 
-  const canCreate = current && ['owner', 'innovation_manager', 'contributor'].includes(current.role);
+  const canCreate = current && canWrite(current.role);
 
   return (
     <Page>
-      <View style={{ gap: space[2] }}>
-        <Text variant="h1">{t('projects.title')}</Text>
-        <Text variant="secondary">{t('projects.hint')}</Text>
-      </View>
+      <Header title={t('projects.title')} hint={t('projects.hint')} />
 
       {canCreate && <Button label={t('projects.new')} onPress={onNew} style={{ alignSelf: 'flex-start' }} />}
 

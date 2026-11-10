@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useApp } from '../state/AppState';
 import { useGoals } from '../state/Goals';
 import { canManageAll } from '../lib/inventory';
-import { Button, Card, Chip, Page, Text } from '../components/ui';
+import { Button, Card, Chip, Header, Page, Text } from '../components/ui';
 import { ProgressBar, fmt } from '../components/charts';
 import { space } from '../theme/tokens';
 
@@ -19,10 +19,7 @@ export function GoalsScreen({ onOpenGoal, onNewGoal, onOpenKpi, onNewKpi }: { on
 
   return (
     <Page>
-      <View style={{ gap: space[2] }}>
-        <Text variant="h1">{t('goals.title')}</Text>
-        <Text variant="secondary">{t('goals.hint')}</Text>
-      </View>
+      <Header title={t('goals.title')} hint={t('goals.hint')} />
 
       {!simple && (
         <View style={{ flexDirection: 'row', gap: space[3] }}>

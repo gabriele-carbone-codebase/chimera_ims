@@ -6,7 +6,7 @@ import { useInventory } from '../state/Inventory';
 import { useStrategy } from '../state/Strategy';
 import { canManageAll } from '../lib/inventory';
 import { UNITS, driftOf, isFieldArtifact, usageOf, usedSet, type InvestUnit } from '../lib/strategy';
-import { Button, Card, Chip, Field, Page, Text } from '../components/ui';
+import { BackButton, Button, Card, Chip, Field, NotFound, Page, Text, useAction } from '../components/ui';
 import { space } from '../theme/tokens';
 
 export function StrategyDetailScreen({ id, onBack, onOpenNode, onOpenAssumption }: { id: string; onBack: () => void; onOpenNode: (id: string) => void; onOpenAssumption: (id: string) => void }) {
@@ -21,16 +21,15 @@ export function StrategyDetailScreen({ id, onBack, onOpenNode, onOpenAssumption 
   const [units, setUnits] = useState<Record<string, InvestUnit>>({});
   const [reason, setReason] = useState('');
   const [confirming, setConfirming] = useState(false);
-  const [busy, setBusy] = useState<string | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  const { busy, error, run } = useAction();
   const [saved, setSaved] = useState(false);
 
   const invs = useMemo(() => s.investments.filter((i) => i.strategy_id === id), [s.investments, id]);
   const decisions = useMemo(() => s.decisions.filter((d) => d.strategy_id === id), [s.decisions, id]);
   const links = useMemo(() => s.links.filter((l) => l.strategy_id === id), [s.links, id]);
-  const used = useMemo(() => usedSet(nodes, relationships, invs), [nodes, relationships, invs]);
+  const used = useMemo(() => usedSet(relationships, invs), [relationships, invs]);
 
-  if (!strategy || !current) return <Page><Text variant="secondary">{t('strategy.notFound')}</Text><Button variant="secondary" label={t('common.back')} onPress={onBack} /></Page>;
+  if (!strategy || !current) return <NotFound message={t('strategy.notFound')} onBack={onBack} />;
 
   const isDraft = strategy.status === 'draft';
   const editable = isDraft && canManageAll(current.role);
@@ -43,12 +42,11 @@ export function StrategyDetailScreen({ id, onBack, onOpenNode, onOpenAssumption 
   const counts = { used: 0, not_used: 0, undecided: 0 };
   artifacts.forEach((n) => { counts[usageOf(n.id, used, decisions)] += 1; });
 
-  const run = async (key: string, fn: () => Promise<void>) => { setBusy(key); setError(null); try { await fn(); } catch (e: any) { setError(e?.message ?? t('common.error')); } finally { setBusy(null); } };
   const changedRows = activities.filter((a) => amounts[a.id] !== undefined || units[a.id] !== undefined).map((a) => ({ activity_id: a.id, amount: Math.max(0, Number((amountOf(a.id) || '0').replace(',', '.')) || 0), unit: unitOf(a.id) }));
 
   return (
     <Page>
-      <Button variant="ghost" label={`← ${t('common.back')}`} onPress={onBack} style={{ alignSelf: 'flex-start', paddingHorizontal: 0 }} />
+      <BackButton onBack={onBack} />
       <View style={{ gap: space[2] }}>
         <Text variant="overline">v{strategy.version} · {t(`strategyStatus.${strategy.status}`)}{strategy.status === 'active' ? ` · ${t('strategy.asIs')}` : isDraft ? ` · ${t('strategy.toBe')}` : ''}</Text>
         {editable ? (

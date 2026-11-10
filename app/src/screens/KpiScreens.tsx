@@ -5,7 +5,7 @@ import { useApp } from '../state/AppState';
 import { useGoals } from '../state/Goals';
 import { NODE_TYPES, SUBTYPES, canManageAll, type NodeType } from '../lib/inventory';
 import { METRICS, PERIODS, type KpiMetric, type KpiPeriod } from '../lib/kpis';
-import { Button, Card, Chip, Field, Page, Text } from '../components/ui';
+import { BackButton, Button, Card, Chip, Field, Header, NotFound, Page, Text, useAction } from '../components/ui';
 import { MiniBars, fmt } from '../components/charts';
 import { space } from '../theme/tokens';
 
@@ -30,10 +30,7 @@ export function KpiFormScreen({ onDone, onCancel }: { onDone: (id: string) => vo
 
   return (
     <Page>
-      <View style={{ gap: space[2] }}>
-        <Text variant="h2">{t('goals.kpiFormTitle')}</Text>
-        <Text variant="secondary">{t('goals.kpiFormHint')}</Text>
-      </View>
+      <Header title={t('goals.kpiFormTitle')} hint={t('goals.kpiFormHint')} size="h2" />
       <Field label={t('goals.kpiName')} value={name} onChangeText={setName} maxLength={200} />
       <View style={{ gap: space[3] }}>
         <Text variant="overline">{t('goals.measure')}</Text>
@@ -72,16 +69,33 @@ export function KpiFormScreen({ onDone, onCancel }: { onDone: (id: string) => vo
   );
 }
 
+/** Card to record a new value for a manual KPI. */
+export function ManualValueCard({ onSave }: { onSave: (value: number) => Promise<void> }) {
+  const { t } = useTranslation();
+  const { busy, error, run } = useAction();
+  const [text, setText] = useState('');
+  const value = Number(text.replace(',', '.'));
+  return (
+    <Card>
+      <Text variant="h3">{t('goals.recordValue')}</Text>
+      <View style={{ flexDirection: 'row', gap: space[3], alignItems: 'flex-end' }}>
+        <View style={{ flex: 1 }}><Field label={t('goals.newValue')} value={text} onChangeText={setText} keyboardType="numeric" /></View>
+        <Button label={t('form.save')} loading={busy !== null} disabled={text.trim() === '' || !Number.isFinite(value)} onPress={() => run('save', async () => { await onSave(value); setText(''); })} />
+      </View>
+      {error && <Text variant="error">{error}</Text>}
+    </Card>
+  );
+}
+
 export function KpiDetailScreen({ id, onBack, onOpenGoal }: { id: string; onBack: () => void; onOpenGoal: (id: string) => void }) {
   const { t } = useTranslation();
   const { current } = useApp();
   const { kpis, goals, snapshots, valueOf, recordManual, deleteKpi } = useGoals();
   const kpi = kpis.find((k) => k.id === id);
-  const [manual, setManual] = useState('');
   const [confirming, setConfirming] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  if (!kpi || !current) return <Page><Text variant="secondary">{t('goals.notFound')}</Text><Button variant="secondary" label={t('common.back')} onPress={onBack} /></Page>;
+  if (!kpi || !current) return <NotFound message={t('goals.notFound')} onBack={onBack} />;
 
   const manager = canManageAll(current.role);
   const unit = kpi.unit ?? t(`metric.${kpi.metric}.unit`);
@@ -91,7 +105,7 @@ export function KpiDetailScreen({ id, onBack, onOpenGoal }: { id: string; onBack
 
   return (
     <Page>
-      <Button variant="ghost" label={`← ${t('common.back')}`} onPress={onBack} style={{ alignSelf: 'flex-start', paddingHorizontal: 0 }} />
+      <BackButton onBack={onBack} />
       <View style={{ gap: space[2] }}>
         <Text variant="overline">{t(`metric.${kpi.metric}.name`)} · {t(`period.${kpi.period}`)}</Text>
         <Text variant="h1">{kpi.name}</Text>
@@ -107,15 +121,7 @@ export function KpiDetailScreen({ id, onBack, onOpenGoal }: { id: string; onBack
         </View>
       )}
 
-      {kpi.metric === 'manual' && manager && (
-        <Card>
-          <Text variant="h3">{t('goals.recordValue')}</Text>
-          <View style={{ flexDirection: 'row', gap: space[3], alignItems: 'flex-end' }}>
-            <View style={{ flex: 1 }}><Field label={t('goals.newValue')} value={manual} onChangeText={setManual} keyboardType="numeric" /></View>
-            <Button label={t('form.save')} disabled={!Number.isFinite(Number(manual.replace(',', '.'))) || manual.trim() === ''} onPress={() => run(async () => { await recordManual(id, Number(manual.replace(',', '.'))); setManual(''); })} />
-          </View>
-        </Card>
-      )}
+      {kpi.metric === 'manual' && manager && <ManualValueCard onSave={(v) => recordManual(id, v)} />}
 
       {used.length > 0 && (
         <View style={{ gap: space[3] }}>

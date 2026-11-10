@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useInventory } from '../state/Inventory';
-import { NODE_TYPES, SUBTYPES, type NodeType } from '../lib/inventory';
+import { NODE_TYPES, SUBTYPES, isManagedNode, type NodeType } from '../lib/inventory';
 import { Button, Chip, Field, Page, Text } from '../components/ui';
 import { space } from '../theme/tokens';
 
@@ -12,6 +12,7 @@ export function NodeFormScreen({ id, initialType, onDone, onCancel }: {
   const { t } = useTranslation();
   const { byId, saveNode } = useInventory();
   const existing = id ? byId[id] : undefined;
+  const locked = !!existing && isManagedNode(existing);
   const [type, setType] = useState<NodeType>(existing?.type ?? initialType);
   const [subtype, setSubtype] = useState<string | null>(existing?.subtype ?? null);
   const [title, setTitle] = useState(existing?.title ?? '');
@@ -35,6 +36,7 @@ export function NodeFormScreen({ id, initialType, onDone, onCancel }: {
     <Page>
       <Text variant="h2">{existing ? t('form.editTitle') : t('form.newTitle')}</Text>
 
+      {!locked && <>
       <View style={{ gap: space[3] }}>
         <Text variant="overline">{t('form.type')}</Text>
         <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[3] }}>
@@ -52,6 +54,7 @@ export function NodeFormScreen({ id, initialType, onDone, onCancel }: {
           ))}
         </View>
       </View>
+      </>}
 
       <Field label={t('form.name')} value={title} onChangeText={setTitle} maxLength={200} />
       <Field label={t('form.description')} value={description} onChangeText={setDescription} multiline maxLength={4000} />

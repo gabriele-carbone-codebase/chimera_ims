@@ -5,7 +5,7 @@ import { useApp } from '../state/AppState';
 import { useInventory } from '../state/Inventory';
 import { usePrograms, type ActivityView } from '../state/Programs';
 import { canManageAll, canWrite, type NodeType } from '../lib/inventory';
-import { Button, Card, Chip, Field, Page, Text } from '../components/ui';
+import { BackButton, Button, Card, Chip, Field, NotFound, Page, Text } from '../components/ui';
 import { space } from '../theme/tokens';
 
 type Cat = 'performers' | 'uses' | 'produces';
@@ -28,7 +28,7 @@ export function ProgramDetailScreen({ id, onBack, onOpenNode }: { id: string; on
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  if (!program || !node || !role) return <Page><Text variant="secondary">{t('programs.notFound')}</Text><Button variant="secondary" label={t('common.back')} onPress={onBack} /></Page>;
+  if (!program || !node || !role) return <NotFound message={t('programs.notFound')} onBack={onBack} />;
 
   const writable = canWrite(role);
   const activities = activitiesOf(id);
@@ -46,7 +46,7 @@ export function ProgramDetailScreen({ id, onBack, onOpenNode }: { id: string; on
 
   return (
     <Page>
-      <Button variant="ghost" label={`← ${t('common.back')}`} onPress={onBack} style={{ alignSelf: 'flex-start', paddingHorizontal: 0 }} />
+      <BackButton onBack={onBack} />
       <View style={{ gap: space[2] }}>
         <Text variant="overline">{program.template_key ? `${t('programs.fromTemplate')} ${t(`tpl.${program.template_key}.name`)}` : t('programs.custom')}</Text>
         <Text variant="h1">{node.title}</Text>

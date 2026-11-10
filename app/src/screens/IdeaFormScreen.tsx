@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useIdeas } from '../state/Ideas';
-import { Button, Card, Chip, Field, Page, Text } from '../components/ui';
+import { Button, Card, Chip, Field, Header, Page, Text } from '../components/ui';
 import { space } from '../theme/tokens';
 
 export function IdeaFormScreen({ onDone, onCancel }: { onDone: (id: string) => void; onCancel: () => void }) {
@@ -22,10 +22,7 @@ export function IdeaFormScreen({ onDone, onCancel }: { onDone: (id: string) => v
 
   return (
     <Page>
-      <View style={{ gap: space[2] }}>
-        <Text variant="h2">{t('ideas.formTitle')}</Text>
-        <Text variant="secondary">{t('ideas.formHint')}</Text>
-      </View>
+      <Header title={t('ideas.formTitle')} hint={t('ideas.formHint')} size="h2" />
 
       <Field label={t('ideas.fieldTitle')} value={title} onChangeText={setTitle} maxLength={200} placeholder={t('ideas.fieldTitlePlaceholder')} />
       <Field label={t('ideas.fieldDescription')} value={description} onChangeText={setDescription} multiline maxLength={4000} placeholder={t('ideas.fieldDescriptionPlaceholder')} />

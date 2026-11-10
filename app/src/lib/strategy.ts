@@ -29,7 +29,7 @@ export type Usage = 'used' | 'not_used' | 'undecided';
  * The innovation system is calculated, never stored: an artifact is used when it is linked to an activity
  * with investment above zero (the activity itself counts as used).
  */
-export function usedSet(nodes: InvNode[], relationships: InvRel[], investments: Investment[]): Set<string> {
+export function usedSet(relationships: InvRel[], investments: Investment[]): Set<string> {
   const active = new Set(investments.filter((i) => i.amount > 0).map((i) => i.activity_id));
   const used = new Set<string>(active);
   for (const r of relationships) {

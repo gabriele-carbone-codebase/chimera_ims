@@ -7,7 +7,7 @@ import { useIdeas } from '../state/Ideas';
 import { useProjects } from '../state/Projects';
 import { canManageAll } from '../lib/inventory';
 import { DEFAULT_WEIGHT, SCORES, WEIGHTS, computeResult, type Criterion, type IdeaStatus } from '../lib/ideas';
-import { Button, Card, Chip, Field, Page, Text } from '../components/ui';
+import { BackButton, Button, Card, Chip, Field, NotFound, Page, Text, useAction } from '../components/ui';
 import { space } from '../theme/tokens';
 
 export function IdeaDetailScreen({ id, onBack, onOpenProject }: { id: string; onBack: () => void; onOpenProject: (id: string) => void }) {
@@ -30,11 +30,10 @@ export function IdeaDetailScreen({ id, onBack, onOpenProject }: { id: string; on
     Object.fromEntries(evaluations.filter((e) => e.idea_id === id && e.evaluator_id === userId).map((e) => [e.criterion_id, e.score])));
   const [newCriterion, setNewCriterion] = useState('');
   const [note, setNote] = useState(idea?.decision_note ?? '');
-  const [busy, setBusy] = useState<string | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  const { busy, error, run } = useAction();
   const [saved, setSaved] = useState(false);
 
-  if (!node || !idea || !role) return <Page><Text variant="secondary">{t('ideas.notFound')}</Text><Button variant="secondary" label={t('common.back')} onPress={onBack} /></Page>;
+  if (!node || !idea || !role) return <NotFound message={t('ideas.notFound')} onBack={onBack} />;
 
   const manager = canManageAll(role);
   const evaluator = manager || role === 'evaluator';
@@ -43,18 +42,13 @@ export function IdeaDetailScreen({ id, onBack, onOpenProject }: { id: string; on
   const result = computeResult(mine, evaluations.filter((e) => e.idea_id === id));
   const author = idea.anonymous ? t('ideas.anonymous') : authors[node.created_by ?? ''] || '—';
 
-  const run = async (key: string, fn: () => Promise<void>) => {
-    setBusy(key); setError(null);
-    try { await fn(); } catch (e: any) { setError(e?.message ?? t('common.error')); } finally { setBusy(null); }
-  };
-
   const chosen = Object.entries(picks).filter(([, w]) => w > 0);
   const toggle = (cid: string) => setPicks((p) => ({ ...p, [cid]: p[cid] ? 0 : DEFAULT_WEIGHT }));
   const setWeight = (cid: string, w: number) => setPicks((p) => ({ ...p, [cid]: w }));
 
   return (
     <Page>
-      <Button variant="ghost" label={`← ${t('common.back')}`} onPress={onBack} style={{ alignSelf: 'flex-start', paddingHorizontal: 0 }} />
+      <BackButton onBack={onBack} />
       <View style={{ gap: space[2] }}>
         <Text variant="overline">{t(`status.${idea.status}`)} · {author}</Text>
         <Text variant="h1">{node.title}</Text>

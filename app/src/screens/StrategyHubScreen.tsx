@@ -6,7 +6,7 @@ import { useInventory } from '../state/Inventory';
 import { useStrategy } from '../state/Strategy';
 import { canManageAll } from '../lib/inventory';
 import { isDue, isFieldArtifact } from '../lib/strategy';
-import { Button, Card, Chip, Field, Page, Text } from '../components/ui';
+import { Button, Card, Chip, Field, Header, Page, Text } from '../components/ui';
 import { ProgressBar } from '../components/charts';
 import { space } from '../theme/tokens';
 
@@ -36,10 +36,7 @@ export function StrategyHubScreen({ onOpenAssumption, onNewAssumption, onOpenStr
 
   return (
     <Page>
-      <View style={{ gap: space[2] }}>
-        <Text variant="h1">{t('strategy.title')}</Text>
-        <Text variant="secondary">{t('strategy.hint')}</Text>
-      </View>
+      <Header title={t('strategy.title')} hint={t('strategy.hint')} />
       {error && <Text variant="error">{error}</Text>}
 
       {activeDrift.suggest && active && (

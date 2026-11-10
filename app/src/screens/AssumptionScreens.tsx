@@ -6,7 +6,7 @@ import { useInventory } from '../state/Inventory';
 import { useStrategy } from '../state/Strategy';
 import { canManageAll } from '../lib/inventory';
 import { ASSUMPTION_STATUSES, isDue, isFieldArtifact, type AssumptionStatus } from '../lib/strategy';
-import { Button, Card, Chip, Field, Page, Text } from '../components/ui';
+import { BackButton, Button, Card, Chip, Field, Header, NotFound, Page, Text, useAction } from '../components/ui';
 import { space } from '../theme/tokens';
 
 const INTERVALS = [30, 90, 180, 365];
@@ -36,10 +36,7 @@ export function AssumptionFormScreen({ onDone, onCancel }: { onDone: (id: string
 
   return (
     <Page>
-      <View style={{ gap: space[2] }}>
-        <Text variant="h2">{t('assumption.formTitle')}</Text>
-        <Text variant="secondary">{t('assumption.formHint')}</Text>
-      </View>
+      <Header title={t('assumption.formTitle')} hint={t('assumption.formHint')} size="h2" />
 
       <View style={{ gap: space[3] }}>
         <Text variant="overline">{t('assumption.step1')}</Text>
@@ -91,20 +88,18 @@ export function AssumptionDetailScreen({ id, onBack, onOpenNode }: { id: string;
   const [risk, setRisk] = useState(false);
   const [evidence, setEvidence] = useState<string | null>(null);
   const [confirming, setConfirming] = useState(false);
-  const [busy, setBusy] = useState<string | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  const { busy, error, run } = useAction();
 
-  if (!a || !current) return <Page><Text variant="secondary">{t('assumption.notFound')}</Text><Button variant="secondary" label={t('common.back')} onPress={onBack} /></Page>;
+  if (!a || !current) return <NotFound message={t('assumption.notFound')} onBack={onBack} />;
 
   const manager = canManageAll(current.role);
   const linked = assumptionNodes.filter((x) => x.assumption_id === id).map((x) => byId[x.node_id]).filter(Boolean);
   const history = assumptionReviews.filter((r) => r.assumption_id === id);
-  const run = async (key: string, fn: () => Promise<void>) => { setBusy(key); setError(null); try { await fn(); } catch (e: any) { setError(e?.message ?? t('common.error')); } finally { setBusy(null); } };
   const review = (s: AssumptionStatus) => run(s, async () => { await reviewAssumption(id, s, note.trim() || null, risk); setNote(''); setRisk(false); });
 
   return (
     <Page>
-      <Button variant="ghost" label={`← ${t('common.back')}`} onPress={onBack} style={{ alignSelf: 'flex-start', paddingHorizontal: 0 }} />
+      <BackButton onBack={onBack} />
       <View style={{ gap: space[2] }}>
         <Text variant="overline">{t(`assumptionStatus.${a.status}`)}{a.accepted_risk ? ` · ${t('strategy.riskAccepted')}` : ''} · {isDue(a) ? t('strategy.reviewDue') : `${t('strategy.nextReview')} ${a.next_review}`}</Text>
         <Text variant="h2">{a.statement}</Text>

@@ -3,7 +3,7 @@ import { View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { usePrograms } from '../state/Programs';
 import { TEMPLATES } from '../lib/templates';
-import { Button, Card, Field, Page, Text } from '../components/ui';
+import { Button, Card, Field, Header, Page, Text } from '../components/ui';
 import { space } from '../theme/tokens';
 
 export function ProgramNewScreen({ onDone, onCancel }: { onDone: (id: string) => void; onCancel: () => void }) {
@@ -33,10 +33,7 @@ export function ProgramNewScreen({ onDone, onCancel }: { onDone: (id: string) =>
 
   return (
     <Page>
-      <View style={{ gap: space[2] }}>
-        <Text variant="h2">{t('programs.newTitle')}</Text>
-        <Text variant="secondary">{t('programs.newHint')}</Text>
-      </View>
+      <Header title={t('programs.newTitle')} hint={t('programs.newHint')} size="h2" />
 
       <View style={{ gap: space[4] }}>
         {TEMPLATES.map((tpl) => (

@@ -2,6 +2,7 @@ import './src/i18n';
 import React, { useState } from 'react';
 import { ActivityIndicator, View } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
+import { useTranslation } from 'react-i18next';
 import { useFonts } from 'expo-font';
 import { Newsreader_500Medium } from '@expo-google-fonts/newsreader/500Medium';
 import { InstrumentSans_400Regular } from '@expo-google-fonts/instrument-sans/400Regular';
@@ -15,6 +16,7 @@ import { ProgramsProvider } from './src/state/Programs';
 import { GoalsProvider } from './src/state/Goals';
 import { StrategyProvider } from './src/state/Strategy';
 import { NotificationsProvider, useNotifications, type Target } from './src/state/Notifications';
+import { Button, Screen, Text } from './src/components/ui';
 import { ThemeProvider, useTheme } from './src/theme/ThemeProvider';
 import { AppShell, type Section } from './src/components/AppBar';
 import { AuthScreen } from './src/screens/AuthScreen';
@@ -143,12 +145,14 @@ function Main({ setOverlay }: { setOverlay: (o: Overlay) => void }) {
 }
 
 function Root() {
-  const { ready, session, current, memberships } = useApp();
+  const { t } = useTranslation();
+  const { ready, session, current, memberships, loadFailed, retry } = useApp();
   const c = useTheme();
   const [overlay, setOverlay] = useState<Overlay>(null);
 
   if (!ready) return <View style={{ flex: 1, backgroundColor: c.page, justifyContent: 'center' }}><ActivityIndicator color={c.accent} /></View>;
   if (!session) return <AuthScreen />;
+  if (loadFailed && memberships.length === 0) return <Screen><Text variant="error">{t('common.error')}</Text><Button label={t('common.retry')} onPress={retry} /></Screen>;
   if (memberships.length === 0 || overlay === 'business') return <BusinessScreen onDone={memberships.length ? () => setOverlay(null) : undefined} />;
   if (!current?.expertise_level || overlay === 'expertise') return <ExpertiseScreen onDone={current?.expertise_level ? () => setOverlay(null) : undefined} />;
   return (

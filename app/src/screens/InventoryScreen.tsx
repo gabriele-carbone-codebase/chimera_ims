@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useApp } from '../state/AppState';
 import { useInventory } from '../state/Inventory';
 import { NODE_TYPES, canWrite, type NodeType } from '../lib/inventory';
-import { Button, Card, Chip, Field, Page, Text } from '../components/ui';
+import { Button, Card, Chip, Field, Header, Page, Text } from '../components/ui';
 import { space } from '../theme/tokens';
 
 export function InventoryScreen({ tab, onTab, onOpen, onAdd }: {
@@ -28,10 +28,7 @@ export function InventoryScreen({ tab, onTab, onOpen, onAdd }: {
 
   return (
     <Page>
-      <View style={{ gap: space[2] }}>
-        <Text variant="h1">{t('inventory.title')}</Text>
-        <Text variant="secondary">{t('inventory.hint')}</Text>
-      </View>
+      <Header title={t('inventory.title')} hint={t('inventory.hint')} />
 
       <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[3] }}>
         {NODE_TYPES.map((ty) => <Chip key={ty} label={`${t(`typePlural.${ty}`)} · ${counts[ty]}`} selected={tab === ty} onPress={() => onTab(ty)} />)}

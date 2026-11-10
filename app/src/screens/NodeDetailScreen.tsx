@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useApp } from '../state/AppState';
 import { useInventory } from '../state/Inventory';
 import { REL_TYPES, STRENGTHS, canEdit, canWrite, type InvRel, type RelType, type Strength } from '../lib/inventory';
-import { Button, Card, Chip, Field, Page, Text } from '../components/ui';
+import { BackButton, Button, Card, Chip, Field, NotFound, Page, Text } from '../components/ui';
 import { space } from '../theme/tokens';
 
 export function NodeDetailScreen({ id, onOpen, onEdit, onBack }: { id: string; onOpen: (id: string) => void; onEdit: () => void; onBack: () => void }) {
@@ -21,7 +21,7 @@ export function NodeDetailScreen({ id, onOpen, onEdit, onBack }: { id: string; o
   const userId = session?.user.id;
   const mine = useMemo(() => relationships.filter((r) => r.from_node === id || r.to_node === id), [relationships, id]);
 
-  if (!node || !role) return <Page><Text variant="secondary">{t('detail.notFound')}</Text><Button variant="secondary" label={t('common.back')} onPress={onBack} /></Page>;
+  if (!node || !role) return <NotFound message={t('detail.notFound')} onBack={onBack} />;
 
   const editable = canEdit(role, userId, node.created_by);
   const remove = async () => {
@@ -33,7 +33,7 @@ export function NodeDetailScreen({ id, onOpen, onEdit, onBack }: { id: string; o
 
   return (
     <Page>
-      <Button variant="ghost" label={`← ${t('common.back')}`} onPress={onBack} style={{ alignSelf: 'flex-start', paddingHorizontal: 0 }} />
+      <BackButton onBack={onBack} />
       <View style={{ gap: space[2] }}>
         <Text variant="overline">{t(`type.${node.type}`)}{node.subtype ? ` · ${t(`subtype.${node.subtype}`, { defaultValue: node.subtype })}` : ''}</Text>
         <Text variant="h1">{node.title}</Text>

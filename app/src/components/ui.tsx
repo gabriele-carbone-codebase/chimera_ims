@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { ActivityIndicator, Pressable, ScrollView, StyleSheet, Text as RNText, TextInput, View, type TextInputProps, type TextProps, type ViewStyle } from 'react-native';
 import { useTheme } from '../theme/ThemeProvider';
 import { fontSize, fonts, radius, space } from '../theme/tokens';
@@ -86,6 +87,38 @@ export function Screen({ children }: { children: React.ReactNode }) {
       <View style={{ flex: 1, width: '100%', maxWidth: 520, padding: space[7], gap: space[6], justifyContent: 'center' }}>{children}</View>
     </View>
   );
+}
+
+/** Screen title with an optional one-line hint. */
+export function Header({ title, hint, size = 'h1' }: { title: string; hint?: string; size?: 'h1' | 'h2' }) {
+  return (
+    <View style={{ gap: space[2] }}>
+      <Text variant={size}>{title}</Text>
+      {hint && <Text variant="secondary">{hint}</Text>}
+    </View>
+  );
+}
+
+export function BackButton({ onBack }: { onBack: () => void }) {
+  const { t } = useTranslation();
+  return <Button variant="ghost" label={`← ${t('common.back')}`} onPress={onBack} style={{ alignSelf: 'flex-start', paddingHorizontal: 0 }} />;
+}
+
+export function NotFound({ message, onBack }: { message: string; onBack: () => void }) {
+  const { t } = useTranslation();
+  return <Page><Text variant="secondary">{message}</Text><Button variant="secondary" label={t('common.back')} onPress={onBack} /></Page>;
+}
+
+/** Runs an async action while tracking which one is busy (by key) and its error message. */
+export function useAction() {
+  const { t } = useTranslation();
+  const [busy, setBusy] = React.useState<string | null>(null);
+  const [error, setError] = React.useState<string | null>(null);
+  const run = async (key: string, fn: () => Promise<unknown>) => {
+    setBusy(key); setError(null);
+    try { await fn(); } catch (e: any) { setError(e?.message ?? t('common.error')); } finally { setBusy(null); }
+  };
+  return { busy, error, run };
 }
 
 const s = StyleSheet.create({

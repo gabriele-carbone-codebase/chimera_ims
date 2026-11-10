@@ -1,5 +1,5 @@
 import React, { createContext, useCallback, useContext, useEffect, useState } from 'react';
-import { supabase } from '../lib/supabase';
+import { fetchNames, supabase } from '../lib/supabase';
 import { useApp } from './AppState';
 import { useInventory } from './Inventory';
 import type { GateChoice, GateCriterion, GateItem, GateReview, ProjectRow, ProjectStage } from '../lib/projects';
@@ -22,7 +22,7 @@ const ProjCtx = createContext<Ctx | null>(null);
 
 export function ProjectsProvider({ children }: { children: React.ReactNode }) {
   const { current, session } = useApp();
-  const { reload: reloadNodes, nodes } = useInventory();
+  const { reload: reloadNodes } = useInventory();
   const businessId = current?.business_id ?? null;
   const [loading, setLoading] = useState(true);
   const [projects, setProjects] = useState<ProjectRow[]>([]);
@@ -49,10 +49,8 @@ export function ProjectsProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const ids = [...new Set(reviews.map((r) => r.decided_by).filter((x): x is string => !!x))];
     if (!ids.length) { setReviewers({}); return; }
-    supabase.from('profiles').select('id, display_name').in('id', ids).then(({ data }) => {
-      setReviewers(Object.fromEntries((data ?? []).map((p) => [p.id as string, (p.display_name as string) ?? ''])));
-    });
-  }, [reviews, nodes.length]);
+    fetchNames(ids).then(setReviewers);
+  }, [reviews]);
 
   const both = async () => { await Promise.all([reloadNodes(), reload()]); };
 

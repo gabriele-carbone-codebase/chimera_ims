@@ -6,7 +6,7 @@ import { useInventory } from '../state/Inventory';
 import { useGoals } from '../state/Goals';
 import { NODE_TYPES, SUBTYPES, type NodeType } from '../lib/inventory';
 import { DEFAULT_METRIC, METRICS, PERIODS, isValidDate, type Direction, type KpiMetric, type KpiPeriod } from '../lib/kpis';
-import { Button, Chip, Field, Page, Text } from '../components/ui';
+import { Button, Chip, Field, Header, Page, Text } from '../components/ui';
 import { space } from '../theme/tokens';
 
 const SIMPLE_METRICS: KpiMetric[] = ['ideas_submitted', 'ideas_approved', 'projects_shipped', 'manual'];
@@ -53,10 +53,7 @@ export function GoalFormScreen({ onDone, onCancel }: { onDone: (id: string) => v
 
   return (
     <Page>
-      <View style={{ gap: space[2] }}>
-        <Text variant="h2">{t('goals.formTitle')}</Text>
-        <Text variant="secondary">{t('goals.formHint')}</Text>
-      </View>
+      <Header title={t('goals.formTitle')} hint={t('goals.formHint')} size="h2" />
 
       <Field label={t('goals.fieldTitle')} value={title} onChangeText={setTitle} maxLength={200} placeholder={t('goals.fieldTitlePlaceholder')} />
 

@@ -5,7 +5,7 @@ import { useApp } from '../state/AppState';
 import { useInventory } from '../state/Inventory';
 import { useIdeas } from '../state/Ideas';
 import { IDEA_STATUSES, computeResult, type IdeaStatus } from '../lib/ideas';
-import { Button, Card, Chip, Page, Text } from '../components/ui';
+import { Button, Card, Chip, Header, Page, Text } from '../components/ui';
 import { space } from '../theme/tokens';
 
 export function IdeasScreen({ onOpen, onPropose }: { onOpen: (id: string) => void; onPropose: () => void }) {
@@ -31,10 +31,7 @@ export function IdeasScreen({ onOpen, onPropose }: { onOpen: (id: string) => voi
 
   return (
     <Page>
-      <View style={{ gap: space[2] }}>
-        <Text variant="h1">{t('ideas.title')}</Text>
-        <Text variant="secondary">{t('ideas.hint')}</Text>
-      </View>
+      <Header title={t('ideas.title')} hint={t('ideas.hint')} />
 
       {canPropose && <Button label={t('ideas.propose')} onPress={onPropose} style={{ alignSelf: 'flex-start' }} />}
 

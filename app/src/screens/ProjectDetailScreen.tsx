@@ -6,7 +6,7 @@ import { useInventory } from '../state/Inventory';
 import { useProjects } from '../state/Projects';
 import { canManageAll, canWrite } from '../lib/inventory';
 import { nextStage, type GateChoice, type GateCriterion } from '../lib/projects';
-import { Button, Card, Chip, Field, Page, Text } from '../components/ui';
+import { BackButton, Button, Card, Chip, Field, NotFound, Page, Text, useAction } from '../components/ui';
 import { StageTrack } from '../components/StageTrack';
 import { space } from '../theme/tokens';
 
@@ -24,10 +24,9 @@ export function ProjectDetailScreen({ id, onBack, onOpenNode, onOpenIdea }: {
   const [note, setNote] = useState('');
   const [shipAs, setShipAs] = useState<'product' | 'service'>('product');
   const [newCriterion, setNewCriterion] = useState('');
-  const [busy, setBusy] = useState<string | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  const { busy, error, run } = useAction();
 
-  if (!node || !project || !role) return <Page><Text variant="secondary">{t('projects.notFound')}</Text><Button variant="secondary" label={t('common.back')} onPress={onBack} /></Page>;
+  if (!node || !project || !role) return <NotFound message={t('projects.notFound')} onBack={onBack} />;
 
   const manager = canManageAll(role);
   const closed = project.stage === 'shipped';
@@ -39,16 +38,11 @@ export function ProjectDetailScreen({ id, onBack, onOpenNode, onOpenIdea }: {
   const next = nextStage(project.stage);
   const product = project.product_id ? byId[project.product_id] : undefined;
 
-  const run = async (key: string, fn: () => Promise<void>) => {
-    setBusy(key); setError(null);
-    try { await fn(); } catch (e: any) { setError(e?.message ?? t('common.error')); } finally { setBusy(null); }
-  };
-
   const decide = (choice: GateChoice) => run(choice, async () => { await review(id, choice, note.trim() || null, shipAs); setNote(''); });
 
   return (
     <Page>
-      <Button variant="ghost" label={`← ${t('common.back')}`} onPress={onBack} style={{ alignSelf: 'flex-start', paddingHorizontal: 0 }} />
+      <BackButton onBack={onBack} />
       <View style={{ gap: space[3] }}>
         <Text variant="overline">{t(`stage.${project.stage}`)}{project.status !== 'active' ? ` · ${t(`projectStatus.${project.status}`)}` : ''}</Text>
         <Text variant="h1">{node.title}</Text>

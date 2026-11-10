@@ -1,5 +1,5 @@
 import React, { createContext, useCallback, useContext, useEffect, useState } from 'react';
-import { supabase } from '../lib/supabase';
+import { fetchNames, supabase } from '../lib/supabase';
 import { useApp } from './AppState';
 import { useInventory } from './Inventory';
 import type { Criterion, Evaluation, IdeaCriterion, IdeaRow, IdeaStatus } from '../lib/ideas';
@@ -51,9 +51,7 @@ export function IdeasProvider({ children }: { children: React.ReactNode }) {
     const anonymousIds = new Set(ideas.filter((x) => x.anonymous).map((x) => x.node_id));
     const ids = [...new Set(nodes.filter((n) => n.subtype === 'idea' && !anonymousIds.has(n.id) && n.created_by).map((n) => n.created_by as string))];
     if (!ids.length) { setAuthors({}); return; }
-    supabase.from('profiles').select('id, display_name').in('id', ids).then(({ data }) => {
-      setAuthors(Object.fromEntries((data ?? []).map((p) => [p.id as string, (p.display_name as string) ?? ''])));
-    });
+    fetchNames(ids).then(setAuthors);
   }, [nodes, ideas]);
 
   const value: Ctx = {

@@ -12,6 +12,8 @@ type Ctx = {
   session: Session | null;
   profile: Profile | null;
   memberships: Membership[];
+  loadFailed: boolean;
+  retry: () => Promise<void>;
   current: Membership | null;
   selectBusiness: (id: string) => Promise<void>;
   createBusiness: (name: string) => Promise<void>;
@@ -29,6 +31,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const [profile, setProfile] = useState<Profile | null>(null);
   const [memberships, setMemberships] = useState<Membership[]>([]);
   const [currentId, setCurrentId] = useState<string | null>(null);
+  const [loadFailed, setLoadFailed] = useState(false);
 
   const load = useCallback(async (s: Session | null) => {
     if (!s) { setProfile(null); setMemberships([]); return; }
@@ -36,6 +39,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       supabase.from('profiles').select('id, display_name, language').eq('id', s.user.id).maybeSingle(),
       supabase.from('memberships').select('business_id, role, expertise_level, business:businesses(id, name)').eq('user_id', s.user.id).order('created_at'),
     ]);
+    if (m.error) throw m.error; // never mistake a failed read for "no businesses"
     if (p.data) { setProfile(p.data as Profile); await i18n.changeLanguage(p.data.language); }
     const rows = (m.data ?? []) as unknown as Membership[];
     setMemberships(rows);
@@ -43,16 +47,18 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     setCurrentId((prev) => prev && rows.some((r) => r.business_id === prev) ? prev : rows.find((r) => r.business_id === saved)?.business_id ?? rows[0]?.business_id ?? null);
   }, []);
 
+  const safeLoad = useCallback((s: Session | null) => load(s).then(() => setLoadFailed(false), () => setLoadFailed(true)), [load]);
+
   useEffect(() => {
-    supabase.auth.getSession().then(async ({ data }) => { setSession(data.session); await load(data.session); setReady(true); });
-    const { data: sub } = supabase.auth.onAuthStateChange((_e, s) => { setSession(s); load(s); });
+    supabase.auth.getSession().then(async ({ data }) => { setSession(data.session); await safeLoad(data.session); setReady(true); });
+    const { data: sub } = supabase.auth.onAuthStateChange((_e, s) => { setSession(s); safeLoad(s); });
     return () => sub.subscription.unsubscribe();
-  }, [load]);
+  }, [safeLoad]);
 
   const current = useMemo(() => memberships.find((m) => m.business_id === currentId) ?? null, [memberships, currentId]);
 
   const value: Ctx = {
-    ready, session, profile, memberships, current,
+    ready, session, profile, memberships, current, loadFailed, retry: () => safeLoad(session),
     selectBusiness: async (id) => { setCurrentId(id); await AsyncStorage.setItem(CURRENT_KEY, id); },
     createBusiness: async (name) => {
       const { data, error } = await supabase.rpc('create_business', { business_name: name });
@@ -69,7 +75,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     },
     setLanguage: async (lang) => {
       await i18n.changeLanguage(lang);
-      if (session) await supabase.from('profiles').update({ language: lang }).eq('id', session.user.id);
+      if (session) await supabase.from('profiles').update({ language: lang }).eq('id', session.user.id); // best effort: the choice already applies locally
       setProfile((p) => (p ? { ...p, language: lang } : p));
     },
     signOut: async () => { await supabase.auth.signOut(); },

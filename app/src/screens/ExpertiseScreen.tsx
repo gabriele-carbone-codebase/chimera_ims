@@ -3,10 +3,10 @@ import { View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useApp } from '../state/AppState';
 import type { Level } from '../lib/supabase';
-import { Button, Card, Screen, Text } from '../components/ui';
+import { Button, Card, Header, Screen, Text } from '../components/ui';
 import { space } from '../theme/tokens';
 
-export const LEVELS: Level[] = ['business_owner', 'technician', 'specialist', 'manager'];
+const LEVELS: Level[] = ['business_owner', 'technician', 'specialist', 'manager'];
 
 export function ExpertiseScreen({ onDone }: { onDone?: () => void }) {
   const { t } = useTranslation();
@@ -25,10 +25,7 @@ export function ExpertiseScreen({ onDone }: { onDone?: () => void }) {
 
   return (
     <Screen>
-      <View style={{ gap: space[2] }}>
-        <Text variant="h2">{t('expertise.title')}</Text>
-        <Text variant="secondary">{t('expertise.hint')}</Text>
-      </View>
+      <Header title={t('expertise.title')} hint={t('expertise.hint')} size="h2" />
       <View style={{ gap: space[4] }}>
         {LEVELS.map((l) => (
           <Card key={l} selected={level === l} onPress={() => setLevel(l)}>

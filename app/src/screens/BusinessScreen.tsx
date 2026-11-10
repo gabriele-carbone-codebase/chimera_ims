@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
-import { View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useApp } from '../state/AppState';
-import { Button, Field, Screen, Text } from '../components/ui';
-import { space } from '../theme/tokens';
+import { Button, Field, Header, Screen, Text } from '../components/ui';
 
 export function BusinessScreen({ onDone }: { onDone?: () => void }) {
   const { t } = useTranslation();
@@ -21,10 +19,7 @@ export function BusinessScreen({ onDone }: { onDone?: () => void }) {
 
   return (
     <Screen>
-      <View style={{ gap: space[2] }}>
-        <Text variant="h2">{t('business.createTitle')}</Text>
-        <Text variant="secondary">{t('business.createHint')}</Text>
-      </View>
+      <Header title={t('business.createTitle')} hint={t('business.createHint')} size="h2" />
       <Field label={t('business.name')} value={name} onChangeText={setName} onSubmitEditing={create} />
       {error && <Text variant="error">{error}</Text>}
       <Button label={t('business.create')} onPress={create} loading={busy} disabled={!name.trim()} />

@@ -20,8 +20,7 @@
     "name": "Business name",
     "create": "Create business",
     "switch": "Switch business",
-    "new": "New business",
-    "current": "Current business"
+    "new": "New business"
   },
   "expertise": {
     "title": "How would you describe yourself?",
@@ -37,7 +36,6 @@
     "save": "Continue"
   },
   "home": {
-    "title": "Home",
     "welcome": "Welcome, {{name}}",
     "soon": "Your dashboard will appear here as we build the next sections.",
     "role": "Role",
@@ -62,7 +60,8 @@
     "loading": "Loading…",
     "error": "Something went wrong. Please try again.",
     "cancel": "Cancel",
-    "back": "Back"
+    "back": "Back",
+    "retry": "Retry"
   },
   "nav": {
     "home": "Home",
@@ -489,7 +488,6 @@
     "name": "Program name",
     "description": "Description (optional)",
     "create": "Create program",
-    "creating": "Creating…",
     "notFound": "This program no longer exists.",
     "activities": "Activities",
     "noActivities": "No activities yet. Add the first one below.",

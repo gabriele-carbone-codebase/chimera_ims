@@ -6,7 +6,7 @@ import { useIdeas } from './Ideas';
 import { useProjects } from './Projects';
 import { computeResult } from '../lib/ideas';
 import { computeKpi, goalProgress, goalState, isoToday, type Direction, type Goal, type GoalNode, type GoalState, type Kpi, type KpiMetric, type KpiPeriod, type Snapshot } from '../lib/kpis';
-import type { NodeType } from '../lib/inventory';
+import { canManageAll, type NodeType } from '../lib/inventory';
 
 export type KpiInput = { name: string; description?: string | null; unit?: string | null; metric: KpiMetric; scope_type?: NodeType | null; scope_subtype?: string | null; period: KpiPeriod };
 export type GoalInput = {
@@ -85,9 +85,10 @@ export function GoalsProvider({ children }: { children: React.ReactNode }) {
   }, [kpis, nodes, ideas, projects, reviews, ideaScores, latestManualOf]);
 
   // Keep a daily history: one snapshot per computed KPI per day, rewritten if the value changed.
+  // Only managers write it: other roles do not see every evaluation, so their numbers would differ.
   const written = useRef<Record<string, number>>({});
   useEffect(() => {
-    if (loading || !businessId || !role || role === 'viewer') return;
+    if (loading || !businessId || !role || !canManageAll(role)) return;
     const today = isoToday();
     const rows = kpis.filter((k) => k.metric !== 'manual').flatMap((k) => {
       const v = valueByKpi[k.id];
