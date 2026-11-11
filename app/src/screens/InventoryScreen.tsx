@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useApp } from '../state/AppState';
 import { useInventory } from '../state/Inventory';
 import { NODE_TYPES, canWrite, type NodeType } from '../lib/inventory';
-import { Button, Card, Chip, Field, Header, Page, Text } from '../components/ui';
+import { Button, Card, Chip, ChipRow, Field, Header, Page, Text, ViewOnly } from '../components/ui';
 import { space } from '../theme/tokens';
 
 export function InventoryScreen({ tab, onTab, onOpen, onAdd }: {
@@ -30,18 +30,19 @@ export function InventoryScreen({ tab, onTab, onOpen, onAdd }: {
     <Page>
       <Header title={t('inventory.title')} hint={t('inventory.hint')} />
 
-      <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[3] }}>
-        {NODE_TYPES.map((ty) => <Chip key={ty} label={`${t(`typePlural.${ty}`)} · ${counts[ty]}`} selected={tab === ty} onPress={() => onTab(ty)} />)}
-      </View>
+      <ChipRow kind="tab">
+        {NODE_TYPES.map((ty) => <Chip key={ty} label={`${t(`typePlural.${ty}`)} · ${counts[ty]}`} accessibilityLabel={`${t(`typePlural.${ty}`)} (${counts[ty]})`} selected={tab === ty} onPress={() => onTab(ty)} />)}
+      </ChipRow>
 
       <View style={{ flexDirection: 'row', gap: space[4], alignItems: 'flex-end' }}>
         <View style={{ flex: 1 }}><Field label={t('inventory.search')} value={query} onChangeText={setQuery} placeholder={t('inventory.searchPlaceholder')} /></View>
         {writable && <Button label={t('inventory.add', { type: t(`type.${tab}`).toLowerCase() })} onPress={() => onAdd(tab)} />}
       </View>
+      {!writable && <ViewOnly />}
 
       {loading ? <Text variant="secondary">{t('common.loading')}</Text> : list.length === 0 ? (
         <Card>
-          <Text variant="h3">{q ? t('inventory.noResults') : t('inventory.empty', { type: t(`typePlural.${tab}`).toLowerCase() })}</Text>
+          <Text variant="h3">{q ? t('inventory.noResults') : t(`inventory.empty.${tab}`)}</Text>
           {!q && <Text variant="secondary">{t(`inventory.emptyHint.${tab}`)}</Text>}
         </Card>
       ) : (

@@ -6,7 +6,7 @@ import { useInventory } from '../state/Inventory';
 import { useStrategy } from '../state/Strategy';
 import { canManageAll } from '../lib/inventory';
 import { isDue, isFieldArtifact } from '../lib/strategy';
-import { Button, Card, Chip, Field, Header, Page, Text } from '../components/ui';
+import { Button, Card, Chip, ChipRow, Field, Header, Page, Text, ViewOnly } from '../components/ui';
 import { ProgressBar } from '../components/charts';
 import { space } from '../theme/tokens';
 
@@ -15,7 +15,7 @@ type Tab = 'field' | 'assumptions' | 'strategies';
 export function StrategyHubScreen({ onOpenAssumption, onNewAssumption, onOpenStrategy, onOpenNode }: {
   onOpenAssumption: (id: string) => void; onNewAssumption: () => void; onOpenStrategy: (id: string) => void; onOpenNode: (id: string) => void;
 }) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { current } = useApp();
   const { nodes } = useInventory();
   const { field, monitoring, assumptions, strategies, transitions, active, draft, activeDrift, loading, saveField, setMonitored, createDraft } = useStrategy();
@@ -52,11 +52,11 @@ export function StrategyHubScreen({ onOpenAssumption, onNewAssumption, onOpenStr
         </Card>
       )}
 
-      <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[3] }}>
-        <Chip label={t('strategy.tabField')} selected={tab === 'field'} onPress={() => setTab('field')} />
-        <Chip label={`${t('strategy.tabAssumptions')} · ${assumptions.length}`} selected={tab === 'assumptions'} onPress={() => setTab('assumptions')} />
-        <Chip label={`${t('strategy.tabStrategies')} · ${strategies.length}`} selected={tab === 'strategies'} onPress={() => setTab('strategies')} />
-      </View>
+      <ChipRow kind="tab">
+        <Chip label={t('strategy.tabField')} accessibilityLabel={t('strategy.tabField')} selected={tab === 'field'} onPress={() => setTab('field')} />
+        <Chip label={`${t('strategy.tabAssumptions')} · ${assumptions.length}`} accessibilityLabel={`${t('strategy.tabAssumptions')} (${assumptions.length})`} selected={tab === 'assumptions'} onPress={() => setTab('assumptions')} />
+        <Chip label={`${t('strategy.tabStrategies')} · ${strategies.length}`} accessibilityLabel={`${t('strategy.tabStrategies')} (${strategies.length})`} selected={tab === 'strategies'} onPress={() => setTab('strategies')} />
+      </ChipRow>
 
       {loading && <Text variant="secondary">{t('common.loading')}</Text>}
 
@@ -69,7 +69,7 @@ export function StrategyHubScreen({ onOpenAssumption, onNewAssumption, onOpenStr
             {coverage != null && <><ProgressBar value={coverage} /><Text variant="secondary">{t('strategy.fieldCoverageValue', { pct: Math.round(coverage * 100), total: field.estimated_total })}</Text></>}
             {manager && (
               <View style={{ flexDirection: 'row', gap: space[3], alignItems: 'flex-end', marginTop: space[3] }}>
-                <View style={{ flex: 1 }}><Field label={t('strategy.fieldEstimate')} value={est} onChangeText={setEstimate} keyboardType="numeric" /></View>
+                <View style={{ flex: 1 }}><Field label={t('strategy.fieldEstimate')} value={est} onChangeText={setEstimate} inputMode="decimal" /></View>
                 <Button variant="secondary" label={t('form.save')} loading={busy} disabled={est.trim() === '' || !Number.isFinite(estNum) || estNum < 0}
                   onPress={() => run(async () => { await saveField(Math.round(estNum), field.notes); setEstimate(null); })} />
               </View>
@@ -80,7 +80,7 @@ export function StrategyHubScreen({ onOpenAssumption, onNewAssumption, onOpenStr
             {artifacts.slice(0, 60).map((n) => (
               <View key={n.id} style={{ flexDirection: 'row', alignItems: 'center', gap: space[4] }}>
                 <Text style={{ flex: 1 }} onPress={() => onOpenNode(n.id)}>{n.title} <Text variant="overline">{t(`type.${n.type}`)}</Text></Text>
-                <Chip label={monitored.has(n.id) ? t('strategy.monitored') : t('strategy.known')} selected={monitored.has(n.id)}
+                <Chip label={monitored.has(n.id) ? t('strategy.monitored') : t('strategy.known')} accessibilityRole={manager ? 'checkbox' : undefined} selected={monitored.has(n.id)}
                   onPress={manager ? () => run(() => setMonitored(n.id, !monitored.has(n.id))) : undefined} />
               </View>
             ))}
@@ -91,7 +91,7 @@ export function StrategyHubScreen({ onOpenAssumption, onNewAssumption, onOpenStr
       {tab === 'assumptions' && (
         <View style={{ gap: space[4] }}>
           <Text variant="secondary">{t('strategy.assumptionsHint')}</Text>
-          {manager && <Button label={t('strategy.newAssumption')} onPress={onNewAssumption} style={{ alignSelf: 'flex-start' }} />}
+          {manager ? <Button label={t('strategy.newAssumption')} onPress={onNewAssumption} style={{ alignSelf: 'flex-start' }} /> : <ViewOnly />}
           {assumptions.length === 0 && <Card><Text variant="h3">{t('strategy.noAssumptions')}</Text><Text variant="secondary">{t('strategy.noAssumptionsHint')}</Text></Card>}
           {[...assumptions].sort((a, b) => a.next_review.localeCompare(b.next_review)).map((a) => (
             <Card key={a.id} onPress={() => onOpenAssumption(a.id)}>
@@ -107,6 +107,7 @@ export function StrategyHubScreen({ onOpenAssumption, onNewAssumption, onOpenStr
       {tab === 'strategies' && (
         <View style={{ gap: space[4] }}>
           <Text variant="secondary">{t('strategy.strategiesHint')}</Text>
+          {!manager && <ViewOnly />}
           {manager && !draft && (
             <Button label={active ? t('strategy.newVersion') : t('strategy.firstStrategy')} loading={busy} style={{ alignSelf: 'flex-start' }}
               onPress={() => run(async () => { onOpenStrategy(await createDraft(active ? t('strategy.versionTitle', { n: (strategies[0]?.version ?? 0) + 1 }) : t('strategy.firstTitle'))); })} />
@@ -123,7 +124,7 @@ export function StrategyHubScreen({ onOpenAssumption, onNewAssumption, onOpenStr
               <Text variant="overline">{t('strategy.transitions')}</Text>
               {transitions.slice(0, 5).map((tr) => {
                 const from = strategies.find((s) => s.id === tr.from_strategy); const to = strategies.find((s) => s.id === tr.to_strategy);
-                return <Text key={tr.id} variant="secondary">{new Date(tr.created_at).toLocaleDateString()} · {from ? `v${from.version} → ` : ''}v{to?.version ?? '?'}{tr.reason ? ` · ${tr.reason}` : ''}</Text>;
+                return <Text key={tr.id} variant="secondary">{new Date(tr.created_at).toLocaleDateString(i18n.language)} · {from ? `v${from.version} → ` : ''}v{to?.version ?? '?'}{tr.reason ? ` · ${tr.reason}` : ''}</Text>;
               })}
             </View>
           )}

@@ -6,7 +6,7 @@ import { useInventory } from '../state/Inventory';
 import { useProjects } from '../state/Projects';
 import { canWrite } from '../lib/inventory';
 import { STAGES, type ProjectStage } from '../lib/projects';
-import { Button, Card, Chip, Header, Page, Text } from '../components/ui';
+import { Button, Card, Chip, ChipRow, Header, Page, Text, ViewOnly } from '../components/ui';
 import { StageTrack } from '../components/StageTrack';
 import { space } from '../theme/tokens';
 
@@ -35,12 +35,12 @@ export function ProjectsScreen({ onOpen, onNew }: { onOpen: (id: string) => void
     <Page>
       <Header title={t('projects.title')} hint={t('projects.hint')} />
 
-      {canCreate && <Button label={t('projects.new')} onPress={onNew} style={{ alignSelf: 'flex-start' }} />}
+      {canCreate ? <Button label={t('projects.new')} onPress={onNew} style={{ alignSelf: 'flex-start' }} /> : <ViewOnly />}
 
-      <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[3] }}>
-        <Chip label={`${t('ideas.all')} · ${counts.all}`} selected={filter === 'all'} onPress={() => setFilter('all')} />
+      <ChipRow kind="radio">
+        <Chip label={`${t('common.all')} · ${counts.all}`} selected={filter === 'all'} onPress={() => setFilter('all')} />
         {STAGES.map((s) => <Chip key={s} label={`${t(`stage.${s}`)} · ${counts[s] ?? 0}`} selected={filter === s} onPress={() => setFilter(s)} />)}
-      </View>
+      </ChipRow>
 
       {loading ? <Text variant="secondary">{t('common.loading')}</Text> : rows.length === 0 ? (
         <Card>
@@ -60,7 +60,7 @@ export function ProjectsScreen({ onOpen, onNew }: { onOpen: (id: string) => void
                 </View>
                 <StageTrack stage={p.stage} muted={p.status !== 'active'} />
                 <Text variant="overline">
-                  {p.stage === 'shipped' ? t('projects.shipped') : t('projects.criteriaMet', { met, total: need.length })}
+                  {p.stage === 'shipped' ? t('projects.shipped') : t('projects.criteriaMet', { met, total: need.length, count: need.length })}
                   {p.source_idea_id ? ` · ${t('projects.fromIdea')}` : ''}
                 </Text>
               </Card>

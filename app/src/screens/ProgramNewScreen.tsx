@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { usePrograms } from '../state/Programs';
-import { TEMPLATES } from '../lib/templates';
-import { Button, Card, Field, Header, Page, Text } from '../components/ui';
+import { MATURITIES, NEEDS, SIZES, TEMPLATES, recommend, type Answers } from '../lib/templates';
+import { BackButton, Button, Card, Chip, ChipRow, Field, Header, Page, Text } from '../components/ui';
 import { space } from '../theme/tokens';
 
 export function ProgramNewScreen({ onDone, onCancel }: { onDone: (id: string) => void; onCancel: () => void }) {
@@ -12,6 +12,10 @@ export function ProgramNewScreen({ onDone, onCancel }: { onDone: (id: string) =>
   const [choice, setChoice] = useState<string | null | undefined>(undefined); // undefined = nothing picked, null = scratch
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
+  const [guide, setGuide] = useState(false);
+  const [ans, setAns] = useState<Partial<Answers>>({});
+  const recs = ans.size && ans.need && ans.maturity ? recommend(ans as Answers) : [];
+  const ordered = [...TEMPLATES].sort((x, y) => Number(recs.includes(y.key)) - Number(recs.includes(x.key)));
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -33,17 +37,34 @@ export function ProgramNewScreen({ onDone, onCancel }: { onDone: (id: string) =>
 
   return (
     <Page>
+      <BackButton onBack={onCancel} />
       <Header title={t('programs.newTitle')} hint={t('programs.newHint')} size="h2" />
 
-      <View style={{ gap: space[4] }}>
-        {TEMPLATES.map((tpl) => (
-          <Card key={tpl.key} selected={choice === tpl.key} onPress={() => pick(tpl.key)}>
+      {!guide && <Button variant="secondary" label={t('programs.help')} onPress={() => setGuide(true)} style={{ alignSelf: 'flex-start' }} />}
+      {guide && (
+        <Card style={{ gap: space[5] }}>
+          <Text variant="secondary">{t('programs.helpHint')}</Text>
+          {([['size', SIZES], ['need', NEEDS], ['maturity', MATURITIES]] as const).map(([q, options]) => (
+            <View key={q} style={{ gap: space[3] }}>
+              <Text variant="overline">{t(`programs.q.${q}`)}</Text>
+              <ChipRow kind="radio">
+                {options.map((o) => <Chip key={o} label={t(`programs.a.${q}.${o}`)} selected={ans[q] === o} onPress={() => setAns((x) => ({ ...x, [q]: o }))} />)}
+              </ChipRow>
+            </View>
+          ))}
+        </Card>
+      )}
+
+      <View accessibilityRole="radiogroup" style={{ gap: space[4] }}>
+        {ordered.map((tpl) => (
+          <Card key={tpl.key} accessibilityRole="radio" selected={choice === tpl.key} onPress={() => pick(tpl.key)}>
+            {recs.includes(tpl.key) && <Text variant="overline">{t('programs.recommended')}</Text>}
             <Text variant="h3">{t(`tpl.${tpl.key}.name`)}</Text>
             <Text variant="secondary">{t(`tpl.${tpl.key}.description`)}</Text>
             <Text variant="overline">{t('programs.activitiesCount', { count: tpl.activities.length })}</Text>
           </Card>
         ))}
-        <Card selected={choice === null} onPress={() => pick(null)}>
+        <Card accessibilityRole="radio" selected={choice === null} onPress={() => pick(null)}>
           <Text variant="h3">{t('programs.scratch')}</Text>
           <Text variant="secondary">{t('programs.scratchHint')}</Text>
         </Card>

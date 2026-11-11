@@ -1,6 +1,6 @@
 {
   "app": {
-    "name": "CHIMERA",
+    "name": "CHIMS",
     "tagline": "Innovation made simple"
   },
   "auth": {
@@ -12,7 +12,12 @@
     "noAccount": "No account yet? Create one",
     "haveAccount": "Already have an account? Sign in",
     "checkEmail": "Check your email to confirm your account, then sign in.",
-    "signOut": "Sign out"
+    "signOut": "Sign out",
+    "badCredentials": "Wrong email or password.",
+    "weakPassword": "Choose a stronger password: at least 6 characters.",
+    "passwordHint": "At least 6 characters",
+    "showPassword": "Show password",
+    "hidePassword": "Hide password"
   },
   "business": {
     "createTitle": "Create your first business",
@@ -24,7 +29,7 @@
   },
   "expertise": {
     "title": "How would you describe yourself?",
-    "hint": "This sets how simple or detailed CHIMERA looks. You can change it any time in settings.",
+    "hint": "This sets how simple or detailed CHIMS looks. You can change it any time in Settings.",
     "business_owner": "Business owner",
     "business_owner_desc": "I run a business. Keep it simple and guide me.",
     "technician": "Innovation technician",
@@ -37,7 +42,6 @@
   },
   "home": {
     "welcome": "Welcome, {{name}}",
-    "soon": "Your dashboard will appear here as we build the next sections.",
     "role": "Role",
     "level": "Experience level",
     "attention": "Needs your attention",
@@ -54,14 +58,22 @@
     "language": "Language",
     "english": "English",
     "italian": "Italiano",
-    "level": "Experience level"
+    "level": "Experience level",
+    "title": "Settings"
   },
   "common": {
     "loading": "Loading…",
     "error": "Something went wrong. Please try again.",
     "cancel": "Cancel",
     "back": "Back",
-    "retry": "Retry"
+    "retry": "Retry",
+    "add": "Add",
+    "all": "All",
+    "saved": "Saved",
+    "delete": "Delete",
+    "unknown": "Unknown",
+    "viewOnly": "You can view this but not change it",
+    "chartSummary": "Chart, latest value {{last}}, highest {{max}}"
   },
   "nav": {
     "home": "Home",
@@ -72,7 +84,11 @@
     "programs": "Programs",
     "goals": "Goals",
     "notifications": "Notifications",
-    "strategy": "Strategy"
+    "strategy": "Strategy",
+    "settings": "Settings",
+    "closeMenu": "Close menu",
+    "new_one": "{{count}} new",
+    "new_other": "{{count}} new"
   },
   "type": {
     "person": "Person",
@@ -119,8 +135,14 @@
     "searchPlaceholder": "Type to filter…",
     "add": "Add {{type}}",
     "noResults": "Nothing matches your search.",
-    "empty": "No {{type}} yet",
-    "links": "{{count}} links",
+    "empty": {
+      "person": "No people yet",
+      "resource": "No resources yet",
+      "concept": "No concepts yet",
+      "activity": "No activities yet"
+    },
+    "links_one": "{{count}} link",
+    "links_other": "{{count}} links",
     "emptyHint": {
       "person": "Add the people who take part in innovation: your team, customers, partners, experts.",
       "resource": "Add what you use: budgets, tools, spaces, data, incentives.",
@@ -141,7 +163,6 @@
     "notFound": "This item no longer exists.",
     "edit": "Edit",
     "delete": "Delete",
-    "confirmDelete": "Tap again to delete",
     "relationships": "Relationships",
     "addRelationship": "Add relationship",
     "noRelationships": "No relationships yet.",
@@ -151,7 +172,8 @@
     "reverse": "Reverse direction",
     "strength": "Strength",
     "removeRelationship": "Remove",
-    "linkedTo": "Linked to"
+    "linkedTo": "Linked to",
+    "deleteConfirm": "Delete this item and its relationships? This cannot be undone."
   },
   "strength": {
     "none": "None",
@@ -195,7 +217,6 @@
     "title": "Ideas",
     "hint": "Propose ideas, evaluate them with clear criteria, and decide which ones to build.",
     "propose": "Propose an idea",
-    "all": "All",
     "empty": "No ideas yet",
     "emptyHint": "Be the first: describe a problem or an opportunity in a few lines.",
     "anonymous": "Anonymous",
@@ -208,26 +229,21 @@
     "fieldDescription": "What problem does it solve?",
     "fieldDescriptionPlaceholder": "A few lines are enough",
     "anonymousTitle": "Send anonymously",
-    "yes": "Yes",
-    "no": "No",
-    "anonymousOn": "Nobody will know who sent this idea, not even the administrators. You also will not be able to edit it later.",
-    "anonymousOff": "Your name will be shown with the idea.",
     "send": "Send idea",
     "criteriaTitle": "Evaluation criteria",
     "criteriaHint": "Choose the criteria for this idea and how much each one counts (1 to 5).",
     "criteriaHintSimple": "We suggest the standard criteria. Tap one to turn it on or off.",
     "weight": "Weight",
     "newCriterion": "New criterion",
-    "addCriterion": "Add",
     "startEvaluation": "Start evaluation",
     "updateCriteria": "Update criteria",
     "yourEvaluation": "Your evaluation",
     "scoreHint": "Score each criterion from 1 (low) to 5 (high).",
     "saveEvaluation": "Save evaluation",
-    "saved": "Saved",
     "results": "Results",
     "noScores": "No scores yet.",
-    "evaluators": "{{count}} evaluators",
+    "evaluators_one": "{{count}} evaluator",
+    "evaluators_other": "{{count}} evaluators",
     "decisionTitle": "Decision",
     "decisionNote": "Note (optional)",
     "decide": {
@@ -239,7 +255,13 @@
     "buildHint": "This idea is approved. Turn it into a project to start working on it.",
     "turnIntoProject": "Turn into project",
     "hasProject": "This idea became a project",
-    "openProject": "Open project"
+    "openProject": "Open project",
+    "anonymousHint": "If you turn this on, nobody will know who sent the idea, not even the administrators, and you will not be able to edit it later. Otherwise your name is shown with the idea.",
+    "scoreOf": "{{n}} of 5",
+    "confirm": {
+      "approved": "Approve this idea? It can then be turned into a project.",
+      "rejected": "Reject this idea? It will be marked as rejected."
+    }
   },
   "stage": {
     "define": "Define",
@@ -272,7 +294,8 @@
     "new": "New project",
     "empty": "No projects yet",
     "emptyHint": "Approve an idea and turn it into a project, or start a project from scratch.",
-    "criteriaMet": "{{met}} of {{total}} criteria met",
+    "criteriaMet_one": "{{met}} of {{total}} criterion met",
+    "criteriaMet_other": "{{met}} of {{total}} criteria met",
     "shipped": "Shipped",
     "fromIdea": "from an idea",
     "formTitle": "New project",
@@ -287,12 +310,11 @@
     "shippedHint": "This project is complete. The result now lives in your Inventory.",
     "gateTitle": "Gate: {{stage}} → {{next}}",
     "gateHint": "All criteria must be met before the project can move on.",
-    "met": "Met",
-    "notMet": "Not yet",
     "newCriterion": "Add a criterion for this gate",
     "reviewTitle": "Gate review",
     "reviewNote": "Note (optional)",
-    "unmet": "{{count}} criteria still to meet before you can move on.",
+    "unmet_one": "{{count}} criterion still to meet before you can move on.",
+    "unmet_other": "{{count}} criteria still to meet before you can move on.",
     "go": "Pass the gate",
     "ship": "Ship it",
     "hold": "Put on hold",
@@ -301,7 +323,12 @@
     "shipAs": "Ship as",
     "is_on_hold": "This project is on hold.",
     "is_stopped": "This project was stopped. You can resume it.",
-    "history": "Gate history"
+    "history": "Gate history",
+    "confirm": {
+      "ship": "Ship this project? It is marked as complete and its result is added to your Inventory.",
+      "hold": "Put this project on hold? It stays paused until someone resumes it.",
+      "stop": "Stop this project? It stays stopped until someone resumes it."
+    }
   },
   "tplItem": {
     "top_management": "Top management",
@@ -348,7 +375,24 @@
     "assumptions_list": "List of assumptions",
     "mvp": "Minimum viable product",
     "metrics": "Metrics",
-    "pivot_decision": "Pivot or persevere decision"
+    "pivot_decision": "Pivot or persevere decision",
+    "partnership_agreements": "Partnership agreements",
+    "strategy_canvas": "Strategy canvas",
+    "value_proposition": "New value proposition",
+    "jobs_map": "Customer jobs map",
+    "core_improvements": "Core improvements",
+    "emerging_bets": "Emerging bets",
+    "future_options": "Future options",
+    "innovation_portfolio": "Innovation portfolio",
+    "business_model": "Business model",
+    "value_map": "Value map",
+    "contradictions": "Contradictions to solve",
+    "scenarios": "Future scenarios",
+    "function_analysis": "Function analysis",
+    "process_design": "Process design",
+    "challenge_brief": "Challenge brief",
+    "crowd_contributions": "Crowd contributions",
+    "crowd": "Crowd or community"
   },
   "tpl": {
     "iso56002": {
@@ -470,6 +514,396 @@
           "description": "Decide whether to pivot, persevere or stop."
         }
       }
+    },
+    "double_diamond": {
+      "name": "Double Diamond",
+      "description": "A design process in two diamonds: first understand the right problem, then build the right solution. Each diamond opens up to many options and then narrows down.",
+      "activities": {
+        "discover": {
+          "title": "Discover",
+          "description": "Explore the problem widely: talk to people and look at the market."
+        },
+        "define": {
+          "title": "Define",
+          "description": "Narrow down to a clear problem worth solving."
+        },
+        "develop": {
+          "title": "Develop",
+          "description": "Generate many possible solutions and try them out."
+        },
+        "deliver": {
+          "title": "Deliver",
+          "description": "Choose the best solution, finalize it and release it."
+        }
+      }
+    },
+    "design_sprint": {
+      "name": "Design Sprint",
+      "description": "Answer a big question in five days: map the problem, sketch, decide, build a prototype and test it with real customers.",
+      "activities": {
+        "understand": {
+          "title": "Understand",
+          "description": "Map the challenge and pick a target to focus on."
+        },
+        "sketch": {
+          "title": "Sketch",
+          "description": "Each person sketches solutions on their own."
+        },
+        "decide": {
+          "title": "Decide",
+          "description": "Choose the best sketches and turn them into a plan."
+        },
+        "prototype": {
+          "title": "Prototype",
+          "description": "Build a realistic prototype in one day."
+        },
+        "test": {
+          "title": "Test",
+          "description": "Watch five customers use the prototype and learn from them."
+        }
+      }
+    },
+    "open_innovation": {
+      "name": "Open innovation",
+      "description": "Innovate with partners outside your company: universities, startups, suppliers and customers bring in ideas and technology.",
+      "activities": {
+        "scouting": {
+          "title": "Scout for partners",
+          "description": "Look for outside ideas, technologies and partners that fit your needs."
+        },
+        "partnering": {
+          "title": "Agree on partnerships",
+          "description": "Define what each side brings and how results are shared."
+        },
+        "cocreate": {
+          "title": "Co-create",
+          "description": "Develop solutions together with your partners."
+        },
+        "integrate": {
+          "title": "Bring it in-house",
+          "description": "Integrate the results into your products and operations."
+        }
+      }
+    },
+    "blue_ocean": {
+      "name": "Blue Ocean strategy",
+      "description": "Stop competing in crowded markets. Create new demand by changing what you offer and what you leave out.",
+      "activities": {
+        "canvas": {
+          "title": "Draw the strategy canvas",
+          "description": "Show how you and your competitors compete today."
+        },
+        "four_actions": {
+          "title": "Eliminate, reduce, raise, create",
+          "description": "Decide what to remove, lower, raise or invent to offer new value."
+        },
+        "validate": {
+          "title": "Test with customers",
+          "description": "Check that the new offer is attractive and sustainable."
+        },
+        "rollout": {
+          "title": "Roll out",
+          "description": "Launch the new offer to the market."
+        }
+      }
+    },
+    "jobs_to_be_done": {
+      "name": "Jobs to be done",
+      "description": "Understand the job customers hire a product for, then design offers that do that job better.",
+      "activities": {
+        "interview": {
+          "title": "Interview customers",
+          "description": "Ask about recent purchases and what they were trying to get done."
+        },
+        "map_jobs": {
+          "title": "Map the jobs",
+          "description": "List the jobs, the steps and what makes each one hard."
+        },
+        "find_gaps": {
+          "title": "Find the gaps",
+          "description": "Spot the important jobs that are poorly served today."
+        },
+        "design_offer": {
+          "title": "Design the offer",
+          "description": "Shape a product or service around the job."
+        },
+        "check": {
+          "title": "Check with customers",
+          "description": "See whether customers would hire the new offer."
+        }
+      }
+    },
+    "three_horizons": {
+      "name": "Three horizons",
+      "description": "Balance your innovation across three time frames: improve the core now, grow emerging bets, and explore future options.",
+      "activities": {
+        "horizon1": {
+          "title": "Horizon 1: improve the core",
+          "description": "Make today’s business more efficient and profitable."
+        },
+        "horizon2": {
+          "title": "Horizon 2: grow emerging bets",
+          "description": "Back the new offers that are starting to work."
+        },
+        "horizon3": {
+          "title": "Horizon 3: explore the future",
+          "description": "Run small experiments on possible futures."
+        },
+        "balance": {
+          "title": "Balance the portfolio",
+          "description": "Decide how to split time and money across the three horizons."
+        }
+      }
+    },
+    "business_model_generation": {
+      "name": "Business Model Generation",
+      "description": "Design, test and refine a business model on a single page, following the Business Model Canvas approach.",
+      "activities": {
+        "mobilize": {
+          "title": "Mobilize",
+          "description": "Set the goal, form the team and plan the work."
+        },
+        "understand": {
+          "title": "Understand",
+          "description": "Gather what you need to know about customers, market and competitors."
+        },
+        "design": {
+          "title": "Design",
+          "description": "Sketch several business models on the canvas and choose the best."
+        },
+        "implement": {
+          "title": "Implement",
+          "description": "Put the chosen model into practice."
+        },
+        "manage": {
+          "title": "Manage",
+          "description": "Watch results and adapt the model over time."
+        }
+      }
+    },
+    "value_proposition_design": {
+      "name": "Value Proposition Design",
+      "description": "Make sure what you offer matches what customers really need: describe the customer, describe your offer, then check the fit.",
+      "activities": {
+        "customer_profile": {
+          "title": "Describe the customer",
+          "description": "List the jobs, pains and gains of your customer."
+        },
+        "value_map": {
+          "title": "Describe your offer",
+          "description": "List the products and how they relieve pains and create gains."
+        },
+        "fit": {
+          "title": "Check the fit",
+          "description": "Compare the two and mark what is still an assumption."
+        },
+        "test": {
+          "title": "Test with customers",
+          "description": "Run small experiments to prove or disprove the assumptions."
+        }
+      }
+    },
+    "customer_development": {
+      "name": "Customer Development",
+      "description": "Find customers before you scale: discover their needs, validate your offer, create demand, then build the company.",
+      "activities": {
+        "discovery": {
+          "title": "Customer discovery",
+          "description": "Talk to customers to test your guesses about the problem."
+        },
+        "validation": {
+          "title": "Customer validation",
+          "description": "Show that customers will really buy, with a repeatable way to sell."
+        },
+        "creation": {
+          "title": "Customer creation",
+          "description": "Build demand and grow the customer base."
+        },
+        "company_building": {
+          "title": "Company building",
+          "description": "Turn the learning into a company that can scale."
+        }
+      }
+    },
+    "triz": {
+      "name": "TRIZ",
+      "description": "A method for solving technical problems by finding the contradiction behind them and applying proven inventive principles.",
+      "activities": {
+        "define": {
+          "title": "Define the problem",
+          "description": "Describe the problem and what the ideal result would be."
+        },
+        "contradiction": {
+          "title": "Find the contradiction",
+          "description": "State what improves and what gets worse when you try to fix it."
+        },
+        "principles": {
+          "title": "Apply inventive principles",
+          "description": "Use the standard TRIZ principles to generate solutions."
+        },
+        "evaluate": {
+          "title": "Evaluate the solutions",
+          "description": "Compare solutions with the ideal result and keep the best."
+        }
+      }
+    },
+    "systematic_inventive_thinking": {
+      "name": "Systematic Inventive Thinking",
+      "description": "Create new ideas without leaving your existing product: change it with five simple thinking tools.",
+      "activities": {
+        "closed_world": {
+          "title": "Define the closed world",
+          "description": "List the parts and features of your product or service."
+        },
+        "tools": {
+          "title": "Apply the five tools",
+          "description": "Subtract, multiply, divide, unify tasks and make attributes depend on each other."
+        },
+        "evaluate": {
+          "title": "Evaluate the ideas",
+          "description": "Keep the ideas that have real value for customers."
+        }
+      }
+    },
+    "creative_problem_solving": {
+      "name": "Creative Problem Solving",
+      "description": "A step-by-step way to tackle open problems: understand them, generate many ideas, shape the best ones, and plan the action.",
+      "activities": {
+        "clarify": {
+          "title": "Clarify",
+          "description": "Explore the situation and define the real challenge."
+        },
+        "ideate": {
+          "title": "Generate ideas",
+          "description": "Produce many ideas without judging them."
+        },
+        "develop": {
+          "title": "Develop solutions",
+          "description": "Pick promising ideas and improve them."
+        },
+        "implement": {
+          "title": "Plan the action",
+          "description": "Decide who does what, and by when."
+        }
+      }
+    },
+    "scenario_planning": {
+      "name": "Scenario planning",
+      "description": "Prepare for an uncertain future by imagining several plausible scenarios and testing your strategy against each.",
+      "activities": {
+        "scope": {
+          "title": "Define the scope",
+          "description": "Choose the question and time horizon."
+        },
+        "drivers": {
+          "title": "Identify the key drivers",
+          "description": "List the forces and uncertainties that shape the future."
+        },
+        "build": {
+          "title": "Build scenarios",
+          "description": "Write a small set of different, plausible futures."
+        },
+        "implications": {
+          "title": "Draw implications",
+          "description": "Decide what you would do in each scenario."
+        },
+        "monitor": {
+          "title": "Monitor signals",
+          "description": "Watch for early signs of which scenario is unfolding."
+        }
+      }
+    },
+    "value_engineering": {
+      "name": "Value Engineering",
+      "description": "Improve value by looking at what a product or process must do, then finding better or cheaper ways to do it.",
+      "activities": {
+        "information": {
+          "title": "Gather information",
+          "description": "Collect facts on costs, requirements and use."
+        },
+        "function": {
+          "title": "Analyse the functions",
+          "description": "List what each part must do and what it costs."
+        },
+        "creativity": {
+          "title": "Find alternatives",
+          "description": "Generate other ways to deliver each function."
+        },
+        "evaluation": {
+          "title": "Evaluate the alternatives",
+          "description": "Choose the options with the best value."
+        },
+        "proposal": {
+          "title": "Propose and follow up",
+          "description": "Present the change and track its results."
+        }
+      }
+    },
+    "design_for_six_sigma": {
+      "name": "Design for Six Sigma",
+      "description": "Design a new product or process right the first time, using data to meet customer needs with very few defects.",
+      "activities": {
+        "define": {
+          "title": "Define",
+          "description": "Set the goals and the customer needs."
+        },
+        "measure": {
+          "title": "Measure",
+          "description": "Turn customer needs into measurable requirements."
+        },
+        "analyze": {
+          "title": "Analyse",
+          "description": "Explore design options and choose the best."
+        },
+        "design": {
+          "title": "Design",
+          "description": "Detail the design and plan how to check it."
+        },
+        "verify": {
+          "title": "Verify",
+          "description": "Test the design and hand it over to operations."
+        }
+      }
+    },
+    "crowdsourcing": {
+      "name": "Crowdsourcing",
+      "description": "Ask a large community, inside or outside your company, to contribute ideas or solutions to a clear challenge.",
+      "activities": {
+        "challenge": {
+          "title": "Define the challenge",
+          "description": "Write a clear question, rules and reward."
+        },
+        "launch": {
+          "title": "Launch to the crowd",
+          "description": "Open the challenge and invite people to take part."
+        },
+        "select": {
+          "title": "Evaluate contributions",
+          "description": "Review what came in and pick the best."
+        },
+        "reward": {
+          "title": "Reward and implement",
+          "description": "Thank contributors and put winning ideas to work."
+        }
+      }
+    },
+    "human_centered_design": {
+      "name": "Human-centered design",
+      "description": "Design with the people you serve: listen to them, build solutions together, and bring them to life.",
+      "activities": {
+        "hear": {
+          "title": "Hear",
+          "description": "Listen to people and learn about their lives and needs."
+        },
+        "create": {
+          "title": "Create",
+          "description": "Turn what you heard into ideas and quick prototypes."
+        },
+        "deliver": {
+          "title": "Deliver",
+          "description": "Plan how to launch and sustain the solution."
+        }
+      }
     }
   },
   "programs": {
@@ -478,13 +912,39 @@
     "new": "New program",
     "empty": "No programs yet",
     "emptyHint": "Start from a proven methodology or build your own from scratch.",
-    "activitiesCount": "{{count}} activities",
+    "activitiesCount_one": "{{count}} activity",
+    "activitiesCount_other": "{{count}} activities",
     "custom": "Custom program",
     "fromTemplate": "Based on",
     "newTitle": "New program",
     "newHint": "Pick a methodology to start from. Everything can be changed afterwards.",
     "scratch": "Start from scratch",
     "scratchHint": "An empty program: you add the activities, people and resources yourself.",
+    "help": "Help me choose",
+    "helpHint": "Answer three quick questions and we will suggest where to start. You can still pick any methodology.",
+    "recommended": "Recommended for you",
+    "q": {
+      "size": "How big is your business?",
+      "need": "What do you need most?",
+      "maturity": "How much innovation work have you done so far?"
+    },
+    "a": {
+      "size": {
+        "micro": "1 to 9 people",
+        "small": "10 to 49 people",
+        "large": "50 people or more"
+      },
+      "need": {
+        "structure": "A full innovation system",
+        "ideas": "Collect and select ideas",
+        "customer": "Understand customers and design new offers",
+        "validate": "Test a new business idea quickly"
+      },
+      "maturity": {
+        "new": "Just starting",
+        "some": "We already have some practice"
+      }
+    },
     "name": "Program name",
     "description": "Description (optional)",
     "create": "Create program",
@@ -505,7 +965,6 @@
     "newActivity": "New activity",
     "addActivity": "Add activity",
     "delete": "Delete program",
-    "confirmDelete": "Tap again to delete",
     "deleteHint": "The program is removed. Its activities and people stay in your Inventory."
   },
   "unit": {
@@ -565,7 +1024,7 @@
   },
   "goals": {
     "title": "Goals and KPIs",
-    "hint": "Set what you want to achieve and watch it move. Each goal is measured by a KPI that CHIMERA calculates from your data.",
+    "hint": "Set what you want to achieve and watch it move. Each goal is measured by a KPI that CHIMS calculates from your data.",
     "goalsTab": "Goals",
     "kpisTab": "KPIs",
     "newGoal": "New goal",
@@ -576,6 +1035,25 @@
     "emptyKpisHint": "KPIs are created with your goals, or on their own here.",
     "formTitle": "New goal",
     "formHint": "A goal is a target on something you can measure.",
+    "step1": {
+      "title": "What do you want to achieve?",
+      "hint": "Describe the result in one sentence, then say what it is about."
+    },
+    "step2": {
+      "title": "How will you measure it?",
+      "hint": "Pick something that CHIMS can count for you, or enter the number yourself."
+    },
+    "step3": {
+      "title": "What number are you aiming for?",
+      "hint": "A goal needs a number and a unit, so you know when you have reached it."
+    },
+    "step4": {
+      "title": "By when?",
+      "hint": "A goal without a deadline is only a wish. Pick a date."
+    },
+    "stepOf": "Step {{n}} of {{total}}",
+    "next": "Next",
+    "summary": "{{title}}: reach {{target}} {{unit}} by {{due}}.",
     "fieldTitle": "Goal",
     "fieldTitlePlaceholder": "e.g. Collect 20 ideas this quarter",
     "basedOn": "What is it about?",
@@ -597,7 +1075,7 @@
     "atLeast": "Reach at least",
     "atMost": "Stay at most",
     "target": "Target value",
-    "due": "Deadline (optional)",
+    "due": "Deadline",
     "linkedItems": "Linked items",
     "create": "Create goal",
     "notFound": "This goal no longer exists.",
@@ -610,14 +1088,22 @@
     "markAchieved": "Mark as achieved",
     "archive": "Archive",
     "reopen": "Reopen",
-    "confirmDelete": "Tap again to delete",
     "delete": "Delete goal",
     "kpiFormTitle": "New KPI",
     "kpiFormHint": "A KPI is a measure you want to keep an eye on.",
     "kpiName": "KPI name",
     "createKpi": "Create KPI",
     "usedByGoals": "Used by goals",
-    "deleteKpi": "Delete KPI"
+    "deleteKpi": "Delete KPI",
+    "deleteConfirm": "Delete this goal? This cannot be undone.",
+    "deleteKpiConfirm": "Delete this KPI and its history? Goals that use it lose their measure.",
+    "duePlaceholder": "YYYY-MM-DD",
+    "dueInvalid": "Use the format YYYY-MM-DD, for example 2026-12-31.",
+    "endOf": {
+      "month": "End of this month",
+      "quarter": "End of this quarter",
+      "year": "End of this year"
+    }
   },
   "strategyStatus": {
     "draft": "Draft",
@@ -640,7 +1126,8 @@
     "driftTitle": "Time to review the strategy?",
     "driftBody": "{{changed}} of the {{total}} assumptions behind this strategy have changed since it was written.",
     "driftOk": "Assumptions are holding",
-    "dueTitle": "{{count}} assumptions are due for review",
+    "dueTitle_one": "{{count}} assumption is due for review",
+    "dueTitle_other": "{{count}} assumptions are due for review",
     "dueBody": "Check them to see if they still hold.",
     "tabField": "Field",
     "tabAssumptions": "Assumptions",
@@ -666,10 +1153,10 @@
     "versionTitle": "Strategy v{{n}}",
     "firstTitle": "Current innovation strategy",
     "noStrategies": "No strategy yet",
-    "noStrategiesHint": "Create the first one to describe how things are today (AS IS).",
-    "asIs": "AS IS",
-    "toBe": "TO BE",
-    "transitions": "Transitions",
+    "noStrategiesHint": "Create the first one to describe how things are today.",
+    "asIs": "Current",
+    "toBe": "Planned",
+    "transitions": "Changes",
     "notFound": "This strategy no longer exists.",
     "fieldName": "Name",
     "summaryTitle": "Summary",
@@ -693,7 +1180,8 @@
     "activateHint": "The current strategy is archived and a transition is recorded.",
     "reason": "Why this change? (optional)",
     "activate": "Activate",
-    "deleteDraft": "Delete draft"
+    "deleteDraft": "Delete draft",
+    "deleteDraftConfirm": "Delete this draft? This cannot be undone."
   },
   "assumption": {
     "formTitle": "New assumption",
@@ -717,7 +1205,8 @@
     "triggerHint": "A good assumption says what would invalidate it. This is what tells you when to review the strategy.",
     "evidence": "Evidence so far",
     "reviewEvery": "Review every",
-    "days": "{{count}} days",
+    "days_one": "{{count}} day",
+    "days_other": "{{count}} days",
     "create": "Save assumption",
     "notFound": "This assumption no longer exists.",
     "concerns": "Concerns",
@@ -731,7 +1220,8 @@
       "invalid": "No longer valid"
     },
     "history": "Review history",
-    "delete": "Delete assumption"
+    "delete": "Delete assumption",
+    "deleteConfirm": "Delete this assumption? Strategies that rest on it lose that link."
   },
   "notif": {
     "title": "Notifications",

@@ -3,8 +3,9 @@ import { View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useApp } from '../state/AppState';
 import { useInventory } from '../state/Inventory';
+import { isSimple } from '../lib/levels';
 import { REL_TYPES, STRENGTHS, canEdit, canWrite, type InvRel, type RelType, type Strength } from '../lib/inventory';
-import { BackButton, Button, Card, Chip, Field, NotFound, Page, Text } from '../components/ui';
+import { BackButton, Button, Card, Chip, ChipRow, ConfirmButton, Field, NotFound, Page, Text, ViewOnly } from '../components/ui';
 import { space } from '../theme/tokens';
 
 export function NodeDetailScreen({ id, onOpen, onEdit, onBack }: { id: string; onOpen: (id: string) => void; onEdit: () => void; onBack: () => void }) {
@@ -12,12 +13,11 @@ export function NodeDetailScreen({ id, onOpen, onEdit, onBack }: { id: string; o
   const { current, session } = useApp();
   const { nodes, relationships, byId, deleteNode, saveRelationship, deleteRelationship } = useInventory();
   const node = byId[id];
-  const [confirming, setConfirming] = useState(false);
   const [adding, setAdding] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const role = current?.role;
-  const simple = current?.expertise_level === 'business_owner';
+  const simple = isSimple(current?.expertise_level);
   const userId = session?.user.id;
   const mine = useMemo(() => relationships.filter((r) => r.from_node === id || r.to_node === id), [relationships, id]);
 
@@ -25,7 +25,6 @@ export function NodeDetailScreen({ id, onOpen, onEdit, onBack }: { id: string; o
 
   const editable = canEdit(role, userId, node.created_by);
   const remove = async () => {
-    if (!confirming) { setConfirming(true); return; }
     try { await deleteNode(id); onBack(); } catch (e: any) { setError(e?.message ?? t('common.error')); }
   };
 
@@ -40,12 +39,12 @@ export function NodeDetailScreen({ id, onOpen, onEdit, onBack }: { id: string; o
         {node.description && <Text variant="secondary">{node.description}</Text>}
       </View>
 
-      {editable && (
-        <View style={{ flexDirection: 'row', gap: space[4] }}>
+      {editable ? (
+        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[4] }}>
           <Button variant="secondary" label={t('detail.edit')} onPress={onEdit} />
-          <Button variant="ghost" label={confirming ? t('detail.confirmDelete') : t('detail.delete')} onPress={remove} />
+          <ConfirmButton label={t('detail.delete')} message={t('detail.deleteConfirm')} onConfirm={remove} />
         </View>
-      )}
+      ) : <ViewOnly />}
       {error && <Text variant="error">{error}</Text>}
 
       <View style={{ gap: space[4] }}>
@@ -112,25 +111,25 @@ function AddRelationship({ nodeId, simple, onSave, onCancel }: {
     <Card>
       <Field label={t('detail.chooseTarget')} value={query} onChangeText={setQuery} placeholder={t('inventory.searchPlaceholder')} />
       <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[3], marginVertical: space[3] }}>
-        {options.map((n) => <Chip key={n.id} label={n.title} selected={target === n.id} onPress={() => setTarget(n.id)} />)}
+        {options.map((n) => <Chip key={n.id} label={n.title} accessibilityRole="radio" selected={target === n.id} onPress={() => setTarget(n.id)} />)}
         {options.length === 0 && <Text variant="secondary">{t('inventory.noResults')}</Text>}
       </View>
 
       {!simple && (
         <View style={{ gap: space[3], marginBottom: space[3] }}>
           <Text variant="overline">{t('detail.relationType')}</Text>
-          <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[3] }}>
+          <ChipRow kind="radio">
             {REL_TYPES.map((rt) => <Chip key={rt} label={t(reverse ? `relInv.${rt}` : `rel.${rt}`)} selected={type === rt} onPress={() => setType(rt)} />)}
-          </View>
-          <Chip label={t('detail.reverse')} selected={reverse} onPress={() => setReverse(!reverse)} />
+          </ChipRow>
+          <Chip label={t('detail.reverse')} accessibilityRole="checkbox" selected={reverse} onPress={() => setReverse(!reverse)} />
         </View>
       )}
 
       <View style={{ gap: space[3], marginBottom: space[4] }}>
         <Text variant="overline">{t('detail.strength')}</Text>
-        <View style={{ flexDirection: 'row', gap: space[3] }}>
+        <ChipRow kind="radio">
           {STRENGTHS.map((s) => <Chip key={s} label={t(`strength.${s}`)} selected={strength === s} onPress={() => setStrength(s)} />)}
-        </View>
+        </ChipRow>
       </View>
 
       {error && <Text variant="error">{error}</Text>}

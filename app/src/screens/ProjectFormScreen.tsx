@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useProjects } from '../state/Projects';
-import { Button, Field, Header, Page, Text } from '../components/ui';
+import { BackButton, Button, Field, Header, Page, Text } from '../components/ui';
 import { space } from '../theme/tokens';
 
 export function ProjectFormScreen({ onDone, onCancel }: { onDone: (id: string) => void; onCancel: () => void }) {
@@ -21,6 +21,7 @@ export function ProjectFormScreen({ onDone, onCancel }: { onDone: (id: string) =
 
   return (
     <Page>
+      <BackButton onBack={onCancel} />
       <Header title={t('projects.formTitle')} hint={t('projects.formHint')} size="h2" />
       <Field label={t('projects.fieldName')} value={title} onChangeText={setTitle} maxLength={200} />
       <Field label={t('projects.fieldDescription')} value={description} onChangeText={setDescription} multiline maxLength={4000} />

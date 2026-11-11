@@ -4,7 +4,8 @@ import { useTranslation } from 'react-i18next';
 import { useApp } from '../state/AppState';
 import { useGoals } from '../state/Goals';
 import { canManageAll } from '../lib/inventory';
-import { Button, Card, Chip, Header, Page, Text } from '../components/ui';
+import { isSimple } from '../lib/levels';
+import { Button, Card, Chip, ChipRow, Header, Page, Text, ViewOnly } from '../components/ui';
 import { ProgressBar, fmt } from '../components/charts';
 import { space } from '../theme/tokens';
 
@@ -14,7 +15,7 @@ export function GoalsScreen({ onOpenGoal, onNewGoal, onOpenKpi, onNewKpi }: { on
   const { goals, kpis, valueOf, stateOf, progressOf, loading } = useGoals();
   const [tab, setTab] = useState<'goals' | 'kpis'>('goals');
   const manager = current ? canManageAll(current.role) : false;
-  const simple = current?.expertise_level === 'business_owner' || current?.expertise_level === 'technician';
+  const simple = isSimple(current?.expertise_level);
   const unitOf = (id: string | null) => { const k = kpis.find((x) => x.id === id); return k?.unit ?? (k ? t(`metric.${k.metric}.unit`) : ''); };
 
   return (
@@ -22,13 +23,13 @@ export function GoalsScreen({ onOpenGoal, onNewGoal, onOpenKpi, onNewKpi }: { on
       <Header title={t('goals.title')} hint={t('goals.hint')} />
 
       {!simple && (
-        <View style={{ flexDirection: 'row', gap: space[3] }}>
-          <Chip label={`${t('goals.goalsTab')} · ${goals.length}`} selected={tab === 'goals'} onPress={() => setTab('goals')} />
-          <Chip label={`${t('goals.kpisTab')} · ${kpis.length}`} selected={tab === 'kpis'} onPress={() => setTab('kpis')} />
-        </View>
+        <ChipRow kind="tab">
+          <Chip label={`${t('goals.goalsTab')} · ${goals.length}`} accessibilityLabel={`${t('goals.goalsTab')} (${goals.length})`} selected={tab === 'goals'} onPress={() => setTab('goals')} />
+          <Chip label={`${t('goals.kpisTab')} · ${kpis.length}`} accessibilityLabel={`${t('goals.kpisTab')} (${kpis.length})`} selected={tab === 'kpis'} onPress={() => setTab('kpis')} />
+        </ChipRow>
       )}
 
-      {manager && <Button label={tab === 'goals' ? t('goals.newGoal') : t('goals.newKpi')} onPress={tab === 'goals' ? onNewGoal : onNewKpi} style={{ alignSelf: 'flex-start' }} />}
+      {manager ? <Button label={tab === 'goals' ? t('goals.newGoal') : t('goals.newKpi')} onPress={tab === 'goals' ? onNewGoal : onNewKpi} style={{ alignSelf: 'flex-start' }} /> : <ViewOnly />}
 
       {loading ? <Text variant="secondary">{t('common.loading')}</Text> : tab === 'goals' ? (
         goals.length === 0 ? (

@@ -5,7 +5,7 @@ import { useApp } from '../state/AppState';
 import { useInventory } from '../state/Inventory';
 import { usePrograms } from '../state/Programs';
 import { canWrite } from '../lib/inventory';
-import { Button, Card, Header, Page, Text } from '../components/ui';
+import { Button, Card, Header, Page, Text, ViewOnly } from '../components/ui';
 import { space } from '../theme/tokens';
 
 export function ProgramsScreen({ onOpen, onNew }: { onOpen: (id: string) => void; onNew: () => void }) {
@@ -20,7 +20,7 @@ export function ProgramsScreen({ onOpen, onNew }: { onOpen: (id: string) => void
     <Page>
       <Header title={t('programs.title')} hint={t('programs.hint')} />
 
-      {current && canWrite(current.role) && <Button label={t('programs.new')} onPress={onNew} style={{ alignSelf: 'flex-start' }} />}
+      {current && canWrite(current.role) ? <Button label={t('programs.new')} onPress={onNew} style={{ alignSelf: 'flex-start' }} /> : <ViewOnly />}
 
       {loading ? <Text variant="secondary">{t('common.loading')}</Text> : rows.length === 0 ? (
         <Card>

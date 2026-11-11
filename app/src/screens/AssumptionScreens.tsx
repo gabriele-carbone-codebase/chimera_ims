@@ -6,7 +6,7 @@ import { useInventory } from '../state/Inventory';
 import { useStrategy } from '../state/Strategy';
 import { canManageAll } from '../lib/inventory';
 import { ASSUMPTION_STATUSES, isDue, isFieldArtifact, type AssumptionStatus } from '../lib/strategy';
-import { BackButton, Button, Card, Chip, Field, Header, NotFound, Page, Text, useAction } from '../components/ui';
+import { BackButton, Button, Card, CheckRow, Chip, ChipRow, ConfirmButton, Field, Header, NotFound, Page, Text, ViewOnly, useAction } from '../components/ui';
 import { space } from '../theme/tokens';
 
 const INTERVALS = [30, 90, 180, 365];
@@ -36,6 +36,7 @@ export function AssumptionFormScreen({ onDone, onCancel }: { onDone: (id: string
 
   return (
     <Page>
+      <BackButton onBack={onCancel} />
       <Header title={t('assumption.formTitle')} hint={t('assumption.formHint')} size="h2" />
 
       <View style={{ gap: space[3] }}>
@@ -49,9 +50,9 @@ export function AssumptionFormScreen({ onDone, onCancel }: { onDone: (id: string
       <View style={{ gap: space[3] }}>
         <Text variant="overline">{t('assumption.step2')}</Text>
         <Field label={t('inventory.search')} value={query} onChangeText={setQuery} placeholder={t('inventory.searchPlaceholder')} />
-        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[3] }}>
+        <ChipRow kind="checkbox">
           {options.map((n) => <Chip key={n.id} label={n.title} selected={picked.includes(n.id)} onPress={() => setPicked((p) => (p.includes(n.id) ? p.filter((x) => x !== n.id) : [...p, n.id]))} />)}
-        </View>
+        </ChipRow>
       </View>
 
       <View style={{ gap: space[3] }}>
@@ -64,9 +65,9 @@ export function AssumptionFormScreen({ onDone, onCancel }: { onDone: (id: string
         <Text variant="overline">{t('assumption.step4')}</Text>
         <Field label={t('assumption.evidence')} value={evidence} onChangeText={setEvidence} multiline maxLength={2000} />
         <Text variant="overline">{t('assumption.reviewEvery')}</Text>
-        <View style={{ flexDirection: 'row', gap: space[3] }}>
+        <ChipRow kind="radio">
           {INTERVALS.map((d) => <Chip key={d} label={t('assumption.days', { count: d })} selected={days === d} onPress={() => setDays(d)} />)}
-        </View>
+        </ChipRow>
       </View>
 
       {error && <Text variant="error">{error}</Text>}
@@ -79,7 +80,7 @@ export function AssumptionFormScreen({ onDone, onCancel }: { onDone: (id: string
 }
 
 export function AssumptionDetailScreen({ id, onBack, onOpenNode }: { id: string; onBack: () => void; onOpenNode: (id: string) => void }) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { current } = useApp();
   const { byId } = useInventory();
   const { assumptions, assumptionNodes, assumptionReviews, reviewAssumption, updateAssumption, deleteAssumption } = useStrategy();
@@ -87,7 +88,6 @@ export function AssumptionDetailScreen({ id, onBack, onOpenNode }: { id: string;
   const [note, setNote] = useState('');
   const [risk, setRisk] = useState(false);
   const [evidence, setEvidence] = useState<string | null>(null);
-  const [confirming, setConfirming] = useState(false);
   const { busy, error, run } = useAction();
 
   if (!a || !current) return <NotFound message={t('assumption.notFound')} onBack={onBack} />;
@@ -124,12 +124,13 @@ export function AssumptionDetailScreen({ id, onBack, onOpenNode }: { id: string;
         ) : <Text>{a.evidence ?? '—'}</Text>}
       </Card>
 
+      {!manager && <ViewOnly />}
       {manager && (
         <Card>
           <Text variant="h3">{t('assumption.reviewTitle')}</Text>
           <Text variant="secondary">{t('assumption.reviewHint')}</Text>
           <Field label={t('assumption.reviewNote')} value={note} onChangeText={setNote} multiline maxLength={2000} />
-          <Chip label={t('assumption.acceptRisk')} selected={risk} onPress={() => setRisk(!risk)} />
+          <CheckRow label={t('assumption.acceptRisk')} checked={risk} onPress={() => setRisk(!risk)} />
           <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[3], marginTop: space[3] }}>
             {ASSUMPTION_STATUSES.map((s) => <Button key={s} variant={s === 'valid' ? 'primary' : 'secondary'} label={t(`assumption.mark.${s}`)} loading={busy === s} onPress={() => review(s)} />)}
           </View>
@@ -139,11 +140,11 @@ export function AssumptionDetailScreen({ id, onBack, onOpenNode }: { id: string;
       {history.length > 0 && (
         <View style={{ gap: space[3] }}>
           <Text variant="overline">{t('assumption.history')}</Text>
-          {history.map((r) => <Text key={r.id} variant="secondary">{new Date(r.reviewed_at).toLocaleDateString()} · {t(`assumptionStatus.${r.status}`)}{r.note ? ` · ${r.note}` : ''}</Text>)}
+          {history.map((r) => <Text key={r.id} variant="secondary">{new Date(r.reviewed_at).toLocaleDateString(i18n.language)} · {t(`assumptionStatus.${r.status}`)}{r.note ? ` · ${r.note}` : ''}</Text>)}
         </View>
       )}
 
-      {manager && <Button variant="ghost" label={confirming ? t('goals.confirmDelete') : t('assumption.delete')} onPress={() => (confirming ? run('del', async () => { await deleteAssumption(id); onBack(); }) : setConfirming(true))} style={{ alignSelf: 'flex-start', paddingHorizontal: 0 }} />}
+      {manager && <ConfirmButton label={t('assumption.delete')} message={t('assumption.deleteConfirm')} onConfirm={() => run('del', async () => { await deleteAssumption(id); onBack(); })} style={{ alignSelf: 'flex-start' }} />}
     </Page>
   );
 }

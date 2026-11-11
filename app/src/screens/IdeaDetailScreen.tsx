@@ -6,8 +6,9 @@ import { useInventory } from '../state/Inventory';
 import { useIdeas } from '../state/Ideas';
 import { useProjects } from '../state/Projects';
 import { canManageAll } from '../lib/inventory';
+import { isSimple } from '../lib/levels';
 import { DEFAULT_WEIGHT, SCORES, WEIGHTS, computeResult, type Criterion, type IdeaStatus } from '../lib/ideas';
-import { BackButton, Button, Card, Chip, Field, NotFound, Page, Text, useAction } from '../components/ui';
+import { BackButton, Button, Card, Chip, ChipRow, ConfirmButton, Field, NotFound, Page, Text, ViewOnly, useAction } from '../components/ui';
 import { space } from '../theme/tokens';
 
 export function IdeaDetailScreen({ id, onBack, onOpenProject }: { id: string; onBack: () => void; onOpenProject: (id: string) => void }) {
@@ -20,7 +21,7 @@ export function IdeaDetailScreen({ id, onBack, onOpenProject }: { id: string; on
   const idea = ideas.find((i) => i.node_id === id);
   const role = current?.role;
   const userId = session?.user.id;
-  const simple = current?.expertise_level === 'business_owner';
+  const simple = isSimple(current?.expertise_level);
 
   const mine = ideaCriteria.filter((c) => c.idea_id === id);
   const [picks, setPicks] = useState<Record<string, number>>(() =>
@@ -40,7 +41,7 @@ export function IdeaDetailScreen({ id, onBack, onOpenProject }: { id: string; on
   const label = (c: Criterion) => (c.key ? t(`criteria.${c.key}`) : c.name ?? '');
   const critById = Object.fromEntries(criteria.map((c) => [c.id, c]));
   const result = computeResult(mine, evaluations.filter((e) => e.idea_id === id));
-  const author = idea.anonymous ? t('ideas.anonymous') : authors[node.created_by ?? ''] || '—';
+  const author = idea.anonymous ? t('ideas.anonymous') : authors[node.created_by ?? ''] || t('common.unknown');
 
   const chosen = Object.entries(picks).filter(([, w]) => w > 0);
   const toggle = (cid: string) => setPicks((p) => ({ ...p, [cid]: p[cid] ? 0 : DEFAULT_WEIGHT }));
@@ -66,11 +67,11 @@ export function IdeaDetailScreen({ id, onBack, onOpenProject }: { id: string; on
               return (
                 <View key={c.id} style={{ gap: space[3] }}>
                   <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[3], alignItems: 'center' }}>
-                    <Chip label={label(c)} selected={w > 0} onPress={() => toggle(c.id)} />
+                    <Chip label={label(c)} accessibilityRole="checkbox" selected={w > 0} onPress={() => toggle(c.id)} />
                     {!simple && w > 0 && (
                       <View style={{ flexDirection: 'row', gap: space[2], alignItems: 'center' }}>
                         <Text variant="overline">{t('ideas.weight')}</Text>
-                        {WEIGHTS.map((n) => <Chip key={n} label={String(n)} selected={w === n} onPress={() => setWeight(c.id, n)} />)}
+                        {WEIGHTS.map((n) => <Chip key={n} label={String(n)} accessibilityRole="radio" selected={w === n} onPress={() => setWeight(c.id, n)} />)}
                       </View>
                     )}
                   </View>
@@ -80,7 +81,7 @@ export function IdeaDetailScreen({ id, onBack, onOpenProject }: { id: string; on
             {!simple && (
               <View style={{ flexDirection: 'row', gap: space[3], alignItems: 'flex-end' }}>
                 <View style={{ flex: 1 }}><Field label={t('ideas.newCriterion')} value={newCriterion} onChangeText={setNewCriterion} maxLength={120} /></View>
-                <Button variant="secondary" label={t('ideas.addCriterion')} disabled={!newCriterion.trim()} loading={busy === 'crit'}
+                <Button variant="secondary" label={t('common.add')} disabled={!newCriterion.trim()} loading={busy === 'crit'}
                   onPress={() => run('crit', async () => { const cid = await addCriterion(newCriterion.trim()); setPicks((p) => ({ ...p, [cid]: DEFAULT_WEIGHT })); setNewCriterion(''); })} />
               </View>
             )}
@@ -103,9 +104,9 @@ export function IdeaDetailScreen({ id, onBack, onOpenProject }: { id: string; on
               return (
                 <View key={ic.criterion_id} style={{ gap: space[3] }}>
                   <Text>{label(c)}</Text>
-                  <View style={{ flexDirection: 'row', gap: space[3] }}>
-                    {SCORES.map((n) => <Chip key={n} label={String(n)} selected={scores[ic.criterion_id] === n} onPress={() => { setSaved(false); setScores((s) => ({ ...s, [ic.criterion_id]: n })); }} />)}
-                  </View>
+                  <ChipRow kind="radio">
+                    {SCORES.map((n) => <Chip key={n} label={String(n)} accessibilityLabel={`${label(c)}: ${t('ideas.scoreOf', { n })}`} accessibilityRole="radio" selected={scores[ic.criterion_id] === n} onPress={() => { setSaved(false); setScores((s) => ({ ...s, [ic.criterion_id]: n })); }} />)}
+                  </ChipRow>
                 </View>
               );
             })}
@@ -113,7 +114,7 @@ export function IdeaDetailScreen({ id, onBack, onOpenProject }: { id: string; on
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: space[4], marginTop: space[5] }}>
             <Button label={t('ideas.saveEvaluation')} loading={busy === 'eval'} disabled={Object.keys(scores).length === 0}
               onPress={() => run('eval', async () => { await saveEvaluation(id, scores); setSaved(true); })} />
-            {saved && <Text variant="secondary">{t('ideas.saved')}</Text>}
+            {saved && <Text variant="secondary">{t('common.saved')}</Text>}
           </View>
         </Card>
       )}
@@ -141,10 +142,13 @@ export function IdeaDetailScreen({ id, onBack, onOpenProject }: { id: string; on
           <Text variant="h3">{t('ideas.decisionTitle')}</Text>
           <Field label={t('ideas.decisionNote')} value={note} onChangeText={setNote} multiline maxLength={2000} />
           <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[3], marginTop: space[4] }}>
-            {(['approved', 'on_hold', 'rejected'] as IdeaStatus[]).map((s) => (
-              <Button key={s} variant={s === 'approved' ? 'primary' : 'secondary'} label={t(`ideas.decide.${s}`)} loading={busy === s} disabled={idea.status === s}
-                onPress={() => run(s, () => decide(id, s, note.trim() || null))} />
-            ))}
+            {(['approved', 'on_hold', 'rejected'] as IdeaStatus[]).map((s) => {
+              const go = () => run(s, () => decide(id, s, note.trim() || null));
+              const p = { label: t(`ideas.decide.${s}`), loading: busy === s, disabled: idea.status === s };
+              return s === 'on_hold'
+                ? <Button key={s} variant="secondary" {...p} onPress={go} />
+                : <ConfirmButton key={s} variant={s === 'approved' ? 'primary' : 'secondary'} {...p} confirmLabel={p.label} message={t(`ideas.confirm.${s}`)} onConfirm={go} />;
+            })}
           </View>
         </Card>
       )}
@@ -166,6 +170,7 @@ export function IdeaDetailScreen({ id, onBack, onOpenProject }: { id: string; on
         );
       })()}
 
+      {!manager && <ViewOnly />}
       {!manager && idea.decision_note && (idea.status === 'approved' || idea.status === 'rejected' || idea.status === 'on_hold') && (
         <Card><Text variant="overline">{t('ideas.decisionTitle')}</Text><Text>{idea.decision_note}</Text></Card>
       )}

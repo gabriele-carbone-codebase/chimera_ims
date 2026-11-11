@@ -5,8 +5,9 @@ import { useApp } from '../state/AppState';
 import { useInventory } from '../state/Inventory';
 import { useGoals } from '../state/Goals';
 import { NODE_TYPES, SUBTYPES, type NodeType } from '../lib/inventory';
-import { DEFAULT_METRIC, METRICS, PERIODS, isValidDate, type Direction, type KpiMetric, type KpiPeriod } from '../lib/kpis';
-import { Button, Chip, Field, Header, Page, Text } from '../components/ui';
+import { isSimple } from '../lib/levels';
+import { DEFAULT_METRIC, METRICS, PERIODS, isValidDate, periodEnd, type Direction, type KpiMetric, type KpiPeriod } from '../lib/kpis';
+import { BackButton, Button, Chip, ChipRow, Field, Header, Page, Text } from '../components/ui';
 import { space } from '../theme/tokens';
 
 const SIMPLE_METRICS: KpiMetric[] = ['ideas_submitted', 'ideas_approved', 'projects_shipped', 'manual'];
@@ -16,7 +17,7 @@ export function GoalFormScreen({ onDone, onCancel }: { onDone: (id: string) => v
   const { current } = useApp();
   const { nodes } = useInventory();
   const { kpis, createGoal } = useGoals();
-  const simple = current?.expertise_level === 'business_owner' || current?.expertise_level === 'technician';
+  const simple = isSimple(current?.expertise_level);
 
   const [title, setTitle] = useState('');
   const [basedOn, setBasedOn] = useState<NodeType>('concept');
@@ -34,7 +35,12 @@ export function GoalFormScreen({ onDone, onCancel }: { onDone: (id: string) => v
 
   const metrics = simple ? SIMPLE_METRICS : METRICS;
   const targetNum = Number(target.replace(',', '.'));
-  const valid = title.trim() && target.trim() !== '' && Number.isFinite(targetNum) && (!due || isValidDate(due));
+  // SMART: a goal needs a number, a unit of measure and a deadline.
+  const unitText = kpiId ? kpis.find((k) => k.id === kpiId)?.unit ?? '' : metric === 'manual' ? unit.trim() : t(`metric.${metric}.unit`);
+  const valid = title.trim() && target.trim() !== '' && Number.isFinite(targetNum) && isValidDate(due) && (kpiId !== null || metric !== 'manual' || !!unit.trim());
+  const [step, setStep] = useState(1);
+  const STEPS = 4;
+  const stepOk = [true, !!title.trim(), true, target.trim() !== '' && Number.isFinite(targetNum) && (kpiId !== null || metric !== 'manual' || !!unit.trim()), !!valid][step];
   const linkable = nodes.filter((n) => n.type === basedOn && n.subtype !== 'idea').slice(0, 12);
 
   const chooseType = (ty: NodeType) => { setBasedOn(ty); setMetric(DEFAULT_METRIC[ty]); setSubtype(null); setPicked([]); };
@@ -53,82 +59,102 @@ export function GoalFormScreen({ onDone, onCancel }: { onDone: (id: string) => v
 
   return (
     <Page>
-      <Header title={t('goals.formTitle')} hint={t('goals.formHint')} size="h2" />
+      <BackButton onBack={step === 1 ? onCancel : () => setStep(step - 1)} />
+      <Header title={t(`goals.step${step}.title`)} hint={t(`goals.step${step}.hint`)} size="h2" />
+      <Text variant="overline">{t('goals.stepOf', { n: step, total: STEPS })}</Text>
 
-      <Field label={t('goals.fieldTitle')} value={title} onChangeText={setTitle} maxLength={200} placeholder={t('goals.fieldTitlePlaceholder')} />
+      {step === 1 && (
+        <>
+          <Field label={t('goals.fieldTitle')} value={title} onChangeText={setTitle} maxLength={200} placeholder={t('goals.fieldTitlePlaceholder')} />
+          <View style={{ gap: space[3] }}>
+            <Text variant="overline">{t('goals.basedOn')}</Text>
+            <ChipRow kind="radio">
+              {NODE_TYPES.map((ty) => <Chip key={ty} label={t(`goals.basedOnType.${ty}`)} selected={basedOn === ty} onPress={() => chooseType(ty)} />)}
+            </ChipRow>
+          </View>
+        </>
+      )}
 
-      <View style={{ gap: space[3] }}>
-        <Text variant="overline">{t('goals.basedOn')}</Text>
-        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[3] }}>
-          {NODE_TYPES.map((ty) => <Chip key={ty} label={t(`goals.basedOnType.${ty}`)} selected={basedOn === ty} onPress={() => chooseType(ty)} />)}
-        </View>
-      </View>
-
-      {!simple && kpis.length > 0 && (
+      {step === 2 && !simple && kpis.length > 0 && (
         <View style={{ gap: space[3] }}>
           <Text variant="overline">{t('goals.useExistingKpi')}</Text>
-          <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[3] }}>
+          <ChipRow kind="radio">
             <Chip label={t('goals.newMeasure')} selected={kpiId === null} onPress={() => setKpiId(null)} />
             {kpis.map((k) => <Chip key={k.id} label={k.name} selected={kpiId === k.id} onPress={() => setKpiId(k.id)} />)}
-          </View>
+          </ChipRow>
         </View>
       )}
 
-      {kpiId === null && (
+      {step === 2 && kpiId === null && (
         <>
           <View style={{ gap: space[3] }}>
             <Text variant="overline">{t('goals.measure')}</Text>
-            <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[3] }}>
+            <ChipRow kind="radio">
               {metrics.map((m) => <Chip key={m} label={t(`metric.${m}.name`)} selected={metric === m} onPress={() => setMetric(m)} />)}
-            </View>
+            </ChipRow>
             <Text variant="secondary">{t(`metric.${metric}.hint`)}</Text>
           </View>
           {metric === 'inventory_count' && (
             <View style={{ gap: space[3] }}>
               <Text variant="overline">{t('goals.countOnly')}</Text>
-              <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[3] }}>
+              <ChipRow kind="radio">
                 <Chip label={t('goals.allOfType')} selected={subtype === null} onPress={() => setSubtype(null)} />
                 {SUBTYPES[basedOn].map((s) => <Chip key={s} label={t(`subtype.${s}`)} selected={subtype === s} onPress={() => setSubtype(s)} />)}
-              </View>
+              </ChipRow>
             </View>
           )}
-          {metric === 'manual' && !simple && <Field label={t('goals.unit')} value={unit} onChangeText={setUnit} maxLength={30} placeholder={t('goals.unitPlaceholder')} />}
           {metric !== 'manual' && metric !== 'projects_active' && metric !== 'idea_score_avg' && (
             <View style={{ gap: space[3] }}>
               <Text variant="overline">{t('goals.period')}</Text>
-              <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[3] }}>
+              <ChipRow kind="radio">
                 {PERIODS.map((p) => <Chip key={p} label={t(`period.${p}`)} selected={period === p} onPress={() => setPeriod(p)} />)}
-              </View>
+              </ChipRow>
             </View>
           )}
         </>
       )}
 
-      {!simple && (
+      {step === 3 && !simple && (
         <View style={{ gap: space[3] }}>
           <Text variant="overline">{t('goals.direction')}</Text>
-          <View style={{ flexDirection: 'row', gap: space[3] }}>
+          <ChipRow kind="radio">
             <Chip label={t('goals.atLeast')} selected={direction === 'at_least'} onPress={() => setDirection('at_least')} />
             <Chip label={t('goals.atMost')} selected={direction === 'at_most'} onPress={() => setDirection('at_most')} />
-          </View>
+          </ChipRow>
         </View>
       )}
 
-      <Field label={t('goals.target')} value={target} onChangeText={setTarget} keyboardType="numeric" />
-      <Field label={t('goals.due')} value={due} onChangeText={setDue} placeholder="YYYY-MM-DD" maxLength={10} />
+      {step === 3 && (
+        <>
+          <Field label={unitText ? `${t('goals.target')} (${unitText})` : t('goals.target')} value={target} onChangeText={setTarget} inputMode="decimal" />
+          {metric === 'manual' && kpiId === null && <Field label={t('goals.unit')} value={unit} onChangeText={setUnit} maxLength={30} placeholder={t('goals.unitPlaceholder')} />}
+        </>
+      )}
+      {step === 4 && (
+      <View style={{ gap: space[3] }}>
+        <Field label={t('goals.due')} value={due} onChangeText={setDue} placeholder={t('goals.duePlaceholder')} maxLength={10} />
+        <ChipRow>
+          {(['month', 'quarter', 'year'] as const).map((p) => <Chip key={p} label={t(`goals.endOf.${p}`)} selected={due === periodEnd(p)} onPress={() => setDue(periodEnd(p))} />)}
+        </ChipRow>
+        {!!due && !isValidDate(due) && <Text variant="error">{t('goals.dueInvalid')}</Text>}
+      </View>
+      )}
 
-      {!simple && linkable.length > 0 && (
+      {step === 4 && !simple && linkable.length > 0 && (
         <View style={{ gap: space[3] }}>
           <Text variant="overline">{t('goals.linkedItems')}</Text>
-          <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[3] }}>
+          <ChipRow kind="checkbox">
             {linkable.map((n) => <Chip key={n.id} label={n.title} selected={picked.includes(n.id)} onPress={() => setPicked((p) => (p.includes(n.id) ? p.filter((x) => x !== n.id) : [...p, n.id]))} />)}
-          </View>
+          </ChipRow>
         </View>
       )}
 
+      {step === 4 && !!valid && <Text variant="secondary">{t('goals.summary', { title: title.trim(), target, unit: unitText, due })}</Text>}
       {error && <Text variant="error">{error}</Text>}
       <View style={{ flexDirection: 'row', gap: space[4] }}>
-        <Button label={t('goals.create')} onPress={save} loading={busy} disabled={!valid} />
+        {step < STEPS
+          ? <Button label={t('goals.next')} onPress={() => setStep(step + 1)} disabled={!stepOk} />
+          : <Button label={t('goals.create')} onPress={save} loading={busy} disabled={!valid} />}
         <Button variant="ghost" label={t('common.cancel')} onPress={onCancel} />
       </View>
     </Page>

@@ -5,7 +5,7 @@ import { useApp } from '../state/AppState';
 import { useInventory } from '../state/Inventory';
 import { usePrograms, type ActivityView } from '../state/Programs';
 import { canManageAll, canWrite, type NodeType } from '../lib/inventory';
-import { BackButton, Button, Card, Chip, Field, NotFound, Page, Text } from '../components/ui';
+import { BackButton, Button, Card, Chip, ConfirmButton, Field, NotFound, Page, Text, ViewOnly } from '../components/ui';
 import { space } from '../theme/tokens';
 
 type Cat = 'performers' | 'uses' | 'produces';
@@ -24,7 +24,6 @@ export function ProgramDetailScreen({ id, onBack, onOpenNode }: { id: string; on
   const role = current?.role;
   const [editing, setEditing] = useState(false);
   const [newActivity, setNewActivity] = useState('');
-  const [confirming, setConfirming] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -40,7 +39,6 @@ export function ProgramDetailScreen({ id, onBack, onOpenNode }: { id: string; on
     finally { setBusy(false); }
   };
   const remove = async () => {
-    if (!confirming) { setConfirming(true); return; }
     try { await deleteNode(id); onBack(); } catch (e: any) { setError(e?.message ?? t('common.error')); }
   };
 
@@ -72,12 +70,7 @@ export function ProgramDetailScreen({ id, onBack, onOpenNode }: { id: string; on
         </Card>
       )}
 
-      {canManageAll(role) && (
-        <View style={{ gap: space[2] }}>
-          <Button variant="ghost" label={confirming ? t('programs.confirmDelete') : t('programs.delete')} onPress={remove} style={{ alignSelf: 'flex-start', paddingHorizontal: 0 }} />
-          {confirming && <Text variant="secondary">{t('programs.deleteHint')}</Text>}
-        </View>
-      )}
+      {canManageAll(role) ? <ConfirmButton label={t('programs.delete')} message={t('programs.deleteHint')} onConfirm={remove} style={{ alignSelf: 'flex-start' }} /> : <ViewOnly />}
     </Page>
   );
 }

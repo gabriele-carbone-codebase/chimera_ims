@@ -5,7 +5,7 @@ import { useApp } from '../state/AppState';
 import { useGoals } from '../state/Goals';
 import { NODE_TYPES, SUBTYPES, canManageAll, type NodeType } from '../lib/inventory';
 import { METRICS, PERIODS, type KpiMetric, type KpiPeriod } from '../lib/kpis';
-import { BackButton, Button, Card, Chip, Field, Header, NotFound, Page, Text, useAction } from '../components/ui';
+import { BackButton, Button, Card, Chip, ChipRow, ConfirmButton, Field, Header, NotFound, Page, Text, ViewOnly, useAction } from '../components/ui';
 import { MiniBars, fmt } from '../components/charts';
 import { space } from '../theme/tokens';
 
@@ -30,34 +30,35 @@ export function KpiFormScreen({ onDone, onCancel }: { onDone: (id: string) => vo
 
   return (
     <Page>
+      <BackButton onBack={onCancel} />
       <Header title={t('goals.kpiFormTitle')} hint={t('goals.kpiFormHint')} size="h2" />
       <Field label={t('goals.kpiName')} value={name} onChangeText={setName} maxLength={200} />
       <View style={{ gap: space[3] }}>
         <Text variant="overline">{t('goals.measure')}</Text>
-        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[3] }}>
+        <ChipRow kind="radio">
           {METRICS.map((m) => <Chip key={m} label={t(`metric.${m}.name`)} selected={metric === m} onPress={() => setMetric(m)} />)}
-        </View>
+        </ChipRow>
         <Text variant="secondary">{t(`metric.${metric}.hint`)}</Text>
       </View>
       {metric === 'inventory_count' && (
         <View style={{ gap: space[3] }}>
           <Text variant="overline">{t('goals.countOnly')}</Text>
-          <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[3] }}>
+          <ChipRow kind="radio">
             {NODE_TYPES.map((ty) => <Chip key={ty} label={t(`typePlural.${ty}`)} selected={scopeType === ty} onPress={() => { setScopeType(ty); setSubtype(null); }} />)}
-          </View>
-          <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[3] }}>
+          </ChipRow>
+          <ChipRow kind="radio">
             <Chip label={t('goals.allOfType')} selected={subtype === null} onPress={() => setSubtype(null)} />
             {SUBTYPES[scopeType].map((s) => <Chip key={s} label={t(`subtype.${s}`)} selected={subtype === s} onPress={() => setSubtype(s)} />)}
-          </View>
+          </ChipRow>
         </View>
       )}
       {metric === 'manual' && <Field label={t('goals.unit')} value={unit} onChangeText={setUnit} maxLength={30} placeholder={t('goals.unitPlaceholder')} />}
       {metric !== 'manual' && metric !== 'projects_active' && metric !== 'idea_score_avg' && (
         <View style={{ gap: space[3] }}>
           <Text variant="overline">{t('goals.period')}</Text>
-          <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[3] }}>
+          <ChipRow kind="radio">
             {PERIODS.map((p) => <Chip key={p} label={t(`period.${p}`)} selected={period === p} onPress={() => setPeriod(p)} />)}
-          </View>
+          </ChipRow>
         </View>
       )}
       {error && <Text variant="error">{error}</Text>}
@@ -79,7 +80,7 @@ export function ManualValueCard({ onSave }: { onSave: (value: number) => Promise
     <Card>
       <Text variant="h3">{t('goals.recordValue')}</Text>
       <View style={{ flexDirection: 'row', gap: space[3], alignItems: 'flex-end' }}>
-        <View style={{ flex: 1 }}><Field label={t('goals.newValue')} value={text} onChangeText={setText} keyboardType="numeric" /></View>
+        <View style={{ flex: 1 }}><Field label={t('goals.newValue')} value={text} onChangeText={setText} inputMode="decimal" /></View>
         <Button label={t('form.save')} loading={busy !== null} disabled={text.trim() === '' || !Number.isFinite(value)} onPress={() => run('save', async () => { await onSave(value); setText(''); })} />
       </View>
       {error && <Text variant="error">{error}</Text>}
@@ -92,7 +93,6 @@ export function KpiDetailScreen({ id, onBack, onOpenGoal }: { id: string; onBack
   const { current } = useApp();
   const { kpis, goals, snapshots, valueOf, recordManual, deleteKpi } = useGoals();
   const kpi = kpis.find((k) => k.id === id);
-  const [confirming, setConfirming] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   if (!kpi || !current) return <NotFound message={t('goals.notFound')} onBack={onBack} />;
@@ -132,7 +132,7 @@ export function KpiDetailScreen({ id, onBack, onOpenGoal }: { id: string; onBack
         </View>
       )}
 
-      {manager && <Button variant="ghost" label={confirming ? t('goals.confirmDelete') : t('goals.deleteKpi')} onPress={() => (confirming ? run(async () => { await deleteKpi(id); onBack(); }) : setConfirming(true))} style={{ alignSelf: 'flex-start', paddingHorizontal: 0 }} />}
+      {manager ? <ConfirmButton label={t('goals.deleteKpi')} message={t('goals.deleteKpiConfirm')} onConfirm={() => run(async () => { await deleteKpi(id); onBack(); })} style={{ alignSelf: 'flex-start' }} /> : <ViewOnly />}
     </Page>
   );
 }

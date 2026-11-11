@@ -10,6 +10,7 @@ i18n.use(initReactI18next).init({
   lng: 'en',
   fallbackLng: 'en',
   interpolation: { escapeValue: false },
+  parseMissingKeyHandler: (key) => key.split('.').pop() ?? key, // unknown enum values from the database show their raw name, not a key path
 });
 
 export default i18n;

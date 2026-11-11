@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useIdeas } from '../state/Ideas';
-import { Button, Card, Chip, Field, Header, Page, Text } from '../components/ui';
+import { BackButton, Button, CheckRow, Field, Header, Page, Text } from '../components/ui';
 import { space } from '../theme/tokens';
 
 export function IdeaFormScreen({ onDone, onCancel }: { onDone: (id: string) => void; onCancel: () => void }) {
@@ -22,20 +22,16 @@ export function IdeaFormScreen({ onDone, onCancel }: { onDone: (id: string) => v
 
   return (
     <Page>
+      <BackButton onBack={onCancel} />
       <Header title={t('ideas.formTitle')} hint={t('ideas.formHint')} size="h2" />
 
       <Field label={t('ideas.fieldTitle')} value={title} onChangeText={setTitle} maxLength={200} placeholder={t('ideas.fieldTitlePlaceholder')} />
       <Field label={t('ideas.fieldDescription')} value={description} onChangeText={setDescription} multiline maxLength={4000} placeholder={t('ideas.fieldDescriptionPlaceholder')} />
 
-      <Card selected={anonymous}>
-        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: space[4] }}>
-          <View style={{ flex: 1, gap: space[2] }}>
-            <Text variant="h3">{t('ideas.anonymousTitle')}</Text>
-            <Text variant="secondary">{anonymous ? t('ideas.anonymousOn') : t('ideas.anonymousOff')}</Text>
-          </View>
-          <Chip label={anonymous ? t('ideas.yes') : t('ideas.no')} selected={anonymous} onPress={() => setAnonymous(!anonymous)} />
-        </View>
-      </Card>
+      <View style={{ gap: space[2] }}>
+        <CheckRow role="switch" label={t('ideas.anonymousTitle')} checked={anonymous} onPress={() => setAnonymous(!anonymous)} />
+        <Text variant="secondary">{t('ideas.anonymousHint')}</Text>
+      </View>
 
       {error && <Text variant="error">{error}</Text>}
       <View style={{ flexDirection: 'row', gap: space[4] }}>

@@ -11,12 +11,11 @@ const LEVELS: Level[] = ['business_owner', 'technician', 'specialist', 'manager'
 export function ExpertiseScreen({ onDone }: { onDone?: () => void }) {
   const { t } = useTranslation();
   const { current, setExpertise } = useApp();
-  const [level, setLevel] = useState<Level | null>(current?.expertise_level ?? null);
+  const [level, setLevel] = useState<Level>(current?.expertise_level ?? 'business_owner');
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const save = async () => {
-    if (!level) return;
     setBusy(true); setError(null);
     try { await setExpertise(level); onDone?.(); }
     catch (e: any) { setError(e?.message ?? t('common.error')); }
@@ -26,16 +25,16 @@ export function ExpertiseScreen({ onDone }: { onDone?: () => void }) {
   return (
     <Screen>
       <Header title={t('expertise.title')} hint={t('expertise.hint')} size="h2" />
-      <View style={{ gap: space[4] }}>
+      <View accessibilityRole="radiogroup" style={{ gap: space[4] }}>
         {LEVELS.map((l) => (
-          <Card key={l} selected={level === l} onPress={() => setLevel(l)}>
+          <Card key={l} accessibilityRole="radio" selected={level === l} onPress={() => setLevel(l)}>
             <Text variant="h3">{t(`expertise.${l}`)}</Text>
             <Text variant="secondary">{t(`expertise.${l}_desc`)}</Text>
           </Card>
         ))}
       </View>
       {error && <Text variant="error">{error}</Text>}
-      <Button label={t('expertise.save')} onPress={save} loading={busy} disabled={!level} />
+      <Button label={t('expertise.save')} onPress={save} loading={busy} />
       {onDone && <Button variant="ghost" label={t('common.cancel')} onPress={onDone} />}
     </Screen>
   );

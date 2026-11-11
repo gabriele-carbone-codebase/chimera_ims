@@ -5,22 +5,23 @@ import { useApp } from '../state/AppState';
 import { useInventory } from '../state/Inventory';
 import { useProjects } from '../state/Projects';
 import { canManageAll, canWrite } from '../lib/inventory';
+import { isSimple } from '../lib/levels';
 import { nextStage, type GateChoice, type GateCriterion } from '../lib/projects';
-import { BackButton, Button, Card, Chip, Field, NotFound, Page, Text, useAction } from '../components/ui';
+import { BackButton, Button, Card, CheckRow, Chip, ChipRow, ConfirmButton, Field, NotFound, Page, Text, ViewOnly, useAction } from '../components/ui';
 import { StageTrack } from '../components/StageTrack';
 import { space } from '../theme/tokens';
 
 export function ProjectDetailScreen({ id, onBack, onOpenNode, onOpenIdea }: {
   id: string; onBack: () => void; onOpenNode: (id: string) => void; onOpenIdea: (id: string) => void;
 }) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { current } = useApp();
   const { byId } = useInventory();
   const { projects, gateCriteria, items, reviews, reviewers, toggleItem, addGateCriterion, review, resume } = useProjects();
   const node = byId[id];
   const project = projects.find((p) => p.node_id === id);
   const role = current?.role;
-  const simple = current?.expertise_level === 'business_owner';
+  const simple = isSimple(current?.expertise_level);
   const [note, setNote] = useState('');
   const [shipAs, setShipAs] = useState<'product' | 'service'>('product');
   const [newCriterion, setNewCriterion] = useState('');
@@ -70,17 +71,13 @@ export function ProjectDetailScreen({ id, onBack, onOpenNode, onOpenIdea }: {
             {criteria.map((c) => {
               const met = isMet(c);
               return (
-                <View key={c.id} style={{ flexDirection: 'row', alignItems: 'center', gap: space[4] }}>
-                  <Chip label={met ? t('projects.met') : t('projects.notMet')} selected={met}
-                    onPress={canWrite(role) ? () => run(c.id, () => toggleItem(id, c.id, !met)) : undefined} />
-                  <Text style={{ flex: 1 }}>{label(c)}</Text>
-                </View>
+                <CheckRow key={c.id} label={label(c)} checked={met} onPress={canWrite(role) ? () => run(c.id, () => toggleItem(id, c.id, !met)) : undefined} />
               );
             })}
             {manager && !simple && (
               <View style={{ flexDirection: 'row', gap: space[3], alignItems: 'flex-end', marginTop: space[3] }}>
                 <View style={{ flex: 1 }}><Field label={t('projects.newCriterion')} value={newCriterion} onChangeText={setNewCriterion} maxLength={200} /></View>
-                <Button variant="secondary" label={t('ideas.addCriterion')} disabled={!newCriterion.trim()} loading={busy === 'crit'}
+                <Button variant="secondary" label={t('common.add')} disabled={!newCriterion.trim()} loading={busy === 'crit'}
                   onPress={() => run('crit', async () => { await addGateCriterion(project.stage as 'define' | 'build' | 'test', newCriterion.trim()); setNewCriterion(''); })} />
               </View>
             )}
@@ -88,6 +85,7 @@ export function ProjectDetailScreen({ id, onBack, onOpenNode, onOpenIdea }: {
         </Card>
       )}
 
+      {!manager && !closed && <ViewOnly />}
       {manager && !closed && (
         <Card>
           <Text variant="h3">{t('projects.reviewTitle')}</Text>
@@ -101,18 +99,20 @@ export function ProjectDetailScreen({ id, onBack, onOpenNode, onOpenIdea }: {
               {project.stage === 'test' && (
                 <View style={{ gap: space[3] }}>
                   <Text variant="overline">{t('projects.shipAs')}</Text>
-                  <View style={{ flexDirection: 'row', gap: space[3] }}>
+                  <ChipRow kind="radio">
                     <Chip label={t('subtype.product')} selected={shipAs === 'product'} onPress={() => setShipAs('product')} />
                     <Chip label={t('subtype.service')} selected={shipAs === 'service'} onPress={() => setShipAs('service')} />
-                  </View>
+                  </ChipRow>
                 </View>
               )}
               <Field label={t('projects.reviewNote')} value={note} onChangeText={setNote} multiline maxLength={2000} />
               {unmet > 0 && <Text variant="secondary">{t('projects.unmet', { count: unmet })}</Text>}
               <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[3] }}>
-                <Button label={project.stage === 'test' ? t('projects.ship') : t('projects.go')} loading={busy === 'go'} disabled={unmet > 0} onPress={() => decide('go')} />
-                <Button variant="secondary" label={t('projects.hold')} loading={busy === 'hold'} onPress={() => decide('hold')} />
-                <Button variant="secondary" label={t('projects.stop')} loading={busy === 'stop'} onPress={() => decide('stop')} />
+                {project.stage === 'test'
+                  ? <ConfirmButton variant="primary" label={t('projects.ship')} confirmLabel={t('projects.ship')} message={t('projects.confirm.ship')} loading={busy === 'go'} disabled={unmet > 0} onConfirm={() => decide('go')} />
+                  : <Button label={t('projects.go')} loading={busy === 'go'} disabled={unmet > 0} onPress={() => decide('go')} />}
+                <ConfirmButton variant="secondary" label={t('projects.hold')} confirmLabel={t('projects.hold')} message={t('projects.confirm.hold')} loading={busy === 'hold'} onConfirm={() => decide('hold')} />
+                <ConfirmButton variant="secondary" label={t('projects.stop')} confirmLabel={t('projects.stop')} message={t('projects.confirm.stop')} loading={busy === 'stop'} onConfirm={() => decide('stop')} />
               </View>
             </View>
           )}
@@ -125,7 +125,7 @@ export function ProjectDetailScreen({ id, onBack, onOpenNode, onOpenIdea }: {
           {history.map((r) => (
             <Card key={r.id}>
               <Text variant="overline">
-                {new Date(r.decided_at).toLocaleDateString()} · {t(`stage.${r.from_stage}`)}{r.to_stage ? ` → ${t(`stage.${r.to_stage}`)}` : ''} · {t(`decision.${r.decision}`)}
+                {new Date(r.decided_at).toLocaleDateString(i18n.language)} · {t(`stage.${r.from_stage}`)}{r.to_stage ? ` → ${t(`stage.${r.to_stage}`)}` : ''} · {t(`decision.${r.decision}`)}
               </Text>
               {r.decided_by && reviewers[r.decided_by] ? <Text variant="secondary">{reviewers[r.decided_by]}</Text> : null}
               {r.note && <Text>{r.note}</Text>}

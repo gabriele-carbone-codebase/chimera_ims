@@ -5,7 +5,7 @@ import { useApp } from '../state/AppState';
 import { useInventory } from '../state/Inventory';
 import { useGoals } from '../state/Goals';
 import { canManageAll } from '../lib/inventory';
-import { BackButton, Button, Card, Chip, NotFound, Page, Text } from '../components/ui';
+import { BackButton, Button, Card, Chip, ConfirmButton, NotFound, Page, Text, ViewOnly } from '../components/ui';
 import { ManualValueCard } from './KpiScreens';
 import { MiniBars, ProgressBar, fmt } from '../components/charts';
 import { space } from '../theme/tokens';
@@ -16,7 +16,6 @@ export function GoalDetailScreen({ id, onBack, onOpenNode, onOpenKpi }: { id: st
   const { byId } = useInventory();
   const { goals, kpis, goalNodes, snapshots, valueOf, stateOf, progressOf, recordManual, setGoalStatus, deleteGoal } = useGoals();
   const goal = goals.find((g) => g.id === id);
-  const [confirming, setConfirming] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   if (!goal || !current) return <NotFound message={t('goals.notFound')} onBack={onBack} />;
@@ -64,7 +63,7 @@ export function GoalDetailScreen({ id, onBack, onOpenNode, onOpenKpi }: { id: st
         </View>
       )}
 
-      {manager && (
+      {manager ? (
         <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[3] }}>
           {goal.status === 'active' ? (
             <>
@@ -72,9 +71,9 @@ export function GoalDetailScreen({ id, onBack, onOpenNode, onOpenKpi }: { id: st
               <Button variant="ghost" label={t('goals.archive')} onPress={() => run(() => setGoalStatus(id, 'archived'))} />
             </>
           ) : <Button variant="secondary" label={t('goals.reopen')} onPress={() => run(() => setGoalStatus(id, 'active'))} />}
-          <Button variant="ghost" label={confirming ? t('goals.confirmDelete') : t('goals.delete')} onPress={() => (confirming ? run(async () => { await deleteGoal(id); onBack(); }) : setConfirming(true))} />
+          <ConfirmButton label={t('goals.delete')} message={t('goals.deleteConfirm')} onConfirm={() => run(async () => { await deleteGoal(id); onBack(); })} />
         </View>
-      )}
+      ) : <ViewOnly />}
     </Page>
   );
 }

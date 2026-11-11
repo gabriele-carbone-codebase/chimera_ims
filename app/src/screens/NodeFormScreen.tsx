@@ -3,7 +3,7 @@ import { View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useInventory } from '../state/Inventory';
 import { NODE_TYPES, SUBTYPES, isManagedNode, type NodeType } from '../lib/inventory';
-import { Button, Chip, Field, Page, Text } from '../components/ui';
+import { BackButton, Button, Chip, ChipRow, Field, Page, Text } from '../components/ui';
 import { space } from '../theme/tokens';
 
 export function NodeFormScreen({ id, initialType, onDone, onCancel }: {
@@ -34,25 +34,26 @@ export function NodeFormScreen({ id, initialType, onDone, onCancel }: {
 
   return (
     <Page>
+      <BackButton onBack={onCancel} />
       <Text variant="h2">{existing ? t('form.editTitle') : t('form.newTitle')}</Text>
 
       {!locked && <>
       <View style={{ gap: space[3] }}>
         <Text variant="overline">{t('form.type')}</Text>
-        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[3] }}>
+        <ChipRow kind="radio">
           {NODE_TYPES.map((ty) => (
             <Chip key={ty} label={t(`type.${ty}`)} selected={type === ty} onPress={() => { setType(ty); setSubtype(null); }} />
           ))}
-        </View>
+        </ChipRow>
       </View>
 
       <View style={{ gap: space[3] }}>
         <Text variant="overline">{t('form.subtype')}</Text>
-        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[3] }}>
+        <ChipRow kind="radio">
           {SUBTYPES[type].map((s) => (
             <Chip key={s} label={t(`subtype.${s}`)} selected={subtype === s} onPress={() => setSubtype(subtype === s ? null : s)} />
           ))}
-        </View>
+        </ChipRow>
       </View>
       </>}
 

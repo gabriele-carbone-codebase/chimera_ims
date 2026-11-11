@@ -1,7 +1,7 @@
 {
   "app": {
-    "name": "CHIMERA",
-    "tagline": "L'innovazione resa semplice"
+    "name": "CHIMS",
+    "tagline": "L’innovazione resa semplice"
   },
   "auth": {
     "signIn": "Accedi",
@@ -11,25 +11,30 @@
     "name": "Il tuo nome",
     "noAccount": "Non hai un account? Creane uno",
     "haveAccount": "Hai già un account? Accedi",
-    "checkEmail": "Controlla la tua email per confermare l'account, poi accedi.",
-    "signOut": "Esci"
+    "checkEmail": "Controlla la tua email per confermare l’account, poi accedi.",
+    "signOut": "Esci",
+    "badCredentials": "Email o password non corrette.",
+    "weakPassword": "Scegli una password più robusta: almeno 6 caratteri.",
+    "passwordHint": "Almeno 6 caratteri",
+    "showPassword": "Mostra password",
+    "hidePassword": "Nascondi password"
   },
   "business": {
     "createTitle": "Crea la tua prima azienda",
-    "createHint": "Un'azienda è il tuo spazio di lavoro. Potrai aggiungerne altre.",
-    "name": "Nome dell'azienda",
+    "createHint": "Un’azienda è il tuo spazio di lavoro. Potrai aggiungerne altre.",
+    "name": "Nome dell’azienda",
     "create": "Crea azienda",
     "switch": "Cambia azienda",
     "new": "Nuova azienda"
   },
   "expertise": {
     "title": "Come ti descriveresti?",
-    "hint": "Questo decide quanto CHIMERA appare semplice o dettagliata. Puoi cambiarlo quando vuoi nelle impostazioni.",
-    "business_owner": "Titolare d'impresa",
-    "business_owner_desc": "Gestisco un'azienda. Rendi tutto semplice e guidami.",
-    "technician": "Tecnico dell'innovazione",
+    "hint": "Questo decide quanto CHIMS appare semplice o dettagliata. Puoi cambiarlo quando vuoi nelle Impostazioni.",
+    "business_owner": "Titolare d’impresa",
+    "business_owner_desc": "Gestisco un’azienda. Rendi tutto semplice e guidami.",
+    "technician": "Tecnico dell’innovazione",
     "technician_desc": "Porto avanti il lavoro: idee, progetti, attività.",
-    "specialist": "Specialista dell'innovazione",
+    "specialist": "Specialista dell’innovazione",
     "specialist_desc": "Progetto e regolo programmi e criteri di innovazione.",
     "manager": "Innovation manager",
     "manager_desc": "Gestisco il sistema di innovazione. Mostrami tutto.",
@@ -37,7 +42,6 @@
   },
   "home": {
     "welcome": "Benvenuto, {{name}}",
-    "soon": "Qui apparirà la tua dashboard man mano che costruiamo le prossime sezioni.",
     "role": "Ruolo",
     "level": "Livello di esperienza",
     "attention": "Richiede la tua attenzione",
@@ -54,14 +58,22 @@
     "language": "Lingua",
     "english": "English",
     "italian": "Italiano",
-    "level": "Livello di esperienza"
+    "level": "Livello di esperienza",
+    "title": "Impostazioni"
   },
   "common": {
     "loading": "Caricamento…",
     "error": "Qualcosa è andato storto. Riprova.",
     "cancel": "Annulla",
     "back": "Indietro",
-    "retry": "Riprova"
+    "retry": "Riprova",
+    "add": "Aggiungi",
+    "all": "Tutte",
+    "saved": "Salvato",
+    "delete": "Elimina",
+    "unknown": "Sconosciuto",
+    "viewOnly": "Puoi vederlo ma non modificarlo",
+    "chartSummary": "Grafico, ultimo valore {{last}}, massimo {{max}}"
   },
   "nav": {
     "home": "Home",
@@ -72,7 +84,11 @@
     "programs": "Programmi",
     "goals": "Obiettivi",
     "notifications": "Notifiche",
-    "strategy": "Strategia"
+    "strategy": "Strategia",
+    "settings": "Impostazioni",
+    "closeMenu": "Chiudi il menu",
+    "new_one": "{{count}} nuova",
+    "new_other": "{{count}} nuove"
   },
   "type": {
     "person": "Persona",
@@ -119,8 +135,14 @@
     "searchPlaceholder": "Scrivi per filtrare…",
     "add": "Aggiungi {{type}}",
     "noResults": "Nessun risultato per la tua ricerca.",
-    "empty": "Ancora nessun elemento: {{type}}",
-    "links": "{{count}} collegamenti",
+    "empty": {
+      "person": "Ancora nessuna persona",
+      "resource": "Ancora nessuna risorsa",
+      "concept": "Ancora nessun concetto",
+      "activity": "Ancora nessuna attività"
+    },
+    "links_one": "{{count}} collegamento",
+    "links_other": "{{count}} collegamenti",
     "emptyHint": {
       "person": "Aggiungi chi partecipa all’innovazione: il tuo team, clienti, partner, esperti.",
       "resource": "Aggiungi ciò che usi: budget, strumenti, spazi, dati, incentivi.",
@@ -141,7 +163,6 @@
     "notFound": "Questo elemento non esiste più.",
     "edit": "Modifica",
     "delete": "Elimina",
-    "confirmDelete": "Tocca di nuovo per eliminare",
     "relationships": "Relazioni",
     "addRelationship": "Aggiungi relazione",
     "noRelationships": "Ancora nessuna relazione.",
@@ -151,7 +172,8 @@
     "reverse": "Inverti direzione",
     "strength": "Intensità",
     "removeRelationship": "Rimuovi",
-    "linkedTo": "Collegato a"
+    "linkedTo": "Collegato a",
+    "deleteConfirm": "Eliminare questo elemento e le sue relazioni? Non si può annullare."
   },
   "strength": {
     "none": "Nessuna",
@@ -195,7 +217,6 @@
     "title": "Idee",
     "hint": "Proponi idee, valutale con criteri chiari e decidi quali realizzare.",
     "propose": "Proponi un’idea",
-    "all": "Tutte",
     "empty": "Ancora nessuna idea",
     "emptyHint": "Inizia tu: descrivi un problema o un’opportunità in poche righe.",
     "anonymous": "Anonima",
@@ -208,26 +229,21 @@
     "fieldDescription": "Quale problema risolve?",
     "fieldDescriptionPlaceholder": "Bastano poche righe",
     "anonymousTitle": "Invia in modo anonimo",
-    "yes": "Sì",
-    "no": "No",
-    "anonymousOn": "Nessuno saprà chi ha inviato questa idea, nemmeno gli amministratori. Inoltre non potrai modificarla in seguito.",
-    "anonymousOff": "Il tuo nome verrà mostrato insieme all’idea.",
     "send": "Invia idea",
     "criteriaTitle": "Criteri di valutazione",
     "criteriaHint": "Scegli i criteri per questa idea e quanto conta ciascuno (da 1 a 5).",
     "criteriaHintSimple": "Ti suggeriamo i criteri standard. Tocca un criterio per attivarlo o disattivarlo.",
     "weight": "Peso",
     "newCriterion": "Nuovo criterio",
-    "addCriterion": "Aggiungi",
     "startEvaluation": "Avvia la valutazione",
     "updateCriteria": "Aggiorna i criteri",
     "yourEvaluation": "La tua valutazione",
     "scoreHint": "Assegna un voto a ogni criterio, da 1 (basso) a 5 (alto).",
     "saveEvaluation": "Salva valutazione",
-    "saved": "Salvato",
     "results": "Risultati",
     "noScores": "Ancora nessun voto.",
-    "evaluators": "{{count}} valutatori",
+    "evaluators_one": "{{count}} valutatore",
+    "evaluators_other": "{{count}} valutatori",
     "decisionTitle": "Decisione",
     "decisionNote": "Nota (facoltativa)",
     "decide": {
@@ -239,7 +255,13 @@
     "buildHint": "Questa idea è approvata. Trasformala in progetto per iniziare a lavorarci.",
     "turnIntoProject": "Trasforma in progetto",
     "hasProject": "Questa idea è diventata un progetto",
-    "openProject": "Apri il progetto"
+    "openProject": "Apri il progetto",
+    "anonymousHint": "Se lo attivi, nessuno saprà chi ha inviato l’idea, nemmeno gli amministratori, e non potrai modificarla in seguito. Altrimenti il tuo nome verrà mostrato insieme all’idea.",
+    "scoreOf": "{{n}} su 5",
+    "confirm": {
+      "approved": "Approvare questa idea? Potrà poi diventare un progetto.",
+      "rejected": "Rifiutare questa idea? Verrà segnata come rifiutata."
+    }
   },
   "stage": {
     "define": "Definizione",
@@ -272,7 +294,8 @@
     "new": "Nuovo progetto",
     "empty": "Ancora nessun progetto",
     "emptyHint": "Approva un’idea e trasformala in progetto, oppure parti da zero.",
-    "criteriaMet": "{{met}} criteri su {{total}} soddisfatti",
+    "criteriaMet_one": "{{met}} criterio su {{total}} soddisfatto",
+    "criteriaMet_other": "{{met}} criteri su {{total}} soddisfatti",
     "shipped": "Lanciato",
     "fromIdea": "da un’idea",
     "formTitle": "Nuovo progetto",
@@ -287,12 +310,11 @@
     "shippedHint": "Questo progetto è concluso. Il risultato ora è nel tuo Inventario.",
     "gateTitle": "Gate: {{stage}} → {{next}}",
     "gateHint": "Tutti i criteri devono essere soddisfatti prima di andare avanti.",
-    "met": "Fatto",
-    "notMet": "Non ancora",
     "newCriterion": "Aggiungi un criterio per questo gate",
     "reviewTitle": "Revisione del gate",
     "reviewNote": "Nota (facoltativa)",
-    "unmet": "Mancano ancora {{count}} criteri per poter andare avanti.",
+    "unmet_one": "Manca ancora {{count}} criterio per poter andare avanti.",
+    "unmet_other": "Mancano ancora {{count}} criteri per poter andare avanti.",
     "go": "Supera il gate",
     "ship": "Lancia",
     "hold": "Metti in attesa",
@@ -301,7 +323,12 @@
     "shipAs": "Lancia come",
     "is_on_hold": "Questo progetto è in attesa.",
     "is_stopped": "Questo progetto è stato fermato. Puoi riprenderlo.",
-    "history": "Storico dei gate"
+    "history": "Storico dei gate",
+    "confirm": {
+      "ship": "Concludere questo progetto? Verrà segnato come completato e il risultato entrerà nel tuo Inventario.",
+      "hold": "Mettere in attesa questo progetto? Resterà in pausa finché qualcuno non lo riprende.",
+      "stop": "Fermare questo progetto? Resterà fermo finché qualcuno non lo riprende."
+    }
   },
   "tplItem": {
     "top_management": "Direzione",
@@ -348,7 +375,24 @@
     "assumptions_list": "Elenco delle ipotesi",
     "mvp": "Prodotto minimo funzionante",
     "metrics": "Metriche",
-    "pivot_decision": "Decisione: cambiare rotta o proseguire"
+    "pivot_decision": "Decisione: cambiare rotta o proseguire",
+    "partnership_agreements": "Accordi di partnership",
+    "strategy_canvas": "Strategy canvas",
+    "value_proposition": "Nuova proposta di valore",
+    "jobs_map": "Mappa dei lavori del cliente",
+    "core_improvements": "Miglioramenti del core",
+    "emerging_bets": "Scommesse emergenti",
+    "future_options": "Opzioni future",
+    "innovation_portfolio": "Portafoglio di innovazione",
+    "business_model": "Modello di business",
+    "value_map": "Mappa del valore",
+    "contradictions": "Contraddizioni da risolvere",
+    "scenarios": "Scenari futuri",
+    "function_analysis": "Analisi delle funzioni",
+    "process_design": "Progetto del processo",
+    "challenge_brief": "Descrizione della sfida",
+    "crowd_contributions": "Contributi della community",
+    "crowd": "Community o folla"
   },
   "tpl": {
     "iso56002": {
@@ -470,6 +514,396 @@
           "description": "Decidere se cambiare rotta, proseguire o fermarsi."
         }
       }
+    },
+    "double_diamond": {
+      "name": "Double Diamond",
+      "description": "Un processo di design a due diamanti: prima capire il problema giusto, poi costruire la soluzione giusta. Ogni diamante si apre a molte opzioni e poi si restringe.",
+      "activities": {
+        "discover": {
+          "title": "Scoprire",
+          "description": "Esplora il problema in ampiezza: parla con le persone e osserva il mercato."
+        },
+        "define": {
+          "title": "Definire",
+          "description": "Restringi il campo a un problema chiaro che valga la pena risolvere."
+        },
+        "develop": {
+          "title": "Sviluppare",
+          "description": "Genera molte possibili soluzioni e provale."
+        },
+        "deliver": {
+          "title": "Consegnare",
+          "description": "Scegli la soluzione migliore, rifiniscila e rilasciala."
+        }
+      }
+    },
+    "design_sprint": {
+      "name": "Design Sprint",
+      "description": "Rispondi a una grande domanda in cinque giorni: mappa il problema, disegna, decidi, costruisci un prototipo e provalo con clienti veri.",
+      "activities": {
+        "understand": {
+          "title": "Capire",
+          "description": "Mappa la sfida e scegli un obiettivo su cui concentrarti."
+        },
+        "sketch": {
+          "title": "Disegnare",
+          "description": "Ognuno disegna soluzioni per conto suo."
+        },
+        "decide": {
+          "title": "Decidere",
+          "description": "Scegli i disegni migliori e trasformali in un piano."
+        },
+        "prototype": {
+          "title": "Prototipare",
+          "description": "Costruisci un prototipo realistico in un giorno."
+        },
+        "test": {
+          "title": "Testare",
+          "description": "Osserva cinque clienti usare il prototipo e impara da loro."
+        }
+      }
+    },
+    "open_innovation": {
+      "name": "Open innovation",
+      "description": "Innova con partner esterni all’azienda: università, startup, fornitori e clienti portano idee e tecnologie.",
+      "activities": {
+        "scouting": {
+          "title": "Cercare partner",
+          "description": "Cerca idee, tecnologie e partner esterni adatti alle tue esigenze."
+        },
+        "partnering": {
+          "title": "Definire le partnership",
+          "description": "Stabilisci cosa porta ciascuno e come si condividono i risultati."
+        },
+        "cocreate": {
+          "title": "Co-creare",
+          "description": "Sviluppa soluzioni insieme ai tuoi partner."
+        },
+        "integrate": {
+          "title": "Portare in azienda",
+          "description": "Integra i risultati nei tuoi prodotti e nelle tue operazioni."
+        }
+      }
+    },
+    "blue_ocean": {
+      "name": "Blue Ocean strategy",
+      "description": "Smetti di competere in mercati affollati. Crea nuova domanda cambiando cosa offri e cosa lasci fuori.",
+      "activities": {
+        "canvas": {
+          "title": "Disegnare lo strategy canvas",
+          "description": "Mostra come competete oggi tu e i tuoi concorrenti."
+        },
+        "four_actions": {
+          "title": "Eliminare, ridurre, aumentare, creare",
+          "description": "Decidi cosa togliere, abbassare, alzare o inventare per offrire nuovo valore."
+        },
+        "validate": {
+          "title": "Testare con i clienti",
+          "description": "Verifica che la nuova offerta sia attraente e sostenibile."
+        },
+        "rollout": {
+          "title": "Lanciare",
+          "description": "Porta la nuova offerta sul mercato."
+        }
+      }
+    },
+    "jobs_to_be_done": {
+      "name": "Jobs to be done",
+      "description": "Capisci il lavoro per cui i clienti scelgono un prodotto, poi progetta offerte che lo svolgano meglio.",
+      "activities": {
+        "interview": {
+          "title": "Intervistare i clienti",
+          "description": "Chiedi degli acquisti recenti e di cosa volevano ottenere."
+        },
+        "map_jobs": {
+          "title": "Mappare i lavori",
+          "description": "Elenca i lavori, i passaggi e cosa rende ciascuno difficile."
+        },
+        "find_gaps": {
+          "title": "Trovare i vuoti",
+          "description": "Individua i lavori importanti serviti male oggi."
+        },
+        "design_offer": {
+          "title": "Progettare l’offerta",
+          "description": "Disegna un prodotto o servizio attorno al lavoro."
+        },
+        "check": {
+          "title": "Verificare con i clienti",
+          "description": "Verifica se i clienti sceglierebbero la nuova offerta."
+        }
+      }
+    },
+    "three_horizons": {
+      "name": "Three horizons",
+      "description": "Bilancia l’innovazione su tre orizzonti: migliora il core oggi, fai crescere le scommesse emergenti, esplora le opzioni future.",
+      "activities": {
+        "horizon1": {
+          "title": "Orizzonte 1: migliorare il core",
+          "description": "Rendi più efficiente e redditizio il business di oggi."
+        },
+        "horizon2": {
+          "title": "Orizzonte 2: far crescere le scommesse emergenti",
+          "description": "Sostieni le nuove offerte che iniziano a funzionare."
+        },
+        "horizon3": {
+          "title": "Orizzonte 3: esplorare il futuro",
+          "description": "Fai piccoli esperimenti su futuri possibili."
+        },
+        "balance": {
+          "title": "Bilanciare il portafoglio",
+          "description": "Decidi come dividere tempo e denaro tra i tre orizzonti."
+        }
+      }
+    },
+    "business_model_generation": {
+      "name": "Business Model Generation",
+      "description": "Progetta, verifica e perfeziona un modello di business su una sola pagina, con l’approccio del Business Model Canvas.",
+      "activities": {
+        "mobilize": {
+          "title": "Mobilitare",
+          "description": "Definisci l’obiettivo, forma il team e pianifica il lavoro."
+        },
+        "understand": {
+          "title": "Comprendere",
+          "description": "Raccogli ciò che serve sapere su clienti, mercato e concorrenti."
+        },
+        "design": {
+          "title": "Progettare",
+          "description": "Disegna più modelli di business sul canvas e scegli il migliore."
+        },
+        "implement": {
+          "title": "Realizzare",
+          "description": "Metti in pratica il modello scelto."
+        },
+        "manage": {
+          "title": "Gestire",
+          "description": "Osserva i risultati e adatta il modello nel tempo."
+        }
+      }
+    },
+    "value_proposition_design": {
+      "name": "Value Proposition Design",
+      "description": "Assicurati che la tua offerta corrisponda a ciò che i clienti vogliono davvero: descrivi il cliente, descrivi l’offerta, verifica l’aderenza.",
+      "activities": {
+        "customer_profile": {
+          "title": "Descrivere il cliente",
+          "description": "Elenca i compiti, i problemi e i benefici desiderati dal cliente."
+        },
+        "value_map": {
+          "title": "Descrivere l’offerta",
+          "description": "Elenca i prodotti e come riducono i problemi e creano benefici."
+        },
+        "fit": {
+          "title": "Verificare l’aderenza",
+          "description": "Confronta le due parti e segna ciò che è ancora un’ipotesi."
+        },
+        "test": {
+          "title": "Testare con i clienti",
+          "description": "Fai piccoli esperimenti per confermare o smentire le ipotesi."
+        }
+      }
+    },
+    "customer_development": {
+      "name": "Customer Development",
+      "description": "Trova i clienti prima di crescere: scopri i loro bisogni, convalida l’offerta, crea domanda, poi costruisci l’azienda.",
+      "activities": {
+        "discovery": {
+          "title": "Scoperta del cliente",
+          "description": "Parla con i clienti per verificare le tue ipotesi sul problema."
+        },
+        "validation": {
+          "title": "Convalida del cliente",
+          "description": "Dimostra che i clienti compreranno davvero, con un modo ripetibile di vendere."
+        },
+        "creation": {
+          "title": "Creazione del cliente",
+          "description": "Costruisci la domanda e fai crescere la base clienti."
+        },
+        "company_building": {
+          "title": "Costruzione dell’azienda",
+          "description": "Trasforma ciò che hai imparato in un’azienda che può crescere."
+        }
+      }
+    },
+    "triz": {
+      "name": "TRIZ",
+      "description": "Un metodo per risolvere problemi tecnici individuando la contraddizione che li causa e applicando principi inventivi collaudati.",
+      "activities": {
+        "define": {
+          "title": "Definire il problema",
+          "description": "Descrivi il problema e quale sarebbe il risultato ideale."
+        },
+        "contradiction": {
+          "title": "Trovare la contraddizione",
+          "description": "Indica cosa migliora e cosa peggiora quando provi a risolverlo."
+        },
+        "principles": {
+          "title": "Applicare i principi inventivi",
+          "description": "Usa i principi standard di TRIZ per generare soluzioni."
+        },
+        "evaluate": {
+          "title": "Valutare le soluzioni",
+          "description": "Confronta le soluzioni con il risultato ideale e tieni la migliore."
+        }
+      }
+    },
+    "systematic_inventive_thinking": {
+      "name": "Systematic Inventive Thinking",
+      "description": "Crea nuove idee restando nel tuo prodotto attuale: trasformalo con cinque semplici strumenti di pensiero.",
+      "activities": {
+        "closed_world": {
+          "title": "Definire il mondo chiuso",
+          "description": "Elenca le parti e le caratteristiche del tuo prodotto o servizio."
+        },
+        "tools": {
+          "title": "Applicare i cinque strumenti",
+          "description": "Sottrai, moltiplica, dividi, unisci compiti e collega tra loro gli attributi."
+        },
+        "evaluate": {
+          "title": "Valutare le idee",
+          "description": "Tieni le idee che hanno un valore reale per i clienti."
+        }
+      }
+    },
+    "creative_problem_solving": {
+      "name": "Creative Problem Solving",
+      "description": "Un modo graduale per affrontare problemi aperti: capirli, generare molte idee, dare forma alle migliori e pianificare l’azione.",
+      "activities": {
+        "clarify": {
+          "title": "Chiarire",
+          "description": "Esplora la situazione e definisci la sfida reale."
+        },
+        "ideate": {
+          "title": "Generare idee",
+          "description": "Produci molte idee senza giudicarle."
+        },
+        "develop": {
+          "title": "Sviluppare le soluzioni",
+          "description": "Scegli le idee promettenti e migliorale."
+        },
+        "implement": {
+          "title": "Pianificare l’azione",
+          "description": "Decidi chi fa cosa, e per quando."
+        }
+      }
+    },
+    "scenario_planning": {
+      "name": "Scenario planning",
+      "description": "Preparati a un futuro incerto immaginando più scenari plausibili e mettendo alla prova la strategia su ciascuno.",
+      "activities": {
+        "scope": {
+          "title": "Definire il perimetro",
+          "description": "Scegli la domanda e l’orizzonte temporale."
+        },
+        "drivers": {
+          "title": "Individuare i fattori chiave",
+          "description": "Elenca le forze e le incertezze che plasmano il futuro."
+        },
+        "build": {
+          "title": "Costruire gli scenari",
+          "description": "Scrivi un piccolo insieme di futuri diversi e plausibili."
+        },
+        "implications": {
+          "title": "Trarre le conseguenze",
+          "description": "Decidi cosa faresti in ogni scenario."
+        },
+        "monitor": {
+          "title": "Monitorare i segnali",
+          "description": "Osserva i primi segni di quale scenario si sta realizzando."
+        }
+      }
+    },
+    "value_engineering": {
+      "name": "Value Engineering",
+      "description": "Aumenta il valore chiedendoti cosa deve fare un prodotto o processo e cercando modi migliori o più economici per farlo.",
+      "activities": {
+        "information": {
+          "title": "Raccogliere informazioni",
+          "description": "Raccogli dati su costi, requisiti e utilizzo."
+        },
+        "function": {
+          "title": "Analizzare le funzioni",
+          "description": "Elenca cosa deve fare ogni parte e quanto costa."
+        },
+        "creativity": {
+          "title": "Trovare alternative",
+          "description": "Genera altri modi per svolgere ogni funzione."
+        },
+        "evaluation": {
+          "title": "Valutare le alternative",
+          "description": "Scegli le opzioni con il miglior valore."
+        },
+        "proposal": {
+          "title": "Proporre e seguire",
+          "description": "Presenta il cambiamento e segui i risultati."
+        }
+      }
+    },
+    "design_for_six_sigma": {
+      "name": "Design for Six Sigma",
+      "description": "Progetta un nuovo prodotto o processo giusto al primo colpo, usando i dati per soddisfare i clienti con pochissimi difetti.",
+      "activities": {
+        "define": {
+          "title": "Definire",
+          "description": "Fissa gli obiettivi e i bisogni dei clienti."
+        },
+        "measure": {
+          "title": "Misurare",
+          "description": "Trasforma i bisogni dei clienti in requisiti misurabili."
+        },
+        "analyze": {
+          "title": "Analizzare",
+          "description": "Esplora le opzioni di progetto e scegli la migliore."
+        },
+        "design": {
+          "title": "Progettare",
+          "description": "Dettaglia il progetto e pianifica come verificarlo."
+        },
+        "verify": {
+          "title": "Verificare",
+          "description": "Collauda il progetto e passalo alle operazioni."
+        }
+      }
+    },
+    "crowdsourcing": {
+      "name": "Crowdsourcing",
+      "description": "Chiedi a una grande community, interna o esterna all’azienda, di contribuire con idee o soluzioni a una sfida chiara.",
+      "activities": {
+        "challenge": {
+          "title": "Definire la sfida",
+          "description": "Scrivi una domanda chiara, le regole e il premio."
+        },
+        "launch": {
+          "title": "Lanciare alla community",
+          "description": "Apri la sfida e invita le persone a partecipare."
+        },
+        "select": {
+          "title": "Valutare i contributi",
+          "description": "Esamina i contributi arrivati e scegli i migliori."
+        },
+        "reward": {
+          "title": "Premiare e realizzare",
+          "description": "Ringrazia chi ha contribuito e metti al lavoro le idee vincenti."
+        }
+      }
+    },
+    "human_centered_design": {
+      "name": "Human-centered design",
+      "description": "Progetta insieme alle persone che servi: ascoltale, costruisci le soluzioni con loro e portale nella realtà.",
+      "activities": {
+        "hear": {
+          "title": "Ascoltare",
+          "description": "Ascolta le persone e scopri la loro vita e i loro bisogni."
+        },
+        "create": {
+          "title": "Creare",
+          "description": "Trasforma ciò che hai sentito in idee e prototipi rapidi."
+        },
+        "deliver": {
+          "title": "Realizzare",
+          "description": "Pianifica come lanciare e sostenere la soluzione."
+        }
+      }
     }
   },
   "programs": {
@@ -478,13 +912,39 @@
     "new": "Nuovo programma",
     "empty": "Ancora nessun programma",
     "emptyHint": "Parti da una metodologia collaudata o costruisci il tuo da zero.",
-    "activitiesCount": "{{count}} attività",
+    "activitiesCount_one": "{{count}} attività",
+    "activitiesCount_other": "{{count}} attività",
     "custom": "Programma personalizzato",
     "fromTemplate": "Basato su",
     "newTitle": "Nuovo programma",
     "newHint": "Scegli una metodologia da cui partire. Potrai modificare tutto dopo.",
     "scratch": "Parti da zero",
     "scratchHint": "Un programma vuoto: aggiungi tu attività, persone e risorse.",
+    "help": "Aiutami a scegliere",
+    "helpHint": "Rispondi a tre domande veloci e ti suggeriamo da dove partire. Puoi comunque scegliere qualsiasi metodologia.",
+    "recommended": "Consigliata per te",
+    "q": {
+      "size": "Quanto è grande la tua azienda?",
+      "need": "Di cosa hai più bisogno?",
+      "maturity": "Quanto lavoro di innovazione hai già fatto?"
+    },
+    "a": {
+      "size": {
+        "micro": "Da 1 a 9 persone",
+        "small": "Da 10 a 49 persone",
+        "large": "50 persone o più"
+      },
+      "need": {
+        "structure": "Un sistema di innovazione completo",
+        "ideas": "Raccogliere e selezionare idee",
+        "customer": "Capire i clienti e progettare nuove offerte",
+        "validate": "Mettere alla prova in fretta una nuova idea di business"
+      },
+      "maturity": {
+        "new": "Sto iniziando",
+        "some": "Abbiamo già un po’ di pratica"
+      }
+    },
     "name": "Nome del programma",
     "description": "Descrizione (facoltativa)",
     "create": "Crea programma",
@@ -505,7 +965,6 @@
     "newActivity": "Nuova attività",
     "addActivity": "Aggiungi attività",
     "delete": "Elimina programma",
-    "confirmDelete": "Tocca di nuovo per eliminare",
     "deleteHint": "Il programma viene eliminato. Le sue attività e persone restano nel tuo Inventario."
   },
   "unit": {
@@ -565,7 +1024,7 @@
   },
   "goals": {
     "title": "Obiettivi e KPI",
-    "hint": "Stabilisci cosa vuoi ottenere e guardalo avanzare. Ogni obiettivo è misurato da un KPI che CHIMERA calcola dai tuoi dati.",
+    "hint": "Stabilisci cosa vuoi ottenere e guardalo avanzare. Ogni obiettivo è misurato da un KPI che CHIMS calcola dai tuoi dati.",
     "goalsTab": "Obiettivi",
     "kpisTab": "KPI",
     "newGoal": "Nuovo obiettivo",
@@ -576,6 +1035,25 @@
     "emptyKpisHint": "I KPI nascono con i tuoi obiettivi, oppure puoi crearli qui da soli.",
     "formTitle": "Nuovo obiettivo",
     "formHint": "Un obiettivo è un traguardo su qualcosa che puoi misurare.",
+    "step1": {
+      "title": "Cosa vuoi ottenere?",
+      "hint": "Descrivi il risultato in una frase, poi indica di cosa si tratta."
+    },
+    "step2": {
+      "title": "Come lo misurerai?",
+      "hint": "Scegli qualcosa che CHIMS può contare per te, oppure inserisci tu il numero."
+    },
+    "step3": {
+      "title": "Quale numero vuoi raggiungere?",
+      "hint": "Un obiettivo ha bisogno di un numero e di un’unità, così sai quando l’hai raggiunto."
+    },
+    "step4": {
+      "title": "Entro quando?",
+      "hint": "Un obiettivo senza scadenza è solo un desiderio. Scegli una data."
+    },
+    "stepOf": "Passo {{n}} di {{total}}",
+    "next": "Avanti",
+    "summary": "{{title}}: raggiungere {{target}} {{unit}} entro il {{due}}.",
     "fieldTitle": "Obiettivo",
     "fieldTitlePlaceholder": "es. Raccogliere 20 idee questo trimestre",
     "basedOn": "Di che cosa si tratta?",
@@ -597,7 +1075,7 @@
     "atLeast": "Raggiungere almeno",
     "atMost": "Restare sotto",
     "target": "Valore obiettivo",
-    "due": "Scadenza (facoltativa)",
+    "due": "Scadenza",
     "linkedItems": "Elementi collegati",
     "create": "Crea obiettivo",
     "notFound": "Questo obiettivo non esiste più.",
@@ -610,14 +1088,22 @@
     "markAchieved": "Segna come raggiunto",
     "archive": "Archivia",
     "reopen": "Riapri",
-    "confirmDelete": "Tocca di nuovo per eliminare",
     "delete": "Elimina obiettivo",
     "kpiFormTitle": "Nuovo KPI",
     "kpiFormHint": "Un KPI è una misura che vuoi tenere d’occhio.",
     "kpiName": "Nome del KPI",
     "createKpi": "Crea KPI",
     "usedByGoals": "Usato dagli obiettivi",
-    "deleteKpi": "Elimina KPI"
+    "deleteKpi": "Elimina KPI",
+    "deleteConfirm": "Eliminare questo obiettivo? Non si può annullare.",
+    "deleteKpiConfirm": "Eliminare questo KPI e il suo storico? Gli obiettivi che lo usano perdono la loro misura.",
+    "duePlaceholder": "AAAA-MM-GG",
+    "dueInvalid": "Usa il formato AAAA-MM-GG, per esempio 2026-12-31.",
+    "endOf": {
+      "month": "Fine di questo mese",
+      "quarter": "Fine di questo trimestre",
+      "year": "Fine di quest’anno"
+    }
   },
   "strategyStatus": {
     "draft": "Bozza",
@@ -640,7 +1126,8 @@
     "driftTitle": "È ora di rivedere la strategia?",
     "driftBody": "{{changed}} delle {{total}} ipotesi su cui poggia questa strategia sono cambiate da quando è stata scritta.",
     "driftOk": "Le ipotesi reggono",
-    "dueTitle": "{{count}} ipotesi da rivedere",
+    "dueTitle_one": "{{count}} ipotesi da rivedere",
+    "dueTitle_other": "{{count}} ipotesi da rivedere",
     "dueBody": "Controllale per vedere se valgono ancora.",
     "tabField": "Campo",
     "tabAssumptions": "Ipotesi",
@@ -666,10 +1153,10 @@
     "versionTitle": "Strategia v{{n}}",
     "firstTitle": "Strategia di innovazione attuale",
     "noStrategies": "Ancora nessuna strategia",
-    "noStrategiesHint": "Crea la prima per descrivere com’è la situazione oggi (AS IS).",
-    "asIs": "AS IS",
-    "toBe": "TO BE",
-    "transitions": "Transizioni",
+    "noStrategiesHint": "Crea la prima per descrivere com’è la situazione oggi.",
+    "asIs": "Attuale",
+    "toBe": "Prevista",
+    "transitions": "Cambiamenti",
     "notFound": "Questa strategia non esiste più.",
     "fieldName": "Nome",
     "summaryTitle": "Sintesi",
@@ -693,7 +1180,8 @@
     "activateHint": "La strategia attuale viene archiviata e viene registrata una transizione.",
     "reason": "Perché questo cambiamento? (facoltativo)",
     "activate": "Attiva",
-    "deleteDraft": "Elimina la bozza"
+    "deleteDraft": "Elimina la bozza",
+    "deleteDraftConfirm": "Eliminare questa bozza? Non si può annullare."
   },
   "assumption": {
     "formTitle": "Nuova ipotesi",
@@ -717,7 +1205,8 @@
     "triggerHint": "Una buona ipotesi dice che cosa la smentirebbe. È questo che ti avvisa quando rivedere la strategia.",
     "evidence": "Prove finora",
     "reviewEvery": "Rivedi ogni",
-    "days": "{{count}} giorni",
+    "days_one": "{{count}} giorno",
+    "days_other": "{{count}} giorni",
     "create": "Salva ipotesi",
     "notFound": "Questa ipotesi non esiste più.",
     "concerns": "Riguarda",
@@ -731,14 +1220,15 @@
       "invalid": "Non più valida"
     },
     "history": "Storico delle revisioni",
-    "delete": "Elimina ipotesi"
+    "delete": "Elimina ipotesi",
+    "deleteConfirm": "Eliminare questa ipotesi? Le strategie che si basano su di essa perdono il collegamento."
   },
   "notif": {
     "title": "Notifiche",
     "hint": "Ciò che richiede la tua attenzione in azienda.",
-    "dismissAll": "Segna tutte come lette",
+    "dismissAll": "Nascondi tutte",
     "open": "Apri",
-    "dismiss": "Segna come letta",
+    "dismiss": "Nascondi",
     "empty": "Niente richiede la tua attenzione",
     "emptyHint": "Sei in pari con tutto.",
     "vote_needed": {

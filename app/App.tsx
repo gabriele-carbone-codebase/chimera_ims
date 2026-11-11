@@ -1,6 +1,6 @@
-import './src/i18n';
-import React, { useState } from 'react';
-import { ActivityIndicator, View } from 'react-native';
+import i18n from './src/i18n';
+import React, { useEffect, useState } from 'react';
+import { ActivityIndicator, BackHandler, View } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { useTranslation } from 'react-i18next';
 import { useFonts } from 'expo-font';
@@ -23,6 +23,7 @@ import { AuthScreen } from './src/screens/AuthScreen';
 import { BusinessScreen } from './src/screens/BusinessScreen';
 import { ExpertiseScreen } from './src/screens/ExpertiseScreen';
 import { HomeScreen } from './src/screens/HomeScreen';
+import { SettingsScreen } from './src/screens/SettingsScreen';
 import { InventoryScreen } from './src/screens/InventoryScreen';
 import { NodeFormScreen } from './src/screens/NodeFormScreen';
 import { NodeDetailScreen } from './src/screens/NodeDetailScreen';
@@ -44,11 +45,13 @@ import { AssumptionDetailScreen, AssumptionFormScreen } from './src/screens/Assu
 import { StrategyDetailScreen } from './src/screens/StrategyDetailScreen';
 import { NotificationsScreen } from './src/screens/NotificationsScreen';
 import type { NodeType } from './src/lib/inventory';
+import { isAdvanced } from './src/lib/levels';
 
 type Overlay = null | 'business' | 'expertise';
 type Route =
   | { name: 'home' }
   | { name: 'notifications' }
+  | { name: 'settings' }
   | { name: 'goals' }
   | { name: 'goal'; id: string }
   | { name: 'goalNew' }
@@ -83,22 +86,32 @@ function Main({ setOverlay }: { setOverlay: (o: Overlay) => void }) {
   const goSection = (s: Section) => setStack([{ name: s }]);
   const section = stack[0].name as Section;
 
-  // The strategy layer (field, assumptions, strategy versions) is for specialists and managers.
-  const level = current?.expertise_level;
-  const advanced = level === 'specialist' || level === 'manager';
-  const sections: Section[] = ['home', 'notifications', 'goals', 'programs', 'ideas', 'projects', 'inventory', ...(advanced ? (['strategy'] as Section[]) : [])];
+  // Hardware back (Android) pops the stack; at the root it falls through to the system.
+  useEffect(() => {
+    const sub = BackHandler.addEventListener('hardwareBackPress', () => {
+      if (stack.length <= 1) return false;
+      pop();
+      return true;
+    });
+    return () => sub.remove();
+  }, [stack.length]);
 
+  // The strategy layer (field, assumptions, strategy versions) is for specialists and managers.
+  const sections: Section[] = ['home', 'notifications', 'goals', 'programs', 'ideas', 'projects', 'inventory', ...(isAdvanced(current?.expertise_level) ? (['strategy'] as Section[]) : []), 'settings'];
+
+  // Cross-links push, so Back returns to where the user came from.
   const openTarget = (t: Target) => {
-    if (t.type === 'idea') setStack([{ name: 'ideas' }, { name: 'idea', id: t.id }]);
-    else if (t.type === 'project') setStack([{ name: 'projects' }, { name: 'project', id: t.id }]);
-    else if (t.type === 'goal') setStack([{ name: 'goals' }, { name: 'goal', id: t.id }]);
-    else if (t.type === 'assumption') setStack([{ name: 'strategy' }, { name: 'assumption', id: t.id }]);
-    else setStack([{ name: 'strategy' }, { name: 'strategyVersion', id: t.id }]);
+    if (t.type === 'idea') push({ name: 'idea', id: t.id });
+    else if (t.type === 'project') push({ name: 'project', id: t.id });
+    else if (t.type === 'goal') push({ name: 'goal', id: t.id });
+    else if (t.type === 'assumption') push({ name: 'assumption', id: t.id });
+    else push({ name: 'strategyVersion', id: t.id });
   };
 
   return (
-    <AppShell section={section} sections={sections} badges={{ notifications: count }} onSection={goSection} business={current?.business.name ?? ''}>
-      {route.name === 'home' && <HomeScreen go={setOverlay} attention={items.slice(0, 3)} onOpenTarget={openTarget} onSeeAll={() => goSection('notifications')} />}
+    <AppShell section={section} sections={sections} badges={{ notifications: count }} onSection={goSection}>
+      {route.name === 'settings' && <SettingsScreen go={setOverlay} />}
+      {route.name === 'home' && <HomeScreen attention={items.slice(0, 3)} onOpenTarget={openTarget} onSeeAll={() => goSection('notifications')} />}
       {route.name === 'notifications' && <NotificationsScreen onOpen={openTarget} />}
 
       {route.name === 'goals' && <GoalsScreen onOpenGoal={(id) => push({ name: 'goal', id })} onNewGoal={() => push({ name: 'goalNew' })} onOpenKpi={(id) => push({ name: 'kpi', id })} onNewKpi={() => push({ name: 'kpiNew' })} />}
@@ -113,12 +126,12 @@ function Main({ setOverlay }: { setOverlay: (o: Overlay) => void }) {
 
       {route.name === 'ideas' && <IdeasScreen onOpen={(id) => push({ name: 'idea', id })} onPropose={() => push({ name: 'ideaForm' })} />}
       {route.name === 'ideaForm' && <IdeaFormScreen onCancel={pop} onDone={(id) => replaceTop({ name: 'idea', id })} />}
-      {route.name === 'idea' && <IdeaDetailScreen id={route.id} onBack={pop} onOpenProject={(id) => setStack([{ name: 'projects' }, { name: 'project', id }])} />}
+      {route.name === 'idea' && <IdeaDetailScreen id={route.id} onBack={pop} onOpenProject={(id) => push({ name: 'project', id })} />}
 
       {route.name === 'projects' && <ProjectsScreen onOpen={(id) => push({ name: 'project', id })} onNew={() => push({ name: 'projectForm' })} />}
       {route.name === 'projectForm' && <ProjectFormScreen onCancel={pop} onDone={(id) => replaceTop({ name: 'project', id })} />}
       {route.name === 'project' && (
-        <ProjectDetailScreen id={route.id} onBack={pop} onOpenNode={(id) => push({ name: 'node', id })} onOpenIdea={(id) => setStack([{ name: 'ideas' }, { name: 'idea', id }])} />
+        <ProjectDetailScreen id={route.id} onBack={pop} onOpenNode={(id) => push({ name: 'node', id })} onOpenIdea={(id) => push({ name: 'idea', id })} />
       )}
 
       {route.name === 'inventory' && (
@@ -144,15 +157,19 @@ function Main({ setOverlay }: { setOverlay: (o: Overlay) => void }) {
   );
 }
 
+function Splash() {
+  const c = useTheme();
+  return <View style={{ flex: 1, backgroundColor: c.page, justifyContent: 'center' }}><ActivityIndicator color={c.accent} accessibilityLabel={i18n.t('common.loading')} /></View>;
+}
+
 function Root() {
   const { t } = useTranslation();
-  const { ready, session, current, memberships, loadFailed, retry } = useApp();
-  const c = useTheme();
+  const { ready, session, current, memberships, loadFailed, retry, signOut } = useApp();
   const [overlay, setOverlay] = useState<Overlay>(null);
 
-  if (!ready) return <View style={{ flex: 1, backgroundColor: c.page, justifyContent: 'center' }}><ActivityIndicator color={c.accent} /></View>;
+  if (!ready) return <Splash />;
   if (!session) return <AuthScreen />;
-  if (loadFailed && memberships.length === 0) return <Screen><Text variant="error">{t('common.error')}</Text><Button label={t('common.retry')} onPress={retry} /></Screen>;
+  if (loadFailed && memberships.length === 0) return <Screen><Text variant="error">{t('common.error')}</Text><Button label={t('common.retry')} onPress={retry} /><Button variant="ghost" label={t('auth.signOut')} onPress={signOut} /></Screen>;
   if (memberships.length === 0 || overlay === 'business') return <BusinessScreen onDone={memberships.length ? () => setOverlay(null) : undefined} />;
   if (!current?.expertise_level || overlay === 'expertise') return <ExpertiseScreen onDone={current?.expertise_level ? () => setOverlay(null) : undefined} />;
   return (
@@ -175,14 +192,15 @@ function Root() {
 }
 
 export default function App() {
-  const [loaded] = useFonts({ Newsreader_500Medium, InstrumentSans_400Regular, InstrumentSans_500Medium, IBMPlexMono_400Regular });
-  if (!loaded) return null;
+  const [loaded, fontError] = useFonts({ Newsreader_500Medium, InstrumentSans_400Regular, InstrumentSans_500Medium, IBMPlexMono_400Regular });
   return (
     <ThemeProvider>
-      <AppProvider>
-        <Root />
-        <StatusBar style="auto" />
-      </AppProvider>
+      {loaded || fontError ? ( // a font error falls back to system fonts instead of a blank screen
+        <AppProvider>
+          <Root />
+          <StatusBar style="auto" />
+        </AppProvider>
+      ) : <Splash />}
     </ThemeProvider>
   );
 }

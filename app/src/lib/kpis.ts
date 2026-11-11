@@ -73,5 +73,12 @@ export function goalState(g: Goal, value: number, now = new Date()): GoalState {
   return elapsed > 0.1 && goalProgress(g, value) < elapsed - 0.15 ? 'at_risk' : 'on_track';
 }
 
+/** Last day (YYYY-MM-DD, local time) of the current month, quarter or year. */
+export function periodEnd(period: 'month' | 'quarter' | 'year', now = new Date()): string {
+  const y = now.getFullYear(); const m = now.getMonth();
+  const d = period === 'month' ? new Date(y, m + 1, 0) : period === 'quarter' ? new Date(y, Math.floor(m / 3) * 3 + 3, 0) : new Date(y, 12, 0);
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+}
+
 export const isoToday = () => new Date().toISOString().slice(0, 10);
 export const isValidDate = (s: string) => /^\d{4}-\d{2}-\d{2}$/.test(s) && !Number.isNaN(new Date(s).getTime());

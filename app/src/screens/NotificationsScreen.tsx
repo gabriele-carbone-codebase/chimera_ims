@@ -8,14 +8,15 @@ import { space } from '../theme/tokens';
 export function AttentionCard({ item, onOpen }: { item: Attention; onOpen: (t: Target) => void }) {
   const { t } = useTranslation();
   const { dismiss } = useNotifications();
+  const title = t(`notif.${item.kind}.title`, item.params);
   return (
     <Card>
       <Text variant="overline">{t(`notif.${item.kind}.label`)}</Text>
-      <Text variant="h3">{t(`notif.${item.kind}.title`, item.params)}</Text>
+      <Text variant="h3">{title}</Text>
       <Text variant="secondary">{t(`notif.${item.kind}.body`, item.params)}</Text>
       <View style={{ flexDirection: 'row', gap: space[3], marginTop: space[3] }}>
-        <Button variant="secondary" label={t('notif.open')} onPress={() => onOpen(item.target)} />
-        <Button variant="ghost" label={t('notif.dismiss')} onPress={() => dismiss(item.key)} />
+        <Button variant="secondary" label={t('notif.open')} accessibilityLabel={`${t('notif.open')}: ${title}`} onPress={() => onOpen(item.target)} />
+        <Button variant="ghost" label={t('notif.dismiss')} accessibilityLabel={`${t('notif.dismiss')}: ${title}`} onPress={() => dismiss(item.key)} />
       </View>
     </Card>
   );

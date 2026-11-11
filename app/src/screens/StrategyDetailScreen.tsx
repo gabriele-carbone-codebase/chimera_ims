@@ -6,7 +6,7 @@ import { useInventory } from '../state/Inventory';
 import { useStrategy } from '../state/Strategy';
 import { canManageAll } from '../lib/inventory';
 import { UNITS, driftOf, isFieldArtifact, usageOf, usedSet, type InvestUnit } from '../lib/strategy';
-import { BackButton, Button, Card, Chip, Field, NotFound, Page, Text, useAction } from '../components/ui';
+import { BackButton, Button, Card, Chip, ChipRow, ConfirmButton, Field, NotFound, Page, Text, ViewOnly, useAction } from '../components/ui';
 import { space } from '../theme/tokens';
 
 export function StrategyDetailScreen({ id, onBack, onOpenNode, onOpenAssumption }: { id: string; onBack: () => void; onOpenNode: (id: string) => void; onOpenAssumption: (id: string) => void }) {
@@ -20,7 +20,6 @@ export function StrategyDetailScreen({ id, onBack, onOpenNode, onOpenAssumption 
   const [amounts, setAmounts] = useState<Record<string, string>>({});
   const [units, setUnits] = useState<Record<string, InvestUnit>>({});
   const [reason, setReason] = useState('');
-  const [confirming, setConfirming] = useState(false);
   const { busy, error, run } = useAction();
   const [saved, setSaved] = useState(false);
 
@@ -84,8 +83,8 @@ export function StrategyDetailScreen({ id, onBack, onOpenNode, onOpenAssumption 
             <Text variant="h3" onPress={() => onOpenNode(a.id)}>{a.title}</Text>
             {editable ? (
               <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[3], alignItems: 'flex-end' }}>
-                <View style={{ width: 120 }}><Field label={t('strategy.amount')} value={amountOf(a.id)} onChangeText={(v) => { setSaved(false); setAmounts((m) => ({ ...m, [a.id]: v })); }} keyboardType="numeric" /></View>
-                {UNITS.map((u) => <Chip key={u} label={t(`unit.${u}`)} selected={unitOf(a.id) === u} onPress={() => { setSaved(false); setUnits((m) => ({ ...m, [a.id]: u })); }} />)}
+                <View style={{ width: 120 }}><Field label={t('strategy.amount')} value={amountOf(a.id)} onChangeText={(v) => { setSaved(false); setAmounts((m) => ({ ...m, [a.id]: v })); }} inputMode="decimal" /></View>
+                {UNITS.map((u) => <Chip key={u} label={t(`unit.${u}`)} accessibilityRole="radio" selected={unitOf(a.id) === u} onPress={() => { setSaved(false); setUnits((m) => ({ ...m, [a.id]: u })); }} />)}
               </View>
             ) : <Text variant="secondary">{invOf(a.id) && invOf(a.id)!.amount > 0 ? `${invOf(a.id)!.amount} ${t(`unit.${invOf(a.id)!.unit}`)}` : t('strategy.notInvested')}</Text>}
           </Card>
@@ -94,7 +93,7 @@ export function StrategyDetailScreen({ id, onBack, onOpenNode, onOpenAssumption 
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: space[4] }}>
             <Button variant="secondary" label={t('strategy.saveInvestments')} loading={busy === 'inv'} disabled={changedRows.length === 0}
               onPress={() => run('inv', async () => { await s.saveInvestments(id, changedRows); setAmounts({}); setUnits({}); setSaved(true); })} />
-            {saved && <Text variant="secondary">{t('ideas.saved')}</Text>}
+            {saved && <Text variant="secondary">{t('common.saved')}</Text>}
           </View>
         )}
       </View>
@@ -119,10 +118,10 @@ export function StrategyDetailScreen({ id, onBack, onOpenNode, onOpenAssumption 
                   ) : (
                     <>
                       <Text variant="overline">{t('strategy.because')}</Text>
-                      <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[3] }}>
+                      <ChipRow kind="radio">
                         {s.assumptions.map((a) => <Chip key={a.id} label={a.statement.length > 40 ? `${a.statement.slice(0, 40)}…` : a.statement} selected={dec?.assumption_id === a.id} onPress={() => run(`d${n.id}`, () => s.setDecision(id, n.id, dec?.assumption_id === a.id ? null : a.id))} />)}
                         {s.assumptions.length === 0 && <Text variant="secondary">{t('strategy.noAssumptionsYet')}</Text>}
-                      </View>
+                      </ChipRow>
                       <Chip label={t('strategy.undo')} tone="danger" onPress={() => run(`d${n.id}`, () => s.clearDecision(id, n.id))} />
                     </>
                   )}
@@ -137,16 +136,17 @@ export function StrategyDetailScreen({ id, onBack, onOpenNode, onOpenAssumption 
       <View style={{ gap: space[3] }}>
         <Text variant="overline">{t('strategy.restsOn')}</Text>
         {links.length === 0 && <Text variant="secondary">{t('strategy.noLinks')}</Text>}
-        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[3] }}>
+        <ChipRow kind={editable ? 'checkbox' : undefined}>
           {s.assumptions.map((a) => {
             const l = links.find((x) => x.assumption_id === a.id);
             if (!editable && !l) return null;
             return <Chip key={a.id} label={a.statement.length > 48 ? `${a.statement.slice(0, 48)}…` : a.statement} selected={!!l}
               onPress={editable ? () => run(`l${a.id}`, () => (l ? s.unlinkAssumption(id, a.id) : s.linkAssumption(id, a.id, a.status))) : () => onOpenAssumption(a.id)} />;
           })}
-        </View>
+        </ChipRow>
       </View>
 
+      {!editable && isDraft && <ViewOnly />}
       {editable && (
         <Card>
           <Text variant="h3">{t('strategy.activateTitle')}</Text>
@@ -154,7 +154,7 @@ export function StrategyDetailScreen({ id, onBack, onOpenNode, onOpenAssumption 
           <Field label={t('strategy.reason')} value={reason} onChangeText={setReason} maxLength={2000} />
           <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[3], marginTop: space[3] }}>
             <Button label={t('strategy.activate')} loading={busy === 'act'} onPress={() => run('act', () => s.activate(id, reason.trim() || null))} />
-            <Button variant="ghost" label={confirming ? t('goals.confirmDelete') : t('strategy.deleteDraft')} onPress={() => (confirming ? run('del', async () => { await s.deleteStrategy(id); onBack(); }) : setConfirming(true))} />
+            <ConfirmButton label={t('strategy.deleteDraft')} message={t('strategy.deleteDraftConfirm')} onConfirm={() => run('del', async () => { await s.deleteStrategy(id); onBack(); })} />
           </View>
         </Card>
       )}
