@@ -1,3 +1,5 @@
+import type { Purpose } from '../lib/templates';
+
 // Ported from design-system/tokens (colors.css, themes.css, spacing.css, typography.css).
 export type Palette = {
   page: string; card: string; sunken: string; hover: string; selected: string;
@@ -7,6 +9,8 @@ export type Palette = {
   accent: string; accentSoft: string; accentSoftBorder: string; onAccent: string;
   success: string; successSoft: string; warning: string; warningSoft: string; danger: string; dangerSoft: string; info: string; infoSoft: string;
   scrim: string;
+  /** Catalog colors: one muted hue per methodology purpose (text/border and soft background). */
+  purpose: Record<Purpose, { fg: string; bg: string }>;
 };
 
 export const light: Palette = {
@@ -17,6 +21,10 @@ export const light: Palette = {
   accent: '#A07C1A', accentSoft: '#FBF6E6', accentSoftBorder: '#F4E8C0', onAccent: '#0A0A0A',
   success: '#3F6B4E', successSoft: '#EEF3EE', warning: '#8A5A14', warningSoft: '#FBF2E1', danger: '#A33B2B', dangerSoft: '#F8ECE8', info: '#3D5A80', infoSoft: '#ECF0F5',
   scrim: 'rgba(10,10,10,0.36)',
+  purpose: {
+    strategy: { fg: '#3D5A80', bg: '#ECF0F5' }, ideas: { fg: '#8A6A14', bg: '#FAF3DC' }, customer: { fg: '#7A4A6B', bg: '#F4ECF2' },
+    validate: { fg: '#3F6B4E', bg: '#EEF3EE' }, develop: { fg: '#8A4B2E', bg: '#F7ECE6' }, open: { fg: '#2F6B6B', bg: '#E8F2F2' }, incentives: { fg: '#6B5B8A', bg: '#F0EEF6' },
+  },
 };
 
 export const dark: Palette = {
@@ -27,6 +35,10 @@ export const dark: Palette = {
   accent: '#D4B454', accentSoft: '#231C0A', accentSoftBorder: '#3D3213', onAccent: '#0A0A0A',
   success: '#7FA98A', successSoft: '#1C2820', warning: '#D9A452', warningSoft: '#2D2314', danger: '#D27565', dangerSoft: '#2E1A16', info: '#86A2C6', infoSoft: '#1A222D',
   scrim: 'rgba(0,0,0,0.6)',
+  purpose: {
+    strategy: { fg: '#86A2C6', bg: '#1A222D' }, ideas: { fg: '#D1B25E', bg: '#2A2310' }, customer: { fg: '#C79AB9', bg: '#2B1D27' },
+    validate: { fg: '#7FA98A', bg: '#1C2820' }, develop: { fg: '#D49A7E', bg: '#2E1D15' }, open: { fg: '#7FB5B5', bg: '#172727' }, incentives: { fg: '#A99BCB', bg: '#221F2E' },
+  },
 };
 
 export const space = { 1: 2, 2: 4, 3: 8, 4: 12, 5: 16, 6: 20, 7: 24, 8: 32, 9: 40, 10: 56 } as const;

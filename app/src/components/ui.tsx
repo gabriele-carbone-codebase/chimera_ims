@@ -73,6 +73,40 @@ export function Chip({ label, selected, onPress, tone, accessibilityRole, access
   );
 }
 
+/** Drop-down list for choosing one of many options. Opens inline (no overlay, so it works in the side menu) and gets a filter box when the list is long. */
+export function Select({ label, value, options, onChange }: { label: string; value: string | undefined; options: { value: string; label: string }[]; onChange: (v: string) => void }) {
+  const { t } = useTranslation();
+  const c = useTheme();
+  const [open, setOpen] = React.useState(false);
+  const [q, setQ] = React.useState('');
+  const shown = options.filter((o) => !q.trim() || o.label.toLowerCase().includes(q.trim().toLowerCase()));
+  const current = options.find((o) => o.value === value);
+  return (
+    <View style={{ gap: space[2] }}>
+      <Pressable accessibilityRole="button" accessibilityLabel={`${label}: ${current?.label ?? ''}`} accessibilityState={{ expanded: open }} onPress={() => { setOpen(!open); setQ(''); }}
+        style={{ minHeight: 44, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: space[3], paddingHorizontal: space[4], borderRadius: radius.md, borderWidth: 1, borderColor: open ? c.focus : c.borderStrong, backgroundColor: c.card }}>
+        <RNText numberOfLines={1} style={{ flex: 1, fontFamily: fonts.bodyMedium, fontSize: fontSize.body, color: c.text }}>{current?.label ?? '—'}</RNText>
+        <RNText accessibilityElementsHidden importantForAccessibility="no-hide-descendants" style={{ color: c.textTertiary }}>{open ? '▴' : '▾'}</RNText>
+      </Pressable>
+      {open && (
+        <View style={{ borderRadius: radius.md, borderWidth: 1, borderColor: c.borderStrong, backgroundColor: c.card, overflow: 'hidden' }}>
+          {options.length > 8 && <TextInput accessibilityLabel={t('common.search')} placeholder={t('common.search')} value={q} onChangeText={setQ} placeholderTextColor={c.textTertiary}
+            style={{ minHeight: 44, paddingHorizontal: space[4], color: c.text, fontFamily: fonts.body, borderBottomWidth: 1, borderBottomColor: c.borderSubtle }} />}
+          <ScrollView style={{ maxHeight: 220 }} nestedScrollEnabled>
+            {shown.map((o) => (
+              <Pressable key={o.value} accessibilityRole="menuitem" accessibilityState={{ selected: o.value === value }} onPress={() => { onChange(o.value); setOpen(false); }}
+                style={({ hovered }: any) => ({ minHeight: 44, justifyContent: 'center', paddingHorizontal: space[4], backgroundColor: hovered ? c.hover : 'transparent' })}>
+                <RNText numberOfLines={1} style={{ fontFamily: fonts.body, fontSize: fontSize.body, color: c.text }}>{o.value === value ? '✓ ' : ''}{o.label}</RNText>
+              </Pressable>
+            ))}
+            {shown.length === 0 && <RNText style={{ padding: space[4], fontFamily: fonts.body, fontSize: fontSize.sm, color: c.textTertiary }}>{t('common.noResults')}</RNText>}
+          </ScrollView>
+        </View>
+      )}
+    </View>
+  );
+}
+
 /** Wrapping row of chips. `kind` gives the group its role and passes it to every Chip inside (single choice, multi select or tabs). */
 export function ChipRow({ kind, children }: { kind?: Role; children: React.ReactNode }) {
   const role = kind && { radio: 'radiogroup', checkbox: undefined, tab: 'tablist' }[kind];

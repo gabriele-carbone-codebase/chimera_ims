@@ -36,6 +36,7 @@ import { ProjectDetailScreen } from './src/screens/ProjectDetailScreen';
 import { ProgramsScreen } from './src/screens/ProgramsScreen';
 import { ProgramNewScreen } from './src/screens/ProgramNewScreen';
 import { ProgramDetailScreen } from './src/screens/ProgramDetailScreen';
+import { ActivityScreen } from './src/screens/ActivityScreen';
 import { GoalsScreen } from './src/screens/GoalsScreen';
 import { GoalFormScreen } from './src/screens/GoalFormScreen';
 import { GoalDetailScreen } from './src/screens/GoalDetailScreen';
@@ -60,6 +61,7 @@ type Route =
   | { name: 'programs' }
   | { name: 'program'; id: string }
   | { name: 'programNew' }
+  | { name: 'activity'; program: string; id: string }
   | { name: 'ideas' }
   | { name: 'idea'; id: string }
   | { name: 'ideaForm' }
@@ -122,7 +124,8 @@ function Main({ setOverlay }: { setOverlay: (o: Overlay) => void }) {
 
       {route.name === 'programs' && <ProgramsScreen onOpen={(id) => push({ name: 'program', id })} onNew={() => push({ name: 'programNew' })} />}
       {route.name === 'programNew' && <ProgramNewScreen onCancel={pop} onDone={(id) => replaceTop({ name: 'program', id })} />}
-      {route.name === 'program' && <ProgramDetailScreen id={route.id} onBack={pop} onOpenNode={(id) => push({ name: 'node', id })} />}
+      {route.name === 'program' && <ProgramDetailScreen id={route.id} onBack={pop} onOpenNode={(id) => push({ name: 'node', id })} onOpenActivity={(id) => push({ name: 'activity', program: route.id, id })} />}
+      {route.name === 'activity' && <ActivityScreen key={route.id} programId={route.program} id={route.id} onBack={pop} onOpenActivity={(id) => replaceTop({ name: 'activity', program: route.program, id })} onOpenNode={(id) => push({ name: 'node', id })} />}
 
       {route.name === 'ideas' && <IdeasScreen onOpen={(id) => push({ name: 'idea', id })} onPropose={() => push({ name: 'ideaForm' })} />}
       {route.name === 'ideaForm' && <IdeaFormScreen onCancel={pop} onDone={(id) => replaceTop({ name: 'idea', id })} />}

@@ -25,7 +25,8 @@
     "name": "Business name",
     "create": "Create business",
     "switch": "Switch business",
-    "new": "New business"
+    "new": "New business",
+    "current": "Business"
   },
   "expertise": {
     "title": "How would you describe yourself?",
@@ -73,7 +74,9 @@
     "delete": "Delete",
     "unknown": "Unknown",
     "viewOnly": "You can view this but not change it",
-    "chartSummary": "Chart, latest value {{last}}, highest {{max}}"
+    "chartSummary": "Chart, latest value {{last}}, highest {{max}}",
+    "search": "Search",
+    "noResults": "Nothing matches your search."
   },
   "nav": {
     "home": "Home",
@@ -473,23 +476,108 @@
       "activities": {
         "empathize": {
           "title": "Empathize",
-          "description": "Observe and listen to the people you are designing for."
+          "description": "Observe and listen to the people you are designing for.",
+          "guide": {
+            "why": "You cannot solve a problem you do not understand. Talking to real people shows what they need, do and struggle with, which is often different from what you assume.",
+            "steps": [
+              "Choose 5 to 8 people who really face the problem, including some who are not happy with the current solution.",
+              "Prepare 5 open questions that start with \"tell me about the last time you...\" and avoid questions that suggest an answer.",
+              "Interview each person for 30 to 45 minutes, in their own setting if you can. Listen more than you talk, and write down their exact words.",
+              "Right after each interview, note what surprised you, what they did (not only what they said) and what frustrated them."
+            ],
+            "template": [
+              "Who we spoke to (role, context, date)",
+              "Questions asked",
+              "Direct quotes",
+              "Behaviors and workarounds we observed",
+              "Needs and frustrations, in the customer’s words"
+            ],
+            "done": "You have interviewed at least 5 people and can describe their needs and frustrations with quotes, not opinions."
+          }
         },
         "define": {
           "title": "Define the problem",
-          "description": "State clearly the problem worth solving."
+          "description": "State clearly the problem worth solving.",
+          "guide": {
+            "why": "A clear problem statement keeps the whole team aiming at the same target. A vague one leads to ideas that solve nothing.",
+            "steps": [
+              "Lay out all notes and quotes from the interviews and group them by theme.",
+              "Pick the theme that hurts people most or comes up most often.",
+              "Write the statement as: \"[Person] needs a way to [need] because [insight].\" Keep it to one sentence.",
+              "Test it: does it leave room for many solutions, and would the people you interviewed recognize themselves in it?"
+            ],
+            "template": [
+              "Person or group",
+              "Need",
+              "Insight (why it matters)",
+              "Questions to explore (\"How might we...?\")",
+              "What success looks like"
+            ],
+            "done": "The team agrees on one sentence that describes the problem and does not contain a solution."
+          }
         },
         "ideate": {
           "title": "Ideate",
-          "description": "Generate many ideas, then choose the best ones."
+          "description": "Generate many ideas, then choose the best ones.",
+          "guide": {
+            "why": "The first idea is rarely the best. Producing many ideas first, and judging them later, leads to better and braver solutions.",
+            "steps": [
+              "Start from the \"How might we...?\" question and set a timer, for example 20 minutes.",
+              "Everyone writes ideas on their own first (one idea per note), then shares them. No judging yet.",
+              "Aim for quantity. Combine and build on each other’s ideas, including the odd ones.",
+              "Cluster similar ideas. Each person votes for the ones they find most promising, then choose 2 or 3 to prototype."
+            ],
+            "template": [
+              "The question we worked on",
+              "All ideas (grouped)",
+              "Votes",
+              "Ideas selected and why",
+              "Open doubts for each selected idea"
+            ],
+            "done": "You have a long list of ideas and 2 or 3 selected ones, each with a reason for choosing it."
+          }
         },
         "prototype": {
           "title": "Prototype",
-          "description": "Build quick, simple versions to make ideas tangible."
+          "description": "Build quick, simple versions to make ideas tangible.",
+          "guide": {
+            "why": "A rough prototype lets you learn in hours instead of months, and costs almost nothing to change.",
+            "steps": [
+              "Decide what you want to learn: one question per prototype.",
+              "Build the simplest version that can answer it: a paper sketch, a clickable mock-up, a role-play of the service, a cardboard model.",
+              "Make it only as good as needed. Do not polish.",
+              "Prepare a short test script: what the person should try to do, and what you will watch for."
+            ],
+            "template": [
+              "Idea being tested",
+              "Question the prototype must answer",
+              "What was built (photo or link)",
+              "Test script",
+              "What would prove the idea wrong"
+            ],
+            "done": "You have something people can touch or click that answers your test question."
+          }
         },
         "test": {
           "title": "Test",
-          "description": "Try the prototypes with users and learn from their reactions."
+          "description": "Try the prototypes with users and learn from their reactions.",
+          "guide": {
+            "why": "Testing shows whether the idea works for real people, before you spend money building it.",
+            "steps": [
+              "Invite 5 people from your target group. Explain that you are testing the prototype, not them.",
+              "Let them try it without help. Ask them to think aloud and note where they hesitate or get lost.",
+              "Ask open questions afterwards: \"What did you expect?\", \"What was confusing?\", \"Would you use this? Why?\"",
+              "List what worked, what did not and what to change. Decide: improve, change direction, or stop."
+            ],
+            "template": [
+              "Who tested (role, date)",
+              "What they did and said",
+              "What worked",
+              "What did not work",
+              "Decision and next changes"
+            ],
+            "done": "You have feedback from at least 5 people and a clear decision to improve, change direction or stop."
+          }
         }
       }
     },
@@ -499,19 +587,87 @@
       "activities": {
         "assumptions": {
           "title": "Identify the riskiest assumptions",
-          "description": "List what must be true for the idea to work."
+          "description": "List what must be true for the idea to work.",
+          "guide": {
+            "why": "Every new business rests on guesses. Writing them down lets you test the riskiest ones first, instead of discovering them after you have spent your money.",
+            "steps": [
+              "Describe your business in one page: customer, problem, solution, how you earn money, how customers find you.",
+              "Turn each part into a sentence that can be true or false, for example \"Small restaurants will pay 30 euro a month for this\".",
+              "Rank the assumptions: how important is it, and how little do you know? The important ones you know least about come first.",
+              "For the top 3, decide how you will know if you are right: a number, a deadline, and what you will do in each case."
+            ],
+            "template": [
+              "Customer and problem",
+              "Assumptions (one sentence each)",
+              "Risk ranking",
+              "How we will test each (measure and threshold)",
+              "Deadline and owner"
+            ],
+            "done": "You have a ranked list of assumptions and a clear test, with a number to reach, for the top three."
+          }
         },
         "build": {
           "title": "Build a minimum viable product",
-          "description": "Make the smallest version that can test the assumptions."
+          "description": "Make the smallest version that can test the assumptions.",
+          "guide": {
+            "why": "The goal is to learn as fast as possible with the least effort. A minimum viable product (MVP) is the smallest thing that lets you test your riskiest assumption.",
+            "steps": [
+              "Take the top assumption and ask: what is the cheapest way to test it? A landing page, a manual service, a video, a pre-order form?",
+              "Remove every feature that is not needed for that test.",
+              "Set a time limit, usually days or a few weeks, not months.",
+              "Release it to a small group of real potential customers and make sure you can measure what they do."
+            ],
+            "template": [
+              "Assumption being tested",
+              "MVP description (what it does and does not do)",
+              "Budget and time limit",
+              "Who gets it first",
+              "How we will measure the result"
+            ],
+            "done": "A working MVP is in front of real potential customers and you can measure what they do."
+          }
         },
         "measure": {
           "title": "Measure",
-          "description": "Collect real data on how customers behave."
+          "description": "Collect real data on how customers behave.",
+          "guide": {
+            "why": "Numbers show what people really do, which is often different from what they say. Without measuring, you only have opinions.",
+            "steps": [
+              "Pick one or two numbers that show whether the assumption is true, such as sign-ups, pre-orders or repeat use. Avoid vanity numbers such as page views.",
+              "Compare with the target you set before the test.",
+              "Talk to some of the people who did and did not act, to understand why.",
+              "Write the result in plain words: what we expected, what happened, what it means."
+            ],
+            "template": [
+              "Assumption and target",
+              "Numbers measured (with dates)",
+              "Result versus target",
+              "What customers told us",
+              "What we learned"
+            ],
+            "done": "You have real numbers compared with your target and a short explanation of the result."
+          }
         },
         "learn": {
           "title": "Learn and decide",
-          "description": "Decide whether to pivot, persevere or stop."
+          "description": "Decide whether to pivot, persevere or stop.",
+          "guide": {
+            "why": "After each test you must choose: keep going, change direction (pivot), or stop. Making this a conscious decision saves months of work on the wrong thing.",
+            "steps": [
+              "Look at the results and ask: was the assumption confirmed, partly confirmed, or wrong?",
+              "If confirmed, pick the next riskiest assumption. If wrong, decide what to change: customer, problem, solution or price.",
+              "Discuss it with an adviser or someone outside the team who can challenge you.",
+              "Write down the decision, the reason and the next test, then start the cycle again."
+            ],
+            "template": [
+              "Result summary",
+              "Decision: persevere, pivot or stop",
+              "Reasons",
+              "What changes (if pivot)",
+              "Next test and deadline"
+            ],
+            "done": "There is a written decision, with its reason, and the next test is planned."
+          }
         }
       }
     },
@@ -935,10 +1091,13 @@
         "large": "50 people or more"
       },
       "need": {
-        "structure": "A full innovation system",
-        "ideas": "Collect and select ideas",
+        "strategy": "A full innovation system and strategy",
+        "ideas": "Generate and select ideas",
         "customer": "Understand customers and design new offers",
-        "validate": "Test a new business idea quickly"
+        "validate": "Test a new business idea quickly",
+        "develop": "Turn approved ideas into products or projects",
+        "open": "Work with partners outside the company",
+        "incentives": "Motivate people to take part in innovation"
       },
       "maturity": {
         "new": "Just starting",
@@ -965,7 +1124,10 @@
     "newActivity": "New activity",
     "addActivity": "Add activity",
     "delete": "Delete program",
-    "deleteHint": "The program is removed. Its activities and people stay in your Inventory."
+    "deleteHint": "The program is removed. Its activities and people stay in your Inventory.",
+    "filterPurpose": "What do you want to do?",
+    "filterStage": "Stage",
+    "noMatch": "No methodology matches these filters. Remove one to see more."
   },
   "unit": {
     "hours": "hours",
@@ -1261,5 +1423,56 @@
       "title": "Time to review the strategy?",
       "body": "{{changed}} of {{total}} assumptions have changed since it was written."
     }
+  },
+  "guide": {
+    "show": "Show guide",
+    "hide": "Hide guide",
+    "why": "Why it matters",
+    "steps": "How to do it",
+    "template": "Document template",
+    "done": "You are done when"
+  },
+  "activity": {
+    "start": "Start activity",
+    "continue": "Continue activity",
+    "review": "Review activity",
+    "completed": "Completed",
+    "progress": "{{done}} of {{total}} done",
+    "of": "Activity {{n}} of {{total}}",
+    "limit": "Time limit",
+    "remaining": "{{value}} left",
+    "overdue": "Over the time limit by {{value}}",
+    "notes": "Notes",
+    "save": "Save",
+    "completeNext": "Complete and go to next activity",
+    "completeBack": "Complete and return to program",
+    "goNext": "Go to next activity",
+    "input": "Input from the previous activity",
+    "inputHint": "What \"{{title}}\" produced is the starting point for this activity.",
+    "prevNotDone": "The previous activity is not completed yet.",
+    "showPrev": "Show what was written",
+    "hidePrev": "Hide what was written",
+    "inputShort": "Starts from"
+  },
+  "purpose": {
+    "strategy": "Set direction and system",
+    "ideas": "Generate ideas",
+    "customer": "Understand customers",
+    "validate": "Test and validate",
+    "develop": "Turn ideas into projects",
+    "open": "Work with outside partners",
+    "incentives": "Engage and reward people"
+  },
+  "methodStage": {
+    "seed": "Seed",
+    "early": "Early-stage",
+    "growth": "Growth",
+    "maturity": "Maturity"
+  },
+  "tags": {
+    "add": "Tag",
+    "search": "Tag an entity or relationship",
+    "createAs": "Create \"{{name}}\" as a new:",
+    "remove": "Remove tag {{name}}"
   }
 }

@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useApp } from '../state/AppState';
 import { useInventory } from '../state/Inventory';
 import { usePrograms, type ActivityView } from '../state/Programs';
+import { Guide, guideOf, useGuide } from '../components/Guide';
 import { canManageAll, canWrite, type NodeType } from '../lib/inventory';
 import { BackButton, Button, Card, Chip, ConfirmButton, Field, NotFound, Page, Text, ViewOnly } from '../components/ui';
 import { space } from '../theme/tokens';
@@ -14,11 +15,11 @@ const CAT_TYPES: Record<Cat, NodeType[]> = { performers: ['person'], uses: ['res
 const CAT_NEW: Record<Cat, NodeType> = { performers: 'person', uses: 'resource', produces: 'concept' };
 const CAT_LABEL: Record<Cat, string> = { performers: 'programs.performedBy', uses: 'programs.uses', produces: 'programs.produces' };
 
-export function ProgramDetailScreen({ id, onBack, onOpenNode }: { id: string; onBack: () => void; onOpenNode: (id: string) => void }) {
+export function ProgramDetailScreen({ id, onBack, onOpenNode, onOpenActivity }: { id: string; onBack: () => void; onOpenNode: (id: string) => void; onOpenActivity: (id: string) => void }) {
   const { t } = useTranslation();
   const { current } = useApp();
   const { byId, deleteNode } = useInventory();
-  const { programs, activitiesOf, addActivity } = usePrograms();
+  const { programs, activitiesOf, addActivity, workOf } = usePrograms();
   const program = programs.find((p) => p.node_id === id);
   const node = byId[id];
   const role = current?.role;
@@ -53,13 +54,13 @@ export function ProgramDetailScreen({ id, onBack, onOpenNode }: { id: string; on
       {error && <Text variant="error">{error}</Text>}
 
       <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: space[4] }}>
-        <Text variant="overline">{t('programs.activities')} · {activities.length}</Text>
+        <Text variant="overline">{t('programs.activities')} · {t('activity.progress', { done: activities.filter((a) => workOf(a.node.id)?.status === 'done').length, total: activities.length })}</Text>
         {writable && activities.length > 0 && <Button variant="secondary" label={editing ? t('programs.doneEditing') : t('programs.editLinks')} onPress={() => setEditing(!editing)} />}
       </View>
       {editing && <Text variant="secondary">{t('programs.removeHint')}</Text>}
 
       {activities.length === 0 && <Text variant="secondary">{t('programs.noActivities')}</Text>}
-      {activities.map((a, i) => <ActivityCard key={a.node.id} index={i + 1} activity={a} editing={editing} writable={writable} onOpenNode={onOpenNode} />)}
+      {activities.map((a, i) => <ActivityCard key={a.node.id} index={i + 1} activity={a} guide={guideOf(program.template_key, a.position)} input={i > 0 ? activities[i - 1].produces : null} editing={editing} writable={writable} onOpenNode={onOpenNode} onOpen={() => onOpenActivity(a.node.id)} />)}
 
       {writable && (
         <Card>
@@ -75,8 +76,11 @@ export function ProgramDetailScreen({ id, onBack, onOpenNode }: { id: string; on
   );
 }
 
-function ActivityCard({ index, activity, editing, writable, onOpenNode }: { index: number; activity: ActivityView; editing: boolean; writable: boolean; onOpenNode: (id: string) => void }) {
+function ActivityCard({ index, activity, guide, input, editing, writable, onOpenNode, onOpen }: { index: number; activity: ActivityView; input: ActivityView['produces'] | null; guide: { key: string; id: string } | null; editing: boolean; writable: boolean; onOpenNode: (id: string) => void; onOpen: () => void }) {
   const { t } = useTranslation();
+  const status = usePrograms().workOf(activity.node.id)?.status;
+  const guideData = useGuide(guide);
+  const [guideOpen, setGuideOpen] = useState(false);
   const { deleteRelationship } = useInventory();
   const [adding, setAdding] = useState<Cat | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -87,6 +91,18 @@ function ActivityCard({ index, activity, editing, writable, onOpenNode }: { inde
       <Text variant="h3" onPress={() => onOpenNode(activity.node.id)}>{activity.node.title}</Text>
       {activity.node.description && <Text variant="secondary">{activity.node.description}</Text>}
       {error && <Text variant="error">{error}</Text>}
+      {input && input.length > 0 && (
+        <View style={{ gap: space[2], marginTop: space[2] }}>
+          <Text variant="overline">{t('activity.inputShort')}</Text>
+          <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[3] }}>
+            {input.map(({ rel, node }) => <Chip key={rel.id} label={`← ${node.title}`} onPress={() => onOpenNode(node.id)} />)}
+          </View>
+        </View>
+      )}
+      {guideData && <Button variant="ghost" label={guideOpen ? t('guide.hide') : t('guide.show')} accessibilityRole="button" onPress={() => setGuideOpen(!guideOpen)} style={{ alignSelf: 'flex-start', paddingHorizontal: 0 }} />}
+      {guideData && guideOpen && <Guide guide={guideData} />}
+      {(writable || status) && <Button variant={status === 'done' ? 'secondary' : 'primary'} label={t(status === 'done' ? 'activity.review' : status ? 'activity.continue' : 'activity.start')} onPress={onOpen} style={{ alignSelf: 'flex-start', marginTop: space[3] }} />}
+      {status === 'done' && <Text variant="overline">✓ {t('activity.completed')}</Text>}
 
       <View style={{ gap: space[4], marginTop: space[3] }}>
         {CATS.map((cat) => (

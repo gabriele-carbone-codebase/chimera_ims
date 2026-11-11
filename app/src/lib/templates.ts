@@ -73,22 +73,28 @@ export const ITEMS: Record<string, ItemDef> = {
   crowd: { type: 'person', subtype: 'team' },
 };
 
-export type ActivityDef = { id: string; performers: string[]; uses: string[]; produces: string[] };
+/** `minutes` is an optional time limit for the whole activity (for example one day of a Design Sprint). */
+export type ActivityDef = { id: string; performers: string[]; uses: string[]; produces: string[]; minutes?: number };
 
 // Who a methodology suits. Required on every template so the guided picker can rank it.
 export type Size = 'micro' | 'small' | 'large';
-export type Need = 'structure' | 'ideas' | 'customer' | 'validate';
+/** What a methodology is for (the catalog label; the first purpose is the main one and sets its color). */
+export type Purpose = 'strategy' | 'ideas' | 'customer' | 'validate' | 'develop' | 'open' | 'incentives';
+export const PURPOSES: Purpose[] = ['strategy', 'ideas', 'customer', 'validate', 'develop', 'open', 'incentives'];
+/** When in the life of an idea or company it fits best. */
+export type Stage = 'seed' | 'early' | 'growth' | 'maturity';
+export const STAGES: Stage[] = ['seed', 'early', 'growth', 'maturity'];
 export type Maturity = 'new' | 'some';
 export const SIZES: Size[] = ['micro', 'small', 'large'];
-export const NEEDS: Need[] = ['structure', 'ideas', 'customer', 'validate'];
 export const MATURITIES: Maturity[] = ['new', 'some'];
-export type Fit = { size: Size[]; need: Need[]; maturity: Maturity[] };
-export type TemplateDef = { key: string; fit: Fit; activities: ActivityDef[] };
+export type Fit = { size: Size[]; maturity: Maturity[] };
+export type TemplateDef = { key: string; purposes: Purpose[]; stage: Stage; fit: Fit; activities: ActivityDef[] };
 
 export const TEMPLATES: TemplateDef[] = [
   {
     key: 'iso56002',
-    fit: { size: ['small', 'large'], need: ['structure'], maturity: ['some'] },
+    purposes: ['strategy'], stage: 'maturity',
+    fit: { size: ['small', 'large'], maturity: ['some'] },
     activities: [
       { id: 'context', performers: ['top_management', 'innovation_manager'], uses: ['market_data'], produces: ['context_analysis'] },
       { id: 'strategy', performers: ['top_management', 'innovation_manager'], uses: [], produces: ['innovation_vision', 'innovation_strategy'] },
@@ -102,7 +108,8 @@ export const TEMPLATES: TemplateDef[] = [
   },
   {
     key: 'stage_gate',
-    fit: { size: ['small', 'large'], need: ['ideas'], maturity: ['some'] },
+    purposes: ['develop'], stage: 'maturity',
+    fit: { size: ['small', 'large'], maturity: ['some'] },
     activities: [
       { id: 'discovery', performers: ['innovation_team'], uses: ['market_data'], produces: ['raw_ideas'] },
       { id: 'scoping', performers: ['innovation_team'], uses: [], produces: ['preliminary_assessment'] },
@@ -115,18 +122,20 @@ export const TEMPLATES: TemplateDef[] = [
   },
   {
     key: 'design_thinking',
-    fit: { size: ['micro', 'small', 'large'], need: ['customer'], maturity: ['new', 'some'] },
+    purposes: ['customer', 'ideas'], stage: 'seed',
+    fit: { size: ['micro', 'small', 'large'], maturity: ['new', 'some'] },
     activities: [
       { id: 'empathize', performers: ['design_team', 'customers'], uses: [], produces: ['user_insights'] },
       { id: 'define', performers: ['design_team'], uses: [], produces: ['problem_statement'] },
-      { id: 'ideate', performers: ['design_team', 'customers'], uses: ['workshop_space'], produces: ['idea_pool'] },
+      { id: 'ideate', performers: ['design_team', 'customers'], uses: ['workshop_space'], produces: ['idea_pool'], minutes: 60 },
       { id: 'prototype', performers: ['design_team'], uses: ['prototyping_tools'], produces: ['prototype'] },
       { id: 'test', performers: ['design_team', 'customers'], uses: [], produces: ['user_feedback'] },
     ],
   },
   {
     key: 'lean_startup',
-    fit: { size: ['micro', 'small'], need: ['validate'], maturity: ['new'] },
+    purposes: ['validate'], stage: 'early',
+    fit: { size: ['micro', 'small'], maturity: ['new'] },
     activities: [
       { id: 'assumptions', performers: ['founders'], uses: [], produces: ['assumptions_list'] },
       { id: 'build', performers: ['founders'], uses: ['innovation_budget'], produces: ['mvp'] },
@@ -136,7 +145,8 @@ export const TEMPLATES: TemplateDef[] = [
   },
   {
     key: 'double_diamond',
-    fit: { size: ['micro', 'small', 'large'], need: ['customer'], maturity: ['new', 'some'] },
+    purposes: ['customer', 'ideas'], stage: 'seed',
+    fit: { size: ['micro', 'small', 'large'], maturity: ['new', 'some'] },
     activities: [
       { id: 'discover', performers: ['design_team', 'customers'], uses: ['market_data'], produces: ['user_insights'] },
       { id: 'define', performers: ['design_team'], uses: [], produces: ['problem_statement'] },
@@ -146,18 +156,20 @@ export const TEMPLATES: TemplateDef[] = [
   },
   {
     key: 'design_sprint',
-    fit: { size: ['micro', 'small'], need: ['validate', 'customer'], maturity: ['new', 'some'] },
+    purposes: ['validate', 'customer'], stage: 'early',
+    fit: { size: ['micro', 'small'], maturity: ['new', 'some'] },
     activities: [
-      { id: 'understand', performers: ['design_team', 'advisors'], uses: ['market_data'], produces: ['problem_statement'] },
-      { id: 'sketch', performers: ['design_team'], uses: ['workshop_space'], produces: ['idea_pool'] },
-      { id: 'decide', performers: ['design_team', 'top_management'], uses: [], produces: ['gate_decisions'] },
-      { id: 'prototype', performers: ['design_team'], uses: ['prototyping_tools'], produces: ['prototype'] },
-      { id: 'test', performers: ['design_team', 'customers'], uses: [], produces: ['user_feedback'] },
+      { id: 'understand', performers: ['design_team', 'advisors'], uses: ['market_data'], produces: ['problem_statement'], minutes: 480 },
+      { id: 'sketch', performers: ['design_team'], uses: ['workshop_space'], produces: ['idea_pool'], minutes: 480 },
+      { id: 'decide', performers: ['design_team', 'top_management'], uses: [], produces: ['gate_decisions'], minutes: 480 },
+      { id: 'prototype', performers: ['design_team'], uses: ['prototyping_tools'], produces: ['prototype'], minutes: 480 },
+      { id: 'test', performers: ['design_team', 'customers'], uses: [], produces: ['user_feedback'], minutes: 480 },
     ],
   },
   {
     key: 'open_innovation',
-    fit: { size: ['small', 'large'], need: ['ideas', 'structure'], maturity: ['some'] },
+    purposes: ['open', 'ideas'], stage: 'maturity',
+    fit: { size: ['small', 'large'], maturity: ['some'] },
     activities: [
       { id: 'scouting', performers: ['innovation_team'], uses: ['market_data'], produces: ['opportunity_list'] },
       { id: 'partnering', performers: ['innovation_manager', 'advisors'], uses: [], produces: ['partnership_agreements'] },
@@ -167,7 +179,8 @@ export const TEMPLATES: TemplateDef[] = [
   },
   {
     key: 'blue_ocean',
-    fit: { size: ['small', 'large'], need: ['customer', 'structure'], maturity: ['some'] },
+    purposes: ['strategy', 'customer'], stage: 'growth',
+    fit: { size: ['small', 'large'], maturity: ['some'] },
     activities: [
       { id: 'canvas', performers: ['innovation_team'], uses: ['market_data'], produces: ['strategy_canvas'] },
       { id: 'four_actions', performers: ['innovation_team', 'top_management'], uses: ['workshop_space'], produces: ['value_proposition'] },
@@ -177,7 +190,8 @@ export const TEMPLATES: TemplateDef[] = [
   },
   {
     key: 'jobs_to_be_done',
-    fit: { size: ['micro', 'small', 'large'], need: ['customer'], maturity: ['some'] },
+    purposes: ['customer'], stage: 'early',
+    fit: { size: ['micro', 'small', 'large'], maturity: ['some'] },
     activities: [
       { id: 'interview', performers: ['design_team', 'customers'], uses: [], produces: ['user_insights'] },
       { id: 'map_jobs', performers: ['design_team'], uses: [], produces: ['jobs_map'] },
@@ -188,7 +202,8 @@ export const TEMPLATES: TemplateDef[] = [
   },
   {
     key: 'three_horizons',
-    fit: { size: ['small', 'large'], need: ['structure'], maturity: ['some'] },
+    purposes: ['strategy'], stage: 'maturity',
+    fit: { size: ['small', 'large'], maturity: ['some'] },
     activities: [
       { id: 'horizon1', performers: ['innovation_manager', 'employees'], uses: ['kpi_dashboard'], produces: ['core_improvements'] },
       { id: 'horizon2', performers: ['innovation_team'], uses: ['innovation_budget'], produces: ['emerging_bets'] },
@@ -198,7 +213,8 @@ export const TEMPLATES: TemplateDef[] = [
   },
   {
     key: 'business_model_generation',
-    fit: { size: ['micro', 'small', 'large'], need: ['validate'], maturity: ['new', 'some'] },
+    purposes: ['validate', 'strategy'], stage: 'early',
+    fit: { size: ['micro', 'small', 'large'], maturity: ['new', 'some'] },
     activities: [
       { id: 'mobilize', performers: ['innovation_team'], uses: ['workshop_space'], produces: ['problem_statement'] },
       { id: 'understand', performers: ['innovation_team', 'customers'], uses: ['market_data'], produces: ['user_insights'] },
@@ -209,7 +225,8 @@ export const TEMPLATES: TemplateDef[] = [
   },
   {
     key: 'value_proposition_design',
-    fit: { size: ['micro', 'small', 'large'], need: ['customer'], maturity: ['new', 'some'] },
+    purposes: ['customer', 'validate'], stage: 'early',
+    fit: { size: ['micro', 'small', 'large'], maturity: ['new', 'some'] },
     activities: [
       { id: 'customer_profile', performers: ['design_team', 'customers'], uses: [], produces: ['user_insights'] },
       { id: 'value_map', performers: ['design_team'], uses: ['workshop_space'], produces: ['value_map'] },
@@ -219,7 +236,8 @@ export const TEMPLATES: TemplateDef[] = [
   },
   {
     key: 'customer_development',
-    fit: { size: ['micro', 'small'], need: ['validate'], maturity: ['new'] },
+    purposes: ['validate'], stage: 'early',
+    fit: { size: ['micro', 'small'], maturity: ['new'] },
     activities: [
       { id: 'discovery', performers: ['founders', 'customers'], uses: [], produces: ['assumptions_list'] },
       { id: 'validation', performers: ['founders', 'customers'], uses: ['prototyping_tools'], produces: ['validation_results'] },
@@ -229,7 +247,8 @@ export const TEMPLATES: TemplateDef[] = [
   },
   {
     key: 'triz',
-    fit: { size: ['small', 'large'], need: ['ideas'], maturity: ['some'] },
+    purposes: ['ideas'], stage: 'seed',
+    fit: { size: ['small', 'large'], maturity: ['some'] },
     activities: [
       { id: 'define', performers: ['innovation_team'], uses: [], produces: ['problem_statement'] },
       { id: 'contradiction', performers: ['innovation_team'], uses: [], produces: ['contradictions'] },
@@ -239,7 +258,8 @@ export const TEMPLATES: TemplateDef[] = [
   },
   {
     key: 'systematic_inventive_thinking',
-    fit: { size: ['micro', 'small'], need: ['ideas'], maturity: ['new', 'some'] },
+    purposes: ['ideas'], stage: 'seed',
+    fit: { size: ['micro', 'small'], maturity: ['new', 'some'] },
     activities: [
       { id: 'closed_world', performers: ['innovation_team'], uses: [], produces: ['problem_statement'] },
       { id: 'tools', performers: ['innovation_team'], uses: ['workshop_space'], produces: ['idea_pool'] },
@@ -248,7 +268,8 @@ export const TEMPLATES: TemplateDef[] = [
   },
   {
     key: 'creative_problem_solving',
-    fit: { size: ['micro', 'small', 'large'], need: ['ideas'], maturity: ['new', 'some'] },
+    purposes: ['ideas'], stage: 'seed',
+    fit: { size: ['micro', 'small', 'large'], maturity: ['new', 'some'] },
     activities: [
       { id: 'clarify', performers: ['innovation_team'], uses: [], produces: ['problem_statement'] },
       { id: 'ideate', performers: ['innovation_team', 'employees'], uses: ['workshop_space'], produces: ['idea_pool'] },
@@ -258,7 +279,8 @@ export const TEMPLATES: TemplateDef[] = [
   },
   {
     key: 'scenario_planning',
-    fit: { size: ['small', 'large'], need: ['structure'], maturity: ['some'] },
+    purposes: ['strategy'], stage: 'growth',
+    fit: { size: ['small', 'large'], maturity: ['some'] },
     activities: [
       { id: 'scope', performers: ['top_management', 'innovation_manager'], uses: [], produces: ['problem_statement'] },
       { id: 'drivers', performers: ['innovation_team', 'advisors'], uses: ['market_data'], produces: ['context_analysis'] },
@@ -269,7 +291,8 @@ export const TEMPLATES: TemplateDef[] = [
   },
   {
     key: 'value_engineering',
-    fit: { size: ['small', 'large'], need: ['structure'], maturity: ['some'] },
+    purposes: ['develop'], stage: 'maturity',
+    fit: { size: ['small', 'large'], maturity: ['some'] },
     activities: [
       { id: 'information', performers: ['project_team', 'finance'], uses: ['market_data'], produces: ['context_analysis'] },
       { id: 'function', performers: ['project_team'], uses: [], produces: ['function_analysis'] },
@@ -280,7 +303,8 @@ export const TEMPLATES: TemplateDef[] = [
   },
   {
     key: 'design_for_six_sigma',
-    fit: { size: ['large'], need: ['structure'], maturity: ['some'] },
+    purposes: ['develop'], stage: 'maturity',
+    fit: { size: ['large'], maturity: ['some'] },
     activities: [
       { id: 'define', performers: ['project_team', 'innovation_manager'], uses: [], produces: ['problem_statement'] },
       { id: 'measure', performers: ['project_team', 'customers'], uses: ['analytics_tool'], produces: ['metrics'] },
@@ -291,7 +315,8 @@ export const TEMPLATES: TemplateDef[] = [
   },
   {
     key: 'crowdsourcing',
-    fit: { size: ['small', 'large'], need: ['ideas'], maturity: ['some'] },
+    purposes: ['open', 'ideas', 'incentives'], stage: 'growth',
+    fit: { size: ['small', 'large'], maturity: ['some'] },
     activities: [
       { id: 'challenge', performers: ['innovation_team'], uses: [], produces: ['challenge_brief'] },
       { id: 'launch', performers: ['innovation_team', 'marketing'], uses: ['idea_platform'], produces: ['crowd_contributions'] },
@@ -301,7 +326,8 @@ export const TEMPLATES: TemplateDef[] = [
   },
   {
     key: 'human_centered_design',
-    fit: { size: ['micro', 'small', 'large'], need: ['customer'], maturity: ['new'] },
+    purposes: ['customer'], stage: 'seed',
+    fit: { size: ['micro', 'small', 'large'], maturity: ['new'] },
     activities: [
       { id: 'hear', performers: ['design_team', 'customers'], uses: [], produces: ['user_insights'] },
       { id: 'create', performers: ['design_team', 'customers'], uses: ['workshop_space', 'prototyping_tools'], produces: ['prototype'] },
@@ -310,12 +336,12 @@ export const TEMPLATES: TemplateDef[] = [
   },
 ];
 
-export type Answers = { size: Size; need: Need; maturity: Maturity };
+export type Answers = { size: Size; need: Purpose; maturity: Maturity };
 
 /** Ranks methodologies for the answers and returns the best keys: one for micro businesses, up to two otherwise. */
 export function recommend(a: Answers): string[] {
   const scored = TEMPLATES
-    .map((tpl) => ({ key: tpl.key, score: (tpl.fit.need.includes(a.need) ? 3 : 0) + (tpl.fit.size.includes(a.size) ? 2 : 0) + (tpl.fit.maturity.includes(a.maturity) ? 1 : 0) }))
+    .map((tpl) => ({ key: tpl.key, score: (tpl.purposes[0] === a.need ? 4 : tpl.purposes.includes(a.need) ? 3 : 0) + (tpl.fit.size.includes(a.size) ? 2 : 0) + (tpl.fit.maturity.includes(a.maturity) ? 1 : 0) }))
     .filter((x) => x.score >= 3) // the need must match
     .sort((x, y) => y.score - x.score);
   return scored.slice(0, a.size === 'micro' ? 1 : 2).map((x) => x.key);

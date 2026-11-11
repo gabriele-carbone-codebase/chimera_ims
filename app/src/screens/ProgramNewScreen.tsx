@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { usePrograms } from '../state/Programs';
-import { MATURITIES, NEEDS, SIZES, TEMPLATES, recommend, type Answers } from '../lib/templates';
+import { MATURITIES, PURPOSES, SIZES, STAGES, TEMPLATES, recommend, type Answers, type Purpose, type Stage } from '../lib/templates';
+import { CatalogLabels, PurposePill } from '../components/Catalog';
 import { BackButton, Button, Card, Chip, ChipRow, Field, Header, Page, Text } from '../components/ui';
 import { space } from '../theme/tokens';
 
@@ -15,7 +16,9 @@ export function ProgramNewScreen({ onDone, onCancel }: { onDone: (id: string) =>
   const [guide, setGuide] = useState(false);
   const [ans, setAns] = useState<Partial<Answers>>({});
   const recs = ans.size && ans.need && ans.maturity ? recommend(ans as Answers) : [];
-  const ordered = [...TEMPLATES].sort((x, y) => Number(recs.includes(y.key)) - Number(recs.includes(x.key)));
+  const [purpose, setPurpose] = useState<Purpose | null>(null);
+  const [stage, setStage] = useState<Stage | null>(null);
+  const ordered = TEMPLATES.filter((x) => (!purpose || x.purposes.includes(purpose)) && (!stage || x.stage === stage)).sort((x, y) => Number(recs.includes(y.key)) - Number(recs.includes(x.key)));
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -44,7 +47,7 @@ export function ProgramNewScreen({ onDone, onCancel }: { onDone: (id: string) =>
       {guide && (
         <Card style={{ gap: space[5] }}>
           <Text variant="secondary">{t('programs.helpHint')}</Text>
-          {([['size', SIZES], ['need', NEEDS], ['maturity', MATURITIES]] as const).map(([q, options]) => (
+          {([['size', SIZES], ['need', PURPOSES], ['maturity', MATURITIES]] as const).map(([q, options]) => (
             <View key={q} style={{ gap: space[3] }}>
               <Text variant="overline">{t(`programs.q.${q}`)}</Text>
               <ChipRow kind="radio">
@@ -55,12 +58,25 @@ export function ProgramNewScreen({ onDone, onCancel }: { onDone: (id: string) =>
         </Card>
       )}
 
+      <View style={{ gap: space[3] }}>
+        <Text variant="overline">{t('programs.filterPurpose')}</Text>
+        <ChipRow>
+          {PURPOSES.map((p) => <PurposePill key={p} purpose={p} selected={purpose === p} onPress={() => setPurpose(purpose === p ? null : p)} />)}
+        </ChipRow>
+        <Text variant="overline">{t('programs.filterStage')}</Text>
+        <ChipRow>
+          {STAGES.map((st) => <Chip key={st} label={t(`methodStage.${st}`)} selected={stage === st} onPress={() => setStage(stage === st ? null : st)} />)}
+        </ChipRow>
+      </View>
+
+      {ordered.length === 0 && <Text variant="secondary">{t('programs.noMatch')}</Text>}
       <View accessibilityRole="radiogroup" style={{ gap: space[4] }}>
         {ordered.map((tpl) => (
           <Card key={tpl.key} accessibilityRole="radio" selected={choice === tpl.key} onPress={() => pick(tpl.key)}>
             {recs.includes(tpl.key) && <Text variant="overline">{t('programs.recommended')}</Text>}
             <Text variant="h3">{t(`tpl.${tpl.key}.name`)}</Text>
             <Text variant="secondary">{t(`tpl.${tpl.key}.description`)}</Text>
+            <CatalogLabels tpl={tpl} />
             <Text variant="overline">{t('programs.activitiesCount', { count: tpl.activities.length })}</Text>
           </Card>
         ))}

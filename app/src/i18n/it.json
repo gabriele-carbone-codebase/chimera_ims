@@ -25,7 +25,8 @@
     "name": "Nome dell’azienda",
     "create": "Crea azienda",
     "switch": "Cambia azienda",
-    "new": "Nuova azienda"
+    "new": "Nuova azienda",
+    "current": "Organizzazione"
   },
   "expertise": {
     "title": "Come ti descriveresti?",
@@ -73,7 +74,9 @@
     "delete": "Elimina",
     "unknown": "Sconosciuto",
     "viewOnly": "Puoi vederlo ma non modificarlo",
-    "chartSummary": "Grafico, ultimo valore {{last}}, massimo {{max}}"
+    "chartSummary": "Grafico, ultimo valore {{last}}, massimo {{max}}",
+    "search": "Cerca",
+    "noResults": "Nessun risultato per la tua ricerca."
   },
   "nav": {
     "home": "Home",
@@ -473,23 +476,108 @@
       "activities": {
         "empathize": {
           "title": "Empatizzare",
-          "description": "Osservare e ascoltare le persone per cui si progetta."
+          "description": "Osservare e ascoltare le persone per cui si progetta.",
+          "guide": {
+            "why": "Non puoi risolvere un problema che non capisci. Parlare con persone vere mostra cosa vogliono, fanno e trovano difficile, spesso diverso da ciò che immagini.",
+            "steps": [
+              "Scegli da 5 a 8 persone che vivono davvero il problema, comprese alcune insoddisfatte della soluzione attuale.",
+              "Prepara 5 domande aperte che iniziano con \"raccontami l’ultima volta che...\" ed evita domande che suggeriscono la risposta.",
+              "Intervista ogni persona per 30–45 minuti, se puoi nel suo ambiente. Ascolta più di quanto parli e annota le sue parole esatte.",
+              "Subito dopo ogni intervista annota cosa ti ha sorpreso, cosa la persona ha fatto (non solo detto) e cosa l’ha frustrata."
+            ],
+            "template": [
+              "Con chi abbiamo parlato (ruolo, contesto, data)",
+              "Domande poste",
+              "Citazioni dirette",
+              "Comportamenti e soluzioni di ripiego osservati",
+              "Bisogni e frustrazioni, con le parole del cliente"
+            ],
+            "done": "Hai intervistato almeno 5 persone e sai descrivere i loro bisogni e le loro frustrazioni con citazioni, non opinioni."
+          }
         },
         "define": {
           "title": "Definire il problema",
-          "description": "Formulare con chiarezza il problema che vale la pena risolvere."
+          "description": "Formulare con chiarezza il problema che vale la pena risolvere.",
+          "guide": {
+            "why": "Un problema ben definito tiene tutto il team puntato sullo stesso obiettivo. Uno vago porta a idee che non risolvono nulla.",
+            "steps": [
+              "Stendi tutti gli appunti e le citazioni delle interviste e raggruppali per tema.",
+              "Scegli il tema che pesa di più alle persone o che ricorre più spesso.",
+              "Scrivi la frase così: \"[Persona] ha bisogno di un modo per [bisogno] perché [intuizione].\" Una sola frase.",
+              "Verificala: lascia spazio a molte soluzioni? Le persone intervistate si riconoscerebbero?"
+            ],
+            "template": [
+              "Persona o gruppo",
+              "Bisogno",
+              "Intuizione (perché conta)",
+              "Domande da esplorare (\"Come potremmo...?\")",
+              "Che aspetto ha il successo"
+            ],
+            "done": "Il team è d’accordo su una frase che descrive il problema e non contiene una soluzione."
+          }
         },
         "ideate": {
           "title": "Generare idee",
-          "description": "Produrre molte idee e poi scegliere le migliori."
+          "description": "Produrre molte idee e poi scegliere le migliori.",
+          "guide": {
+            "why": "La prima idea raramente è la migliore. Produrre molte idee prima e giudicarle dopo porta a soluzioni migliori e più coraggiose.",
+            "steps": [
+              "Parti dalla domanda \"Come potremmo...?\" e imposta un timer, per esempio 20 minuti.",
+              "Ognuno scrive prima le idee da solo (una idea per foglietto), poi le condivide. Nessun giudizio per ora.",
+              "Punta sulla quantità. Combinate e sviluppate le idee degli altri, comprese quelle strane.",
+              "Raggruppa le idee simili. Ognuno vota quelle più promettenti, poi scegli 2 o 3 da prototipare."
+            ],
+            "template": [
+              "La domanda su cui abbiamo lavorato",
+              "Tutte le idee (raggruppate)",
+              "Voti",
+              "Idee scelte e perché",
+              "Dubbi aperti per ogni idea scelta"
+            ],
+            "done": "Hai una lunga lista di idee e 2 o 3 idee scelte, ciascuna con il motivo della scelta."
+          }
         },
         "prototype": {
           "title": "Prototipare",
-          "description": "Costruire versioni semplici e rapide per rendere concrete le idee."
+          "description": "Costruire versioni semplici e rapide per rendere concrete le idee.",
+          "guide": {
+            "why": "Un prototipo grezzo ti fa imparare in ore invece che in mesi e costa quasi nulla da cambiare.",
+            "steps": [
+              "Decidi cosa vuoi imparare: una domanda per prototipo.",
+              "Costruisci la versione più semplice che può rispondere: uno schizzo su carta, un mock-up cliccabile, una simulazione del servizio, un modello di cartone.",
+              "Fallo bene solo quanto serve. Non rifinire.",
+              "Prepara un breve copione di test: cosa deve provare a fare la persona e cosa osserverai."
+            ],
+            "template": [
+              "Idea che stiamo mettendo alla prova",
+              "Domanda a cui il prototipo deve rispondere",
+              "Cosa abbiamo costruito (foto o link)",
+              "Copione del test",
+              "Cosa dimostrerebbe che l’idea è sbagliata"
+            ],
+            "done": "Hai qualcosa che le persone possono toccare o cliccare e che risponde alla tua domanda di test."
+          }
         },
         "test": {
           "title": "Testare",
-          "description": "Provare i prototipi con gli utenti e imparare dalle loro reazioni."
+          "description": "Provare i prototipi con gli utenti e imparare dalle loro reazioni.",
+          "guide": {
+            "why": "Il test mostra se l’idea funziona per persone vere, prima di spendere soldi per realizzarla.",
+            "steps": [
+              "Invita 5 persone del tuo target. Spiega che stai testando il prototipo, non loro.",
+              "Lasciale provare senza aiuto. Chiedi di pensare ad alta voce e annota dove esitano o si perdono.",
+              "Poi fai domande aperte: \"Cosa ti aspettavi?\", \"Cosa ti ha confuso?\", \"Lo useresti? Perché?\"",
+              "Elenca cosa ha funzionato, cosa no e cosa cambiare. Decidi: migliorare, cambiare direzione o fermarsi."
+            ],
+            "template": [
+              "Chi ha testato (ruolo, data)",
+              "Cosa hanno fatto e detto",
+              "Cosa ha funzionato",
+              "Cosa non ha funzionato",
+              "Decisione e prossime modifiche"
+            ],
+            "done": "Hai il parere di almeno 5 persone e una decisione chiara: migliorare, cambiare direzione o fermarsi."
+          }
         }
       }
     },
@@ -499,19 +587,87 @@
       "activities": {
         "assumptions": {
           "title": "Individuare le ipotesi più rischiose",
-          "description": "Elencare ciò che deve essere vero perché l’idea funzioni."
+          "description": "Elencare ciò che deve essere vero perché l’idea funzioni.",
+          "guide": {
+            "why": "Ogni nuovo business si basa su ipotesi. Scriverle ti permette di verificare prima le più rischiose, invece di scoprirle dopo aver speso i soldi.",
+            "steps": [
+              "Descrivi il business in una pagina: cliente, problema, soluzione, come guadagni, come ti trovano i clienti.",
+              "Trasforma ogni parte in una frase che possa essere vera o falsa, per esempio \"I piccoli ristoranti pagheranno 30 euro al mese per questo\".",
+              "Ordina le ipotesi: quanto sono importanti e quanto poco ne sai? Prima quelle importanti di cui sai meno.",
+              "Per le prime 3 decidi come capirai se hai ragione: un numero, una scadenza e cosa farai nei due casi."
+            ],
+            "template": [
+              "Cliente e problema",
+              "Ipotesi (una frase ciascuna)",
+              "Classifica del rischio",
+              "Come le verificheremo (misura e soglia)",
+              "Scadenza e responsabile"
+            ],
+            "done": "Hai una lista ordinata di ipotesi e un test chiaro, con un numero da raggiungere, per le prime tre."
+          }
         },
         "build": {
           "title": "Costruire un prodotto minimo funzionante",
-          "description": "Realizzare la versione più piccola in grado di verificare le ipotesi."
+          "description": "Realizzare la versione più piccola in grado di verificare le ipotesi.",
+          "guide": {
+            "why": "L’obiettivo è imparare il più in fretta possibile con il minimo sforzo. Un prodotto minimo (MVP) è la cosa più piccola che ti permette di verificare l’ipotesi più rischiosa.",
+            "steps": [
+              "Prendi l’ipotesi principale e chiediti: qual è il modo più economico per verificarla? Una pagina web, un servizio fatto a mano, un video, un modulo di preordine?",
+              "Togli ogni funzione non necessaria a quel test.",
+              "Fissa un limite di tempo, di solito giorni o poche settimane, non mesi.",
+              "Metti l’MVP in mano a un piccolo gruppo di potenziali clienti veri e assicurati di poter misurare cosa fanno."
+            ],
+            "template": [
+              "Ipotesi che verifichiamo",
+              "Descrizione dell’MVP (cosa fa e cosa no)",
+              "Budget e limite di tempo",
+              "Chi lo riceve per primo",
+              "Come misureremo il risultato"
+            ],
+            "done": "Un MVP funzionante è davanti a potenziali clienti veri e puoi misurare cosa fanno."
+          }
         },
         "measure": {
           "title": "Misurare",
-          "description": "Raccogliere dati reali su come si comportano i clienti."
+          "description": "Raccogliere dati reali su come si comportano i clienti.",
+          "guide": {
+            "why": "I numeri mostrano cosa fanno davvero le persone, che spesso è diverso da ciò che dicono. Senza misurare hai solo opinioni.",
+            "steps": [
+              "Scegli uno o due numeri che mostrano se l’ipotesi è vera, come iscrizioni, preordini o uso ripetuto. Evita numeri di vanità come le visite alla pagina.",
+              "Confrontali con l’obiettivo fissato prima del test.",
+              "Parla con alcune persone che hanno agito e con altre che non l’hanno fatto, per capire perché.",
+              "Scrivi il risultato in parole semplici: cosa ci aspettavamo, cosa è successo, cosa significa."
+            ],
+            "template": [
+              "Ipotesi e obiettivo",
+              "Numeri misurati (con date)",
+              "Risultato rispetto all’obiettivo",
+              "Cosa ci hanno detto i clienti",
+              "Cosa abbiamo imparato"
+            ],
+            "done": "Hai numeri reali confrontati con l’obiettivo e una breve spiegazione del risultato."
+          }
         },
         "learn": {
           "title": "Imparare e decidere",
-          "description": "Decidere se cambiare rotta, proseguire o fermarsi."
+          "description": "Decidere se cambiare rotta, proseguire o fermarsi.",
+          "guide": {
+            "why": "Dopo ogni test devi scegliere: andare avanti, cambiare direzione (pivot) o fermarti. Una decisione consapevole fa risparmiare mesi di lavoro sulla cosa sbagliata.",
+            "steps": [
+              "Guarda i risultati e chiediti: l’ipotesi è stata confermata, confermata in parte o smentita?",
+              "Se confermata, scegli la prossima ipotesi più rischiosa. Se smentita, decidi cosa cambiare: cliente, problema, soluzione o prezzo.",
+              "Discutine con un consulente o con qualcuno esterno al team che possa metterti in discussione.",
+              "Scrivi la decisione, il motivo e il prossimo test, poi ricomincia il ciclo."
+            ],
+            "template": [
+              "Sintesi dei risultati",
+              "Decisione: proseguire, cambiare direzione o fermarsi",
+              "Motivi",
+              "Cosa cambia (se pivot)",
+              "Prossimo test e scadenza"
+            ],
+            "done": "C’è una decisione scritta, con il suo motivo, e il prossimo test è pianificato."
+          }
         }
       }
     },
@@ -935,10 +1091,13 @@
         "large": "50 persone o più"
       },
       "need": {
-        "structure": "Un sistema di innovazione completo",
-        "ideas": "Raccogliere e selezionare idee",
+        "strategy": "Un sistema di innovazione completo e una strategia",
+        "ideas": "Generare e selezionare idee",
         "customer": "Capire i clienti e progettare nuove offerte",
-        "validate": "Mettere alla prova in fretta una nuova idea di business"
+        "validate": "Mettere alla prova in fretta una nuova idea di business",
+        "develop": "Trasformare idee approvate in prodotti o progetti",
+        "open": "Collaborare con partner esterni all’azienda",
+        "incentives": "Motivare le persone a partecipare all’innovazione"
       },
       "maturity": {
         "new": "Sto iniziando",
@@ -965,7 +1124,10 @@
     "newActivity": "Nuova attività",
     "addActivity": "Aggiungi attività",
     "delete": "Elimina programma",
-    "deleteHint": "Il programma viene eliminato. Le sue attività e persone restano nel tuo Inventario."
+    "deleteHint": "Il programma viene eliminato. Le sue attività e persone restano nel tuo Inventario.",
+    "filterPurpose": "Cosa vuoi fare?",
+    "filterStage": "Fase",
+    "noMatch": "Nessuna metodologia corrisponde a questi filtri. Togline uno per vedere di più."
   },
   "unit": {
     "hours": "ore",
@@ -1261,5 +1423,56 @@
       "title": "È ora di rivedere la strategia?",
       "body": "{{changed}} ipotesi su {{total}} sono cambiate da quando è stata scritta."
     }
+  },
+  "guide": {
+    "show": "Mostra la guida",
+    "hide": "Nascondi la guida",
+    "why": "Perché conta",
+    "steps": "Come si fa",
+    "template": "Modello di documento",
+    "done": "Hai finito quando"
+  },
+  "activity": {
+    "start": "Inizia attività",
+    "continue": "Continua attività",
+    "review": "Rivedi attività",
+    "completed": "Completata",
+    "progress": "{{done}} su {{total}} completate",
+    "of": "Attività {{n}} di {{total}}",
+    "limit": "Limite di tempo",
+    "remaining": "Restano {{value}}",
+    "overdue": "Oltre il limite di tempo di {{value}}",
+    "notes": "Note",
+    "save": "Salva",
+    "completeNext": "Completa e vai alla prossima attività",
+    "completeBack": "Completa e torna al programma",
+    "goNext": "Vai alla prossima attività",
+    "input": "Input dall’attività precedente",
+    "inputHint": "Ciò che \"{{title}}\" ha prodotto è il punto di partenza di questa attività.",
+    "prevNotDone": "L’attività precedente non è ancora completata.",
+    "showPrev": "Mostra cosa è stato scritto",
+    "hidePrev": "Nascondi cosa è stato scritto",
+    "inputShort": "Parte da"
+  },
+  "purpose": {
+    "strategy": "Definire strategia e sistema",
+    "ideas": "Generare idee",
+    "customer": "Capire i clienti",
+    "validate": "Testare e validare",
+    "develop": "Trasformare idee in progetti",
+    "open": "Collaborare con l’esterno",
+    "incentives": "Coinvolgere e premiare"
+  },
+  "methodStage": {
+    "seed": "Seme",
+    "early": "Fase iniziale",
+    "growth": "Crescita",
+    "maturity": "Maturità"
+  },
+  "tags": {
+    "add": "Tag",
+    "search": "Tagga un’entità o una relazione",
+    "createAs": "Crea \"{{name}}\" come nuovo elemento di tipo:",
+    "remove": "Rimuovi il tag {{name}}"
   }
 }

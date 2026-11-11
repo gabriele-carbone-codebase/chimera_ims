@@ -3,7 +3,7 @@ import { Pressable, Text as RNText, View, useWindowDimensions } from 'react-nati
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '../theme/ThemeProvider';
 import { useApp } from '../state/AppState';
-import { Chip, ChipRow } from './ui';
+import { Select } from './ui';
 import { fontSize, fonts, radius, space } from '../theme/tokens';
 
 export type Section = 'home' | 'notifications' | 'goals' | 'programs' | 'ideas' | 'projects' | 'inventory' | 'strategy' | 'settings';
@@ -24,9 +24,7 @@ function Menu({ section, sections, badges, onSection, onPick }: MenuProps) {
           <RNText style={{ fontFamily: fonts.body, fontSize: fontSize.sm, color: c.textSecondary }}>{t('app.tagline')}</RNText>
         </View>
         {memberships.length > 1 ? (
-          <ChipRow kind="radio">
-            {memberships.map((m) => <Chip key={m.business_id} label={m.business.name} selected={m.business_id === current?.business_id} onPress={() => selectBusiness(m.business_id)} />)}
-          </ChipRow>
+          <Select label={t('business.current')} value={current?.business_id} options={memberships.map((m) => ({ value: m.business_id, label: m.business.name }))} onChange={selectBusiness} />
         ) : (
           <RNText numberOfLines={1} style={{ fontFamily: fonts.mono, fontSize: 11, letterSpacing: 0.9, textTransform: 'uppercase', color: c.textTertiary }}>{current?.business.name}</RNText>
         )}
